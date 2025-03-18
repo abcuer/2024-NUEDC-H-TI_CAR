@@ -18,7 +18,7 @@ int8_t currentValue = 0; // å½“å‰å€¼åˆå§‹åŒ–
 
 // è§’åº¦çŽ¯
 pid_t angle;
-
+int ang = 0;
 
 
 void pid_Init(pid_t *pid, uint32_t mode, float p, float i, float d)
@@ -32,18 +32,18 @@ void pid_Init(pid_t *pid, uint32_t mode, float p, float i, float d)
 
 void pid_cal(pid_t *pid)
 {
-	// ¼ÆËãµ±Ç°Æ«²î
+	// ï¿½ï¿½ï¿½ãµ±Ç°Æ«ï¿½ï¿½
 	pid->error[0] = pid->target - pid->now;
 
-	// ¼ÆËãÊä³ö
-	if(pid->pid_mode == DELTA_PID)  // ÔöÁ¿Ê½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if(pid->pid_mode == DELTA_PID)  // ï¿½ï¿½ï¿½ï¿½Ê½
 	{
 		pid->pout = pid->p * (pid->error[0] - pid->error[1]);
 		pid->iout = pid->i * pid->error[0];
 		pid->dout = pid->d * (pid->error[0] - 2 * pid->error[1] + pid->error[2]);
 		pid->out += pid->pout + pid->iout + pid->dout;
 	}
-	else if(pid->pid_mode == POSITION_PID)  // Î»ÖÃÊ½
+	else if(pid->pid_mode == POSITION_PID)  // Î»ï¿½ï¿½Ê½
 	{
 		pid->pout = pid->p * pid->error[0];
 		pid->iout = pid->i * pid->error[0];
@@ -51,7 +51,7 @@ void pid_cal(pid_t *pid)
 		pid->out = pid->pout + pid->iout + pid->dout;
 	}
 
-	// ¼ÇÂ¼Ç°Á½´ÎÆ«²î
+	// ï¿½ï¿½Â¼Ç°ï¿½ï¿½ï¿½ï¿½Æ«ï¿½ï¿½
 	pid->error[2] = pid->error[1];
 	pid->error[1] = pid->error[0];
 }
@@ -127,7 +127,17 @@ void angle_pid_control(float tar)
 {
 	
 	angle.target = tar;
-	int ang = Yaw;
+	ang = Yaw;
+	angle_correction();
+	angle.now = ang; 
+	pid_cal(&angle);
+	pidout_limit(&angle, 400);
+	Motor_left_Control(basespeed - angle.out);
+	Motor_right_Control(basespeed + angle.out);
+}
+
+void angle_correction(void)
+{
 	if(Task == 2)
 	{
 		if( ang > 120) ang -= 180;
@@ -146,9 +156,4 @@ void angle_pid_control(float tar)
 			else if( ang < -70) ang += 180;
 		}
 	}
-	angle.now = ang; 
-	pid_cal(&angle);
-	pidout_limit(&angle, 400);
-	Motor_left_Control(basespeed - angle.out);
-	Motor_right_Control(basespeed + angle.out);
 }

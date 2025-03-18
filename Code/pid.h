@@ -4,8 +4,8 @@
 
 enum
 {
-  POSITION_PID = 0,  // 位置式
-  DELTA_PID,         // 增量式
+  POSITION_PID = 0,  // 位锟斤拷式
+  DELTA_PID,         // 锟斤拷锟斤拷式
 };
 
 typedef struct
@@ -30,6 +30,7 @@ void speed_pid_control(void);
 void motor_target_set(int tarA, int tarB);
 void track_pid_control(void);
 void angle_pid_control(float tar);
+void angle_correction(void);
 
 void pid_Init(pid_t *pid, uint32_t mode, float p, float i, float d);
 void pid_cal(pid_t *pid);
