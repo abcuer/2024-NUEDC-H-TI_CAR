@@ -36,7 +36,7 @@ void UpdateSoundLight(void)
 	if(SoundLight_flag == 1)
 	{
 		SoundLight_time ++;
-		if(SoundLight_time >= 10)
+		if(SoundLight_time >= 15)
 		{
 			Buzzer_OFF();
 			LED_Blue_OFF();

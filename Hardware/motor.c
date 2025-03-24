@@ -72,11 +72,11 @@ void Motor_right_Control(float speed)
 
 void motor_stop(void)
 {
-	AIN1_OUT(0);
-    AIN2_OUT(0);
+	AIN1_OUT(1);
+    AIN2_OUT(1);
 	
-	BIN1_OUT(0);
-    BIN2_OUT(0);
+	BIN1_OUT(1);
+    BIN2_OUT(1);
 	
 	//Motor_left_duty(0,10);
 	//Motor_right_duty(0,10);
