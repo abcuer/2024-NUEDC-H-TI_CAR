@@ -50,17 +50,15 @@ int main(void)
 //	pid_Init(&motorB, DELTA_PID, 7, 0, 0);
 	
 	// 角度环 Task_2
-	//pid_Init(&angle, POSITION_PID, 8, 0, 35);
+//	pid_Init(&angle, POSITION_PID, 5, 0, 1);
 	// 角度环 Task_3
-	//pid_Init(&angle, POSITION_PID, 8, 0, 30);
-	pid_Init(&angle, POSITION_PID, 5.2, 0, 1.4);
+
+//	pid_Init(&angle, POSITION_PID, 5.2, 0, 1.4);
 	// 寻迹环
-	pid_Init(&trackLine, POSITION_PID, 4.7, 0, 1.7);//4.8,0,1.5
+	pid_Init(&trackLine, POSITION_PID, 6.1, 0, 1.9);//4.8,0,1.5
 	
 	while(1) 
-	{    
-//		basespeed = 290;
-//		track_pid_control();
+	{   
 		
 		Key1 = Key_GetNum1();
 		Key2 = Key_GetNum2();

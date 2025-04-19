@@ -45,5 +45,7 @@ extern uint8_t workstep;
 
 extern float dis1;
 extern float dis2;
+extern float dis3;
+extern float dis4;
 
 #endif

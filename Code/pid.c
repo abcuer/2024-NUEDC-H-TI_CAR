@@ -112,7 +112,7 @@ void track_pid_control(void)
 {
 //	if(R3 | R2 | R1) targetValue = 5;
 //	else if(L1 | L2 | L3) targetValue = -5;
-	currentValue = (R3 * 26 + R2 * 23 + R1 * 21 + M * targetValue + L1 * -21 + L2 * -23  + L3 * -26) / (R1 + R2 + R3 + M + L1 + L2 + L3);
+	currentValue = (R3 * 24 + R2 * 22 + R1 * 20 + M * targetValue + L1 * -20 + L2 * -22  + L3 * -24) / (R1 + R2 + R3 + M + L1 + L2 + L3);
 	// 计算误差
 	trackLine.now = currentValue;
 	trackLine.target = targetValue;

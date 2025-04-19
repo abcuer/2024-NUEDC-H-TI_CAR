@@ -1,8 +1,8 @@
 #include "task.h"
 #define TimeLimit 11050
 
-#define StraightSpeed 300
-#define TurnSpeed 190
+#define StraightSpeed 350
+#define TurnSpeed 200
 #define TrackSpeed 280
 
 uint8_t workstep = 0;
@@ -10,8 +10,8 @@ int16_t turn_time = 0;
 uint8_t turn_flag = 0;
 uint8_t Task4_CNT = 0;
 
-float angle1 = -41;  /* 39、40: 直接贴死，但会有bug*/
-float angle2 = 45;	/*  43 ：直接贴死*/
+float angle1 = -42;  /* 39、40: 直接贴死，但会有bug*/
+float angle2 = 46;	/*  43 ：直接贴死*/
 
 void Task_1(void)
 {
@@ -23,8 +23,8 @@ void Task_1(void)
 			break;
 		
 		case 1:  // 直行
-			pid_Init(&angle, POSITION_PID, 8, 0, 35);
-			basespeed = 300;
+			pid_Init(&angle, POSITION_PID, 10, 0, 1);
+			basespeed = 350;
 			while(Line_flag == 0)
 			{				
 				Get_Light_TTL();
@@ -61,8 +61,8 @@ void Task_2(void)
 			break;
 		
 		case 1:  // 直行
-			pid_Init(&angle, POSITION_PID, 8, 0, 35);
-			basespeed = 310;
+			pid_Init(&angle, POSITION_PID, 10, 0, 1);
+			basespeed = 350;
 			while(Line_flag == 0)
 			{				
 				Get_Light_TTL();
@@ -75,6 +75,7 @@ void Task_2(void)
 			SoundLight();
 			delay_ms(400);
 			basespeed = 290;
+			pid_Init(&trackLine, POSITION_PID, 6.1, 0, 1.9);
 			while(Line_flag)
 			{
 				Get_Light_TTL();
@@ -85,9 +86,9 @@ void Task_2(void)
 			
 		case 3: // 直行
 			SoundLight();
-			pid_Init(&angle, POSITION_PID, 8, 0, 35);
+			pid_Init(&angle, POSITION_PID, 10, 0, 1);
 		    delay_ms(500);
-			basespeed = 320;
+			basespeed = 350;
 			while(Line_flag == 0)
 			{				
 				Get_Light_TTL();
@@ -100,6 +101,7 @@ void Task_2(void)
 			SoundLight();
 			delay_ms(500);
 			basespeed = 290;
+			pid_Init(&trackLine, POSITION_PID, 6.1, 0, 1.9);
 			while(Line_flag)
 			{
 				Get_Light_TTL();
@@ -114,7 +116,7 @@ void Task_2(void)
 			delay_ms(100);
 			if(Line_flag == 0) turn_flag = 1;
 			basespeed = 0;
-			pid_Init(&angle, POSITION_PID, 7, 0, 2.5);
+			pid_Init(&angle, POSITION_PID, 10, 0, 1);
 			while(turn_flag)
 			{
 				angle_pid_control(angle_initial);
@@ -149,7 +151,7 @@ void Task_3(void)
 		
 		case 1: // 转弯直行
 			// 转弯
-			pid_Init(&angle, POSITION_PID, 5.2, 0, 1.2);
+			pid_Init(&angle, POSITION_PID, 5.0, 0, 1.0);
 			basespeed = StraightSpeed;
 			carL_dis = 0;
 			carR_dis = 0;
@@ -169,7 +171,7 @@ void Task_3(void)
 			while(Line_flag == 0)
 			{
 				Get_Light_TTL();
-				angle_pid_control(angle_initial);
+				angle_pid_control(-3);
 			}
 			motor_stop();
 			workstep++;
@@ -249,7 +251,7 @@ void Task_3(void)
 			while(Line_flag == 0)
 			{
 				Get_Light_TTL();
-				angle_pid_control(angle_initial);
+				angle_pid_control(3);
 			}
 			motor_stop();
 			workstep++;
@@ -295,7 +297,7 @@ void Task_3(void)
 			delay_ms(100);
 			if(Line_flag == 0) turn_flag = 1;
 			basespeed = 0;
-			pid_Init(&angle, POSITION_PID, 7, 0, 2.5);
+			pid_Init(&angle, POSITION_PID, 7, 0, 3);
 			while(turn_flag)
 			{
 				angle_pid_control(angle_initial);
@@ -321,6 +323,8 @@ void Task_3(void)
 			break;	
 	}
 }
+
+
 
 void Task_4(void)
 {
