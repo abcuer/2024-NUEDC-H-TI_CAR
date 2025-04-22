@@ -110,8 +110,6 @@ void motor_target_set(int tarA, int tarB)
 
 void track_pid_control(void)
 {
-//	if(R3 | R2 | R1) targetValue = 5;
-//	else if(L1 | L2 | L3) targetValue = -5;
 	currentValue = (R3 * 24 + R2 * 22 + R1 * 20 + M * targetValue + L1 * -20 + L2 * -22  + L3 * -24) / (R1 + R2 + R3 + M + L1 + L2 + L3);
 	// 计算误差
 	trackLine.now = currentValue;
@@ -156,4 +154,32 @@ void angle_correction(void)
 			else if( ang < -70) ang += 180;
 		}
 	}
+}
+
+void track2_pid_control(void)
+{
+	float err = 0,leftSpeed = 0, rightSpeed = 0;
+	static float trackout,lastErr;
+
+	if(R3 == 1) err -= 2.7;
+	else if(R2 == 1) err -= 2.0;
+	else if(R1 == 1) err -= 1.8;
+	else if(M == 1) err = 0;
+	else if(L1 == 1) err += 1.8;
+	else if(L2 == 1) err += 2.0;
+	else if(L3 == 1) err += 2.7;
+	
+	trackout = track_kp * err + track_kd * (err - lastErr);
+    lastErr = err;
+	
+	leftSpeed = basespeed - trackout;
+	rightSpeed = basespeed + trackout;
+	
+	if (leftSpeed < 0) leftSpeed = 0;
+    if (leftSpeed > 1000) leftSpeed = 1000;
+    if (rightSpeed < 0) rightSpeed = 0;
+    if (rightSpeed > 1000) rightSpeed = 1000;
+	
+	Motor_left_Control(leftSpeed);
+	Motor_right_Control(rightSpeed);
 }

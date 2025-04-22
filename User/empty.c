@@ -37,6 +37,8 @@ uint8_t Task = 0;
 uint8_t start_flag = 0;
 uint8_t first_flag = 0;
 float basespeed = 0;
+float track_kp = 48;//46
+float track_kd = 0.25;//0.25
 
 int main(void)
 {
@@ -44,21 +46,16 @@ int main(void)
 	encoder_Init();
 	timerA_init();
 	timerG_init();
-	
-	// 速度环 用于停止小车
-//	pid_Init(&motorA, DELTA_PID, 9, 0, 0);
-//	pid_Init(&motorB, DELTA_PID, 7, 0, 0);
-	
-	// 角度环 Task_2
-//	pid_Init(&angle, POSITION_PID, 5, 0, 1);
-	// 角度环 Task_3
 
 //	pid_Init(&angle, POSITION_PID, 5.2, 0, 1.4);
 	// 寻迹环
-	pid_Init(&trackLine, POSITION_PID, 6.1, 0, 1.9);//4.8,0,1.5
+//	pid_Init(&trackLine, POSITION_PID, 6.3, 0, 2.1);//4.8,0,1.5
 	
 	while(1) 
 	{   
+//		basespeed = 300;
+//		track2_pid_control();
+		
 		
 		Key1 = Key_GetNum1();
 		Key2 = Key_GetNum2();

@@ -35,6 +35,6 @@ void angle_correction(void);
 void pid_Init(pid_t *pid, uint32_t mode, float p, float i, float d);
 void pid_cal(pid_t *pid);
 void pidout_limit(pid_t *pid, float duty);
-
+void track2_pid_control(void);
 
 #endif

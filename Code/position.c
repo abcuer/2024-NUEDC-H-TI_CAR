@@ -9,18 +9,18 @@ float angle_initial = 0;
 void initialize(void) 
 {
 		LED_Blue_ON();
-		delay_ms(1000);
+		delay_ms(50);
 		LED_Blue_OFF();
 		LED_Green_ON();
 		float ang1 = Yaw;
-		delay_ms(200);
+		delay_ms(50);
 		float ang2 = Yaw;
-		delay_ms(200);
+		delay_ms(50);
 		float ang3 = Yaw;
 		angle_initial = (ang1 + ang2 + ang3) / 3;
 		first_flag = 1;
 		LED_Green_OFF();
-		delay_ms(200);
+		delay_ms(50);
 }
  
 void SoundLight(void)
@@ -39,36 +39,14 @@ void UpdateSoundLight(void)
     {
         SoundLight_time++;
 
-        if(SoundLight_state == 0) // ??????
-        {
-            if(SoundLight_time >= 10) // ???Øg?????? 10 ??????
-            {
-                Buzzer_OFF();
-                LED_Blue_OFF();
-                SoundLight_time = 0;
-                SoundLight_state = 1; // ?§Ý????????
-            }
-        }
-        else if(SoundLight_state == 1) // ?????
-        {
-            if(SoundLight_time >= 10) // ??????? 10 ??????
-            {
-                SoundLight_Cnt++;
-                if(SoundLight_Cnt >= 3)
-                {
-                    SoundLight_flag = 0;
-                    SoundLight_Cnt = 0;
-                    SoundLight_state = 0;
-                }
-                else
-                {
-                    Buzzer_ON();
-                    LED_Blue_ON();
-                    SoundLight_time = 0;
-                    SoundLight_state = 0; // ?????????
-                }
-            }
-        }
+		if(SoundLight_time >= 15) // ???ï¿½g?????? 10 ??????
+		{
+			Buzzer_OFF();
+			LED_Blue_OFF();
+			SoundLight_time = 0;
+			SoundLight_flag = 0; // ?ï¿½ï¿½????????
+		}
+        
     }
 }
 
