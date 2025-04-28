@@ -1,9 +1,9 @@
 #include "task.h"
 #define TimeLimit 12000
 
-#define StraightSpeed 395
+#define StraightSpeed 390
 #define TurnSpeed 190
-#define TrackSpeed 290
+#define TrackSpeed 286
 
 uint8_t workstep = 0;
 int16_t turn_time = 0;
@@ -123,7 +123,7 @@ void Task_2(void)
 			pid_Init(&angle, POSITION_PID, 10, 0, 1);
 			while(turn_flag)
 			{
-				angle_pid_control(angle3);
+				angle_pid_control(angle_initial);
 				turn_time++;
 				if(turn_time > TimeLimit + 200)
 				{	
@@ -208,7 +208,7 @@ void Task_3(void)
 			while(Line_flag)
 			{
 				Get_Light_TTL();
-				track2_pid_control();
+				track_pid_control();
 			}
 			motor_stop();
 			workstep ++;
@@ -289,7 +289,7 @@ void Task_3(void)
 			while(Line_flag)
 			{
 				Get_Light_TTL();
-				track2_pid_control();
+				track_pid_control();
 			}
 			motor_stop();
 			workstep++;
@@ -336,6 +336,7 @@ void Task_4(void)
 	switch(workstep)
 	{
 		case 0: 
+			
 			Line_flag = 0;
 			turn_flag = 1;
 			workstep++;
@@ -376,7 +377,7 @@ void Task_4(void)
 			basespeed = 0;
 			while(turn_flag)
 			{
-				angle_pid_control(angle_initial);
+				angle_pid_control(3);
 				turn_time++;
 				if(turn_time > TimeLimit)
 				{	
@@ -439,7 +440,7 @@ void Task_4(void)
 			if(Line_flag)  turn_flag = 1;
 			while(turn_flag) 
 			{
-				angle_pid_control(angle_initial);
+				angle_pid_control(-2);
 				turn_time++;
 				if(turn_time > TimeLimit)
 				{	

@@ -38,7 +38,7 @@ uint8_t start_flag = 0;
 uint8_t first_flag = 0;
 float basespeed = 0;
 float track_kp = 48;//46
-float track_kd = 0.25;//0.25
+float track_kd = 0.26;//0.25
 
 int main(void)
 {
@@ -49,12 +49,12 @@ int main(void)
 
 //	pid_Init(&angle, POSITION_PID, 5.2, 0, 1.4);
 	// 寻迹环
-//	pid_Init(&trackLine, POSITION_PID, 6.3, 0, 2.1);//4.8,0,1.5
+	pid_Init(&trackLine, POSITION_PID, 4.8, 0, 1.5);//4.8,0,1.5
 	
 	while(1) 
 	{   
 //		basespeed = 300;
-//		track2_pid_control();
+//		track_pid_control();
 		
 		
 		Key1 = Key_GetNum1();

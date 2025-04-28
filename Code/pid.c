@@ -110,8 +110,9 @@ void motor_target_set(int tarA, int tarB)
 
 void track_pid_control(void)
 {
-	currentValue = (R3 * 24 + R2 * 22 + R1 * 20 + M * targetValue + L1 * -20 + L2 * -22  + L3 * -24) / (R1 + R2 + R3 + M + L1 + L2 + L3);
+//	currentValue = (R4 R3 * -26 + R2 * -22 + R1 * -20 + M * targetValue + L1 * 20 + L2 * 22  + L3 * 26) / (R1 + R2 + R3 + M + L1 + L2 + L3);
 	// 计算误差
+	currentValue = (L4 * 26 + L3 * 22 + L2 * 20 + L1 * 18 + R1 * (-18) + R2 * (-20) + R3 * (-22) + R4 * (-26)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
 	trackLine.now = currentValue;
 	trackLine.target = targetValue;
 	pid_cal(&trackLine);
@@ -160,14 +161,15 @@ void track2_pid_control(void)
 {
 	float err = 0,leftSpeed = 0, rightSpeed = 0;
 	static float trackout,lastErr;
-
-	if(R3 == 1) err -= 2.7;
-	else if(R2 == 1) err -= 2.0;
-	else if(R1 == 1) err -= 1.8;
-	else if(M == 1) err = 0;
-	else if(L1 == 1) err += 1.8;
-	else if(L2 == 1) err += 2.0;
-	else if(L3 == 1) err += 2.7;
+	
+	if(R4 == 1) err -= 4.1;
+	else if(R3 == 1) err -= 3.2;
+	else if(R2 == 1) err -= 2.3;
+	else if(R1 == 1) err -= 1;
+	else if(L1 == 1) err += 1;
+	else if(L2 == 1) err += 2.3;
+	else if(L3 == 1) err += 3.2;
+	else if(L4 == 1) err += 4.1;
 	
 	trackout = track_kp * err + track_kd * (err - lastErr);
     lastErr = err;
