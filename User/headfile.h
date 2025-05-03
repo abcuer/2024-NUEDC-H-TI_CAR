@@ -43,8 +43,8 @@ extern float angle_initial;
 extern int16_t baisetime;
 extern uint8_t workstep;
 
-extern float track_kp;
-extern float track_kd;
+//extern float track_kp;
+//extern float track_kd;
 
 extern float dis1;
 extern float dis2;

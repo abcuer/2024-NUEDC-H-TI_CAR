@@ -37,9 +37,8 @@ uint8_t Task = 0;
 uint8_t start_flag = 0;
 uint8_t first_flag = 0;
 float basespeed = 0;
-float track_kp = 48;//46
-float track_kd = 0.26;//0.25
-
+//float track_kp = 48;
+//float track_kd = 0.28;
 int main(void)
 {
 	board_init(); // 延迟 串口
@@ -47,16 +46,9 @@ int main(void)
 	timerA_init();
 	timerG_init();
 
-//	pid_Init(&angle, POSITION_PID, 5.2, 0, 1.4);
 	// 寻迹环
-	pid_Init(&trackLine, POSITION_PID, 4.8, 0, 1.5);//4.8,0,1.5
-	
 	while(1) 
 	{   
-//		basespeed = 300;
-//		track_pid_control();
-		
-		
 		Key1 = Key_GetNum1();
 		Key2 = Key_GetNum2();
 		

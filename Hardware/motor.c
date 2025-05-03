@@ -1,5 +1,5 @@
 #include "motor.h"
-#define offset 32
+#define offset 30
 
 /*
 ×óÂÖ: GPIOB Pin_18¢PPin_19  PWM2(GPIOB PIn_1)

@@ -1,12 +1,11 @@
 #include "gray.h"
 
-#define LineFlagTime 4400
+#define LineFlagTime 3000
 
 int16_t baisetime = 0;
 int16_t Line_flag = 0;
 int16_t LineFlagCNT = 0;
 
-//int8_t R3,R2,R1,M,L1,L2,L3;
 uint8_t L4,L3,L2,L1,R1,R2,R3,R4;
 
 void Gray_Init(void) 
@@ -28,14 +27,14 @@ void Get_Light_TTL(void)
 	{
 		LineFlagCNT++;
 		// 空白识别
-		if(LineFlagCNT > 5)
+		if(LineFlagCNT >= 3)
 		{
 			Line_flag = 1;
 			baisetime = 0;
 			LineFlagCNT = 0;
 		}
 	}
-	if(baisetime >= LineFlagTime)
+	else if(baisetime >= LineFlagTime)
 	{
 		Line_flag = 0;
 		baisetime = 0;

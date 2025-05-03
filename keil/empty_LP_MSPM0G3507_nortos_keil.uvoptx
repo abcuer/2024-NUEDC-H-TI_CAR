@@ -245,6 +245,16 @@
           <WinNumber>1</WinNumber>
           <ItemText>R4,0x0A</ItemText>
         </Ww>
+        <Ww>
+          <count>19</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Get_Encoder_countB</ItemText>
+        </Ww>
+        <Ww>
+          <count>20</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Get_Encoder_countA</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>

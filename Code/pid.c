@@ -62,57 +62,11 @@ void pidout_limit(pid_t *pid, float duty)
 	if(pid->out <= -duty) pid->out = -duty;
 }
 
-void speed_pid_control(void)
-{
-//	encoderA_cnt = Get_Encoder_countA;//origin--2.955 28 jiansubi
-//	encoderB_cnt = Get_Encoder_countB;//origin--2.955 28 jiansubi
-//	encoderA_cnt = encoderA_cnt * 0.5 + last_encoderA_cnt * 0.5;
-//	encoderB_cnt = encoderB_cnt * 0.5 + last_encoderB_cnt * 0.5;
-//	last_encoderA_cnt = encoderA_cnt;
-//	last_encoderB_cnt = encoderB_cnt;
-//	Get_Encoder_countA = 0;
-//	Get_Encoder_countB = 0;
-//	if(motor_left_dir) motorA.now = encoderA_cnt;				else motorA.now = -encoderA_cnt;
-//	if(motor_right_dir) motorB.now = encoderB_cnt;				else motorB.now = -encoderB_cnt;
-//	// 3.??PID???????
-//	pid_cal(&motorA);
-//	pid_cal(&motorB);
-//	// ??????
-//	pidout_limit(&motorA, 2000);
-//	pidout_limit(&motorB, 2000);	
-	Motor_left_Control(motorA.out);
-	Motor_right_Control(motorB.out);
-}
-
-void motor_target_set(int tarA, int tarB)
-{
-	if(tarA >= 0) 
-	{
-		motor_left_dir = 0;
-		motorA.target = tarA;
-	}
-	else
-	{
-		motor_left_dir = 1;
-		motorA.target = -tarA;
-	}
-	if(tarB >= 0) 
-	{
-		motor_right_dir = 0;
-		motorB.target = tarB;
-	}
-	else
-	{
-		motor_right_dir = 1;
-		motorB.target = -tarB;
-	}
-}
-
 void track_pid_control(void)
 {
-//	currentValue = (R4 R3 * -26 + R2 * -22 + R1 * -20 + M * targetValue + L1 * 20 + L2 * 22  + L3 * 26) / (R1 + R2 + R3 + M + L1 + L2 + L3);
 	// 计算误差
-	currentValue = (L4 * 26 + L3 * 22 + L2 * 20 + L1 * 18 + R1 * (-18) + R2 * (-20) + R3 * (-22) + R4 * (-26)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
+//	currentValue = (L4 * 26 + L3 * 22 + L2 * 20 + L1 * 18 + R1 * (-18) + R2 * (-20) + R3 * (-22) + R4 * (-26)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
+	currentValue = (L4 * 26 + L3 * 24 + L2 * 23 + L1 * 22 + R1 * (-22) + R2 * (-23) + R3 * (-24) + R4 * (-26)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
 	trackLine.now = currentValue;
 	trackLine.target = targetValue;
 	pid_cal(&trackLine);
@@ -130,7 +84,7 @@ void angle_pid_control(float tar)
 	angle_correction();
 	angle.now = ang; 
 	pid_cal(&angle);
-	pidout_limit(&angle, 400);
+	pidout_limit(&angle, 500);
 	Motor_left_Control(basespeed - angle.out);
 	Motor_right_Control(basespeed + angle.out);
 }
@@ -157,31 +111,77 @@ void angle_correction(void)
 	}
 }
 
-void track2_pid_control(void)
+void speed_pid_control(void)
 {
-	float err = 0,leftSpeed = 0, rightSpeed = 0;
-	static float trackout,lastErr;
-	
-	if(R4 == 1) err -= 4.1;
-	else if(R3 == 1) err -= 3.2;
-	else if(R2 == 1) err -= 2.3;
-	else if(R1 == 1) err -= 1;
-	else if(L1 == 1) err += 1;
-	else if(L2 == 1) err += 2.3;
-	else if(L3 == 1) err += 3.2;
-	else if(L4 == 1) err += 4.1;
-	
-	trackout = track_kp * err + track_kd * (err - lastErr);
-    lastErr = err;
-	
-	leftSpeed = basespeed - trackout;
-	rightSpeed = basespeed + trackout;
-	
-	if (leftSpeed < 0) leftSpeed = 0;
-    if (leftSpeed > 1000) leftSpeed = 1000;
-    if (rightSpeed < 0) rightSpeed = 0;
-    if (rightSpeed > 1000) rightSpeed = 1000;
-	
-	Motor_left_Control(leftSpeed);
-	Motor_right_Control(rightSpeed);
+//	encoderA_cnt = Get_Encoder_countA;//origin--2.955 28 jiansubi
+//	encoderB_cnt = Get_Encoder_countB;//origin--2.955 28 jiansubi
+//	encoderA_cnt = encoderA_cnt * 0.5 + last_encoderA_cnt * 0.5;
+//	encoderB_cnt = encoderB_cnt * 0.5 + last_encoderB_cnt * 0.5;
+//	last_encoderA_cnt = encoderA_cnt;
+//	last_encoderB_cnt = encoderB_cnt;
+//	Get_Encoder_countA = 0;
+//	Get_Encoder_countB = 0;
+//	if(motor_left_dir) motorA.now = encoderA_cnt;				else motorA.now = -encoderA_cnt;
+//	if(motor_right_dir) motorB.now = encoderB_cnt;				else motorB.now = -encoderB_cnt;
+//	// 3.??PID???????
+//	pid_cal(&motorA);
+//	pid_cal(&motorB);
+//	// ??????
+//	pidout_limit(&motorA, 2000);
+//	pidout_limit(&motorB, 2000);	
+	Motor_left_Control(motorA.out);
+	Motor_right_Control(motorB.out);
 }
+
+//void motor_target_set(int tarA, int tarB)
+//{
+//	if(tarA >= 0) 
+//	{
+//		motor_left_dir = 0;
+//		motorA.target = tarA;
+//	}
+//	else
+//	{
+//		motor_left_dir = 1;
+//		motorA.target = -tarA;
+//	}
+//	if(tarB >= 0) 
+//	{
+//		motor_right_dir = 0;
+//		motorB.target = tarB;
+//	}
+//	else
+//	{
+//		motor_right_dir = 1;
+//		motorB.target = -tarB;
+//	}
+//}
+
+//void track2_pid_control(void)
+//{
+//	float err = 0,leftSpeed = 0, rightSpeed = 0;
+//	static float trackout,lastErr;
+//	
+//	if(R4 == 1) err -= 4.1;
+//	else if(R3 == 1) err -= 3.2;
+//	else if(R2 == 1) err -= 2.3;
+//	else if(R1 == 1) err -= 1;
+//	else if(L1 == 1) err += 1;
+//	else if(L2 == 1) err += 2.3;
+//	else if(L3 == 1) err += 3.2;
+//	else if(L4 == 1) err += 4.1;
+//	
+//	trackout = track_kp * err + track_kd * (err - lastErr);
+//    lastErr = err;
+//	
+//	leftSpeed = basespeed - trackout;
+//	rightSpeed = basespeed + trackout;
+//	
+//	if (leftSpeed < 0) leftSpeed = 0;
+//    if (leftSpeed > 1000) leftSpeed = 1000;
+//    if (rightSpeed < 0) rightSpeed = 0;
+//    if (rightSpeed > 1000) rightSpeed = 1000;
+//	
+//	Motor_left_Control(leftSpeed);
+//	Motor_right_Control(rightSpeed);
+//}
