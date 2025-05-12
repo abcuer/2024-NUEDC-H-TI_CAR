@@ -1,5 +1,5 @@
 #include "headfile.h"
-#define TimeLimit 12000
+#define TimeLimit 11900
 
 uint8_t workstep = 0;
 int16_t turn_time = 0;
@@ -7,10 +7,10 @@ uint8_t turn_flag = 0;
 uint8_t Task4_CNT = 0;
 
 float angle1 = -43;  /* 39、40: 直接贴死，但会有bug*/ //Task3
-float angle2 = 50;	/*  43 ：直接贴死*/               //Task3
+float angle2 = 52;	/*  43 ：直接贴死*/               //Task3
 
-float angle3 = -43;  /* 39、40: 直接贴死，但会有bug*/ //Task4
-float angle4 = 50;                                    //Task4
+float angle3 = -42;  /* 39、40: 直接贴死，但会有bug*/ //Task4
+float angle4 = 49;                                    //Task4
 
 void Task_1(void)
 {
@@ -55,7 +55,7 @@ void Task_2(void)
 	switch(workstep)
 	{
 		case 0: 
-			pid_Init(&trackLine, POSITION_PID, 4, 0, 0);//4.8,0,1.5
+			pid_Init(&trackLine, POSITION_PID, 4.8, 0, 0);//4.8,0,1.5
 			pid_Init(&angle, POSITION_PID, -8, 0, -0);
 			Line_flag = 0;
 			basespeed = 400;
@@ -73,16 +73,18 @@ void Task_2(void)
 		
 		case 2: // 寻迹
 			SoundLight();
+			basespeed = 390;
 			while(Line_flag)
 			{
 				Get_Light_TTL();
-				track_pid_control();
+				track2_pid_control();
 			}
 			workstep++;
 			break;
 			
 		case 3: // 直行
 			SoundLight();
+			basespeed = 400;
 			while(Line_flag == 0)
 			{				
 				Get_Light_TTL();
@@ -93,10 +95,11 @@ void Task_2(void)
 			
 		case 4: // 寻迹
 			SoundLight();
+			basespeed = 390;
 			while(Line_flag)
 			{
 				Get_Light_TTL();
-				track_pid_control();
+				track2_pid_control();
 			}
 			SoundLight();
 			workstep++;
@@ -120,7 +123,7 @@ void Task_2(void)
 
 void Task_3(void)
 {
-	switch(workstep)
+		switch(workstep)
 	{
 		case 0: 
 			Line_flag = 0;
@@ -147,8 +150,8 @@ void Task_3(void)
 			carR_dis = 0;
 			Get_Encoder_countA = 0;
 			Get_Encoder_countB = 0;
-			basespeed = 400;
-			while((fabsf(carL_dis) <= dis1) && (fabsf(carR_dis) <= dis1))
+			basespeed = 480;
+			while((fabsf(carL_dis) <= dis3) && (fabsf(carR_dis) <= dis3))
 			{
 				angle_pid_control(angle3);
 				distance();
@@ -156,20 +159,21 @@ void Task_3(void)
 			while(Line_flag == 0)
 			{
 				Get_Light_TTL();
-				angle_pid_control(1.5);
+				angle_pid_control(7);
 			}
 			workstep++;
 			break;
 			
 		case 2:  // 先回正再寻迹
 			SoundLight();
-			// 寻迹
-			basespeed = 400;
-			pid_Init(&trackLine, POSITION_PID, 4.4, 0, 0);
+			// 寻迹			}
+
+			basespeed = 395;
+			pid_Init(&trackLine, POSITION_PID, 4.8, 0, 0);
 			while(Line_flag)
 			{
 				Get_Light_TTL();
-				track_pid_control();
+				track2_pid_control();
 			}
 			workstep ++;
 			break;
@@ -193,29 +197,29 @@ void Task_3(void)
 			carR_dis = 0;
 			Get_Encoder_countA = 0;
 			Get_Encoder_countB = 0;
-			basespeed = 400;
-			while((fabsf(carL_dis) <= dis2) && (fabsf(carR_dis) <= dis2))
+			basespeed = 480;
+			while((fabsf(carL_dis) <= dis4) && (fabsf(carR_dis) <= dis4))
 			{
 				angle_pid_control(angle4);
 				distance();
 			}
-			pid_Init(&angle, POSITION_PID, -7, 0, -0.1);
+			pid_Init(&angle, POSITION_PID, -7, 0, -0);
 			while(Line_flag == 0)
 			{
 				Get_Light_TTL();
-				angle_pid_control(-1.5);
+				angle_pid_control(-2.5);
 			}
 			workstep++;
 			break;
 		
 		case 4:  // 先回正再寻迹
 			SoundLight();
-			basespeed = 400;
-			pid_Init(&trackLine, POSITION_PID, 4.4, 0, 0);
+			basespeed = 395;
+			pid_Init(&trackLine, POSITION_PID, 4.7, 0, 0);
 			while(Line_flag)
 			{
 				Get_Light_TTL();
-				track_pid_control();
+				track2_pid_control();
 			}
 			workstep++;
 			break;
@@ -270,7 +274,7 @@ void Task_4(void)
 			carR_dis = 0;
 			Get_Encoder_countA = 0;
 			Get_Encoder_countB = 0;
-			basespeed = 460;
+			basespeed = 480;
 			while((fabsf(carL_dis) <= dis3) && (fabsf(carR_dis) <= dis3))
 			{
 				angle_pid_control(angle3);
@@ -279,20 +283,20 @@ void Task_4(void)
 			while(Line_flag == 0)
 			{
 				Get_Light_TTL();
-				angle_pid_control(1.5);
+				angle_pid_control(7);
 			}
 			workstep++;
 			break;
 			
 		case 2:  // 先回正再寻迹
 			SoundLight();
-			// 寻迹
+			// 寻迹		
 			basespeed = 395;
-			pid_Init(&trackLine, POSITION_PID, 4.4, 0, 0);
+			pid_Init(&trackLine, POSITION_PID, 4.8, 0, 0);
 			while(Line_flag)
 			{
 				Get_Light_TTL();
-				track_pid_control();
+				track2_pid_control();
 			}
 			workstep ++;
 			break;
@@ -316,17 +320,17 @@ void Task_4(void)
 			carR_dis = 0;
 			Get_Encoder_countA = 0;
 			Get_Encoder_countB = 0;
-			basespeed = 460;
+			basespeed = 480;
 			while((fabsf(carL_dis) <= dis4) && (fabsf(carR_dis) <= dis4))
 			{
 				angle_pid_control(angle4);
 				distance();
 			}
-			pid_Init(&angle, POSITION_PID, -7, 0, -0.1);
+			pid_Init(&angle, POSITION_PID, -7, 0, -0);
 			while(Line_flag == 0)
 			{
 				Get_Light_TTL();
-				angle_pid_control(-0.5);
+				angle_pid_control(-5);
 			}
 			workstep++;
 			break;
@@ -334,11 +338,11 @@ void Task_4(void)
 		case 4:  // 先回正再寻迹
 			SoundLight();
 			basespeed = 395;
-			pid_Init(&trackLine, POSITION_PID, 4.4, 0, 0);
+			pid_Init(&trackLine, POSITION_PID, 4.3, 0, 0);
 			while(Line_flag)
 			{
 				Get_Light_TTL();
-				track_pid_control();
+				track2_pid_control();
 			}
 			workstep++;
 			break;
@@ -347,19 +351,27 @@ void Task_4(void)
 			SoundLight();
 			Task4_CNT++;
 			Line_flag = 0;
-			dis3 = 999;
-			dis4 = 996;
-//			if(Task4_CNT == 1) angle3--;
+			angle3 = -44;
+			angle4 = 49;
+			dis3 = 996;
+			dis4 = 990;
+			if(Task4_CNT == 1)
+			{
+				dis3 = 992;
+//				angle3++;
+			}
 			if(Task4_CNT == 2)
 			{
-				angle3++;
-				dis3--;
+				angle3--;
+				angle4--;
+				dis3 = 993;
+				dis4-=2;
 			}
 			if(Task4_CNT == 3)
 			{
-				angle3++;
+				angle3--;
 				angle4--;
-//				dis3--;
+				dis3-=3;
 				dis4--;
 			}
 			if(Task4_CNT < 4) 

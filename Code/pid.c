@@ -65,8 +65,21 @@ void pidout_limit(pid_t *pid, float duty)
 void track_pid_control(void)
 {
 	// 计算误差
-//	currentValue = (L4 * 26 + L3 * 22 + L2 * 20 + L1 * 18 + R1 * (-18) + R2 * (-20) + R3 * (-22) + R4 * (-26)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
-	currentValue = (L4 * 26 + L3 * 24 + L2 * 23 + L1 * 22 + R1 * (-22) + R2 * (-23) + R3 * (-24) + R4 * (-26)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
+//	currentValue = (L4 * 24 + L3 * 22 + L2 * 20 + L1 * 18 + R1 * (-18) + R2 * (-20) + R3 * (-22) + R4 * (-24)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
+	currentValue = (L4 * 26 + L3 * 24 + L2 * 22 + L1 * 20 + R1 * (-20) + R2 * (-22) + R3 * (-24) + R4 * (-26)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
+	trackLine.now = currentValue;
+	trackLine.target = targetValue;
+	pid_cal(&trackLine);
+	// 电机输出限幅
+	pidout_limit(&trackLine, 800);
+	Motor_left_Control(basespeed - trackLine.out);
+	Motor_right_Control(basespeed + trackLine.out);
+}
+
+void track2_pid_control(void)
+{
+	// 计算误差
+	currentValue = (L4 * 23 + L3 * 22 + L2 * 21 + L1 * 20 + R1 * (-20) + R2 * (-21) + R3 * (-22) + R4 * (-23)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
 	trackLine.now = currentValue;
 	trackLine.target = targetValue;
 	pid_cal(&trackLine);

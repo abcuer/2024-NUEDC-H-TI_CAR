@@ -57,14 +57,14 @@ int main(void)
 		{
 			if (Key1 == 1) 
 			{
-				LED_Blue_ON();
+				LED_Green_ON();
 				Task++;
 			}
 			if (Task > 4) Task = 0; 
 		}
 		if(Key2 == 1)
 		{
-			LED_Green_ON();
+			LED_Blue_ON();
 			start_flag = 1;
 		}
     

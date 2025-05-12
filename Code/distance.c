@@ -6,10 +6,10 @@ int One_Wheel_Mai = 730;   	//一圈脉冲数
 float Wheel_count = 0.2794; //mm 一个脉冲数转长度
 float carL_dis = 0;
 float carR_dis = 0;
-float dis1 = 1050;  // 1149 - 1151
-float dis2 = 1002; 
-float dis3 = 1047;  // 1149 - 1151
-float dis4 = 1003; 
+float dis1 = 1048;  // 1149 - 1151
+float dis2 = 1012; 
+float dis3 = 1042;  // 1149 - 1151
+float dis4 = 996; 
 
 void distance(void)
 {

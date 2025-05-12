@@ -29,6 +29,7 @@ extern pid_t angle;
 void speed_pid_control(void);
 //void motor_target_set(int tarA, int tarB);
 void track_pid_control(void);
+void track2_pid_control(void);
 void angle_pid_control(float tar);
 void angle_correction(void);
 
