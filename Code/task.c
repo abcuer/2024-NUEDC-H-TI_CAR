@@ -9,7 +9,7 @@ uint8_t Task4_CNT = 0;
 float angle1 = -43;  /* 39、40: 直接贴死，但会有bug*/ //Task3
 float angle2 = 52;	/*  43 ：直接贴死*/               //Task3
 
-float angle3 = -42;  /* 39、40: 直接贴死，但会有bug*/ //Task4
+float angle3 = -44;  /* 39、40: 直接贴死，但会有bug*/ //Task4
 float angle4 = 49;                                    //Task4
 
 void Task_1(void)
@@ -291,7 +291,7 @@ void Task_4(void)
 		case 2:  // 先回正再寻迹
 			SoundLight();
 			// 寻迹		
-			basespeed = 395;
+			basespeed = 390;
 			pid_Init(&trackLine, POSITION_PID, 4.8, 0, 0);
 			while(Line_flag)
 			{
@@ -337,8 +337,8 @@ void Task_4(void)
 		
 		case 4:  // 先回正再寻迹
 			SoundLight();
-			basespeed = 395;
-			pid_Init(&trackLine, POSITION_PID, 4.3, 0, 0);
+			basespeed = 390;
+			pid_Init(&trackLine, POSITION_PID, 4.6, 0, 0);
 			while(Line_flag)
 			{
 				Get_Light_TTL();
@@ -353,8 +353,8 @@ void Task_4(void)
 			Line_flag = 0;
 			angle3 = -44;
 			angle4 = 49;
-			dis3 = 996;
-			dis4 = 990;
+			dis3 = 995;
+			dis4 = 993;
 			if(Task4_CNT == 1)
 			{
 				dis3 = 992;
@@ -369,7 +369,7 @@ void Task_4(void)
 			}
 			if(Task4_CNT == 3)
 			{
-				angle3--;
+//				angle3--;
 				angle4--;
 				dis3-=3;
 				dis4--;

@@ -79,7 +79,7 @@ void track_pid_control(void)
 void track2_pid_control(void)
 {
 	// 计算误差
-	currentValue = (L4 * 23 + L3 * 22 + L2 * 21 + L1 * 20 + R1 * (-20) + R2 * (-21) + R3 * (-22) + R4 * (-23)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
+	currentValue = (L4 * 24 + L3 * 22 + L2 * 21 + L1 * 20 + R1 * (-20) + R2 * (-21) + R3 * (-22) + R4 * (-24)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
 	trackLine.now = currentValue;
 	trackLine.target = targetValue;
 	pid_cal(&trackLine);
