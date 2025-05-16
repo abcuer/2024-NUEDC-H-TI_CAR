@@ -10,7 +10,7 @@ float angle1 = -43;  /* 39、40: 直接贴死，但会有bug*/ //Task3
 float angle2 = 52;	/*  43 ：直接贴死*/               //Task3
 
 float angle3 = -44;  /* 39、40: 直接贴死，但会有bug*/ //Task4
-float angle4 = 49;                                    //Task4
+float angle4 = 50;                                    //Task4
 
 void Task_1(void)
 {
@@ -168,7 +168,7 @@ void Task_3(void)
 			SoundLight();
 			// 寻迹			}
 
-			basespeed = 395;
+			basespeed = 390;
 			pid_Init(&trackLine, POSITION_PID, 4.8, 0, 0);
 			while(Line_flag)
 			{
@@ -214,7 +214,7 @@ void Task_3(void)
 		
 		case 4:  // 先回正再寻迹
 			SoundLight();
-			basespeed = 395;
+			basespeed = 390;
 			pid_Init(&trackLine, POSITION_PID, 4.7, 0, 0);
 			while(Line_flag)
 			{
@@ -330,7 +330,7 @@ void Task_4(void)
 			while(Line_flag == 0)
 			{
 				Get_Light_TTL();
-				angle_pid_control(-5);
+				angle_pid_control(-4);
 			}
 			workstep++;
 			break;
@@ -338,7 +338,7 @@ void Task_4(void)
 		case 4:  // 先回正再寻迹
 			SoundLight();
 			basespeed = 390;
-			pid_Init(&trackLine, POSITION_PID, 4.6, 0, 0);
+			pid_Init(&trackLine, POSITION_PID, 4.7, 0, 0);
 			while(Line_flag)
 			{
 				Get_Light_TTL();
@@ -352,9 +352,9 @@ void Task_4(void)
 			Task4_CNT++;
 			Line_flag = 0;
 			angle3 = -44;
-			angle4 = 49;
+			angle4 = 50;
 			dis3 = 995;
-			dis4 = 993;
+			dis4 = 998;
 			if(Task4_CNT == 1)
 			{
 				dis3 = 992;
@@ -363,16 +363,16 @@ void Task_4(void)
 			if(Task4_CNT == 2)
 			{
 				angle3--;
-				angle4--;
-				dis3 = 993;
-				dis4-=2;
+//				angle4--;
+				dis3 = 994;
+				dis4--;
 			}
 			if(Task4_CNT == 3)
 			{
-//				angle3--;
+				angle3--;
 				angle4--;
-				dis3-=3;
-				dis4--;
+				dis3-=2;
+//				dis4--;
 			}
 			if(Task4_CNT < 4) 
 			{   // 标志位判断
