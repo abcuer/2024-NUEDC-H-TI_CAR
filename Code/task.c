@@ -6,9 +6,6 @@ int16_t turn_time = 0;
 uint8_t turn_flag = 0;
 uint8_t Task4_CNT = 0;
 
-float angle1 = -43;  /* 39、40: 直接贴死，但会有bug*/ //Task3
-float angle2 = 52;	/*  43 ：直接贴死*/               //Task3
-
 float angle3 = -44;  /* 39、40: 直接贴死，但会有bug*/ //Task4
 float angle4 = 50;                                    //Task4
 

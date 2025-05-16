@@ -43,8 +43,6 @@ extern float angle_initial;
 extern int16_t baisetime;
 extern uint8_t workstep;
 
-extern float dis1;
-extern float dis2;
 extern float dis3;
 extern float dis4;
 
