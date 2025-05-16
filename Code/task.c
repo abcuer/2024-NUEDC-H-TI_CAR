@@ -33,7 +33,6 @@ void Task_1(void)
 			SoundLight();
 			basespeed = 0;
 			motor_stop();
-			//delay_ms(100);
 			if(Line_flag)
 			{	
 				Task = 0; 
@@ -52,7 +51,7 @@ void Task_2(void)
 	switch(workstep)
 	{
 		case 0: 
-			pid_Init(&trackLine, POSITION_PID, 4.8, 0, 0);//4.8,0,1.5
+			pid_Init(&trackLine, POSITION_PID, 4.8, 0, 0);
 			pid_Init(&angle, POSITION_PID, -8, 0, -0);
 			Line_flag = 0;
 			basespeed = 400;
@@ -163,8 +162,7 @@ void Task_3(void)
 			
 		case 2:  // 先回正再寻迹
 			SoundLight();
-			// 寻迹			}
-
+			// 寻迹			
 			basespeed = 390;
 			pid_Init(&trackLine, POSITION_PID, 4.8, 0, 0);
 			while(Line_flag)
