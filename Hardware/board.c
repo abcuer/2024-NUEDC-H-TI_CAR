@@ -1,10 +1,10 @@
 /*
- * Á¢´´¿ª·¢°åÈíÓ²¼þ×ÊÁÏÓëÏà¹ØÀ©Õ¹°åÈíÓ²¼þ×ÊÁÏ¹ÙÍøÈ«²¿¿ªÔ´
- * ¿ª·¢°å¹ÙÍø£ºwww.lckfb.com
- * ¼¼ÊõÖ§³Ö³£×¤ÂÛÌ³£¬ÈÎºÎ¼¼ÊõÎÊÌâ»¶Ó­ËæÊ±½»Á÷Ñ§Ï°
- * Á¢´´ÂÛÌ³£ºhttps://oshwhub.com/forum
- * ¹Ø×¢bilibiliÕËºÅ£º¡¾Á¢´´¿ª·¢°å¡¿£¬ÕÆÎÕÎÒÃÇµÄ×îÐÂ¶¯Ì¬£¡
- * ²»¿¿Âô°å×¬Ç®£¬ÒÔÅàÑøÖÐ¹ú¹¤³ÌÊ¦Îª¼ºÈÎ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½Ô´
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½www.lckfb.com
+ * ï¿½ï¿½ï¿½ï¿½Ö§ï¿½Ö³ï¿½×¤ï¿½ï¿½Ì³ï¿½ï¿½ï¿½ÎºÎ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â»¶Ó­ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ñ§Ï°
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ï¿½https://oshwhub.com/forum
+ * ï¿½ï¿½×¢bilibiliï¿½ËºÅ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¡¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ï¿½Â¶ï¿½Ì¬ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¬Ç®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½Ê¦Îªï¿½ï¿½ï¿½ï¿½
  * Change Logs:
  * Date           Author       Notes
  * 2024-06-26     LCKFB     first version
@@ -13,47 +13,44 @@
 #include "stdio.h"
 #include "jy901s.h"
 
+#define RE_0_BUFF_LEN_MAX 128
 
-#define RE_0_BUFF_LEN_MAX	128
-
-volatile uint8_t  recv0_buff[RE_0_BUFF_LEN_MAX] = {0};
+volatile uint8_t recv0_buff[RE_0_BUFF_LEN_MAX] = {0};
 volatile uint16_t recv0_length = 0;
-volatile uint8_t  recv0_flag = 0;
+volatile uint8_t recv0_flag = 0;
 
 void board_init(void)
 {
-	// SYSCFG³õÊ¼»¯
-	SYSCFG_DL_init();
-	//Çå³ý´®¿ÚÖÐ¶Ï±êÖ¾
-	NVIC_ClearPendingIRQ(UART_2_INST_INT_IRQN);
-	//Ê¹ÄÜ´®¿ÚÖÐ¶Ï
-	NVIC_EnableIRQ(UART_2_INST_INT_IRQN);
-	
-	
-//	//UART0->printf
-//	NVIC_ClearPendingIRQ(UART_0_INST_INT_IRQN);
-//	//Ê¹ÄÜ´®¿ÚÖÐ¶Ï
-//	NVIC_EnableIRQ(UART_0_INST_INT_IRQN);
-	
-	
-	//printf("Board Init Success\r\n");
+    // SYSCFGï¿½ï¿½Ê¼ï¿½ï¿½
+    SYSCFG_DL_init();
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ï±ï¿½Ö¾
+    NVIC_ClearPendingIRQ(UART_2_INST_INT_IRQN);
+    // Ê¹ï¿½Ü´ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
+    NVIC_EnableIRQ(UART_2_INST_INT_IRQN);
+
+    //	//UART0->printf
+    //	NVIC_ClearPendingIRQ(UART_0_INST_INT_IRQN);
+    //	//Ê¹ï¿½Ü´ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
+    //	NVIC_EnableIRQ(UART_0_INST_INT_IRQN);
+
+    // printf("Board Init Success\r\n");
 }
 
-//´îÅäµÎ´ð¶¨Ê±Æ÷ÊµÏÖµÄ¾«È·usÑÓÊ±
-void delay_us(unsigned long __us) 
+// ï¿½ï¿½ï¿½ï¿½Î´ï¿½Ê±ï¿½ï¿½Êµï¿½ÖµÄ¾ï¿½È·usï¿½ï¿½Ê±
+void delay_us(unsigned long __us)
 {
     uint32_t ticks;
     uint32_t told, tnow, tcnt = 38;
 
-    // ¼ÆËãÐèÒªµÄÊ±ÖÓÊý = ÑÓ³ÙÎ¢ÃëÊý * Ã¿Î¢ÃëµÄÊ±ÖÓÊý
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ = ï¿½Ó³ï¿½Î¢ï¿½ï¿½ï¿½ï¿½ * Ã¿Î¢ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
     ticks = __us * (32000000 / 1000000);
 
-    // »ñÈ¡µ±Ç°µÄSysTickÖµ
+    // ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½SysTickÖµ
     told = SysTick->VAL;
 
     while (1)
     {
-        // ÖØ¸´Ë¢ÐÂ»ñÈ¡µ±Ç°µÄSysTickÖµ
+        // ï¿½Ø¸ï¿½Ë¢ï¿½Â»ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½SysTickÖµ
         tnow = SysTick->VAL;
 
         if (tnow != told)
@@ -65,117 +62,106 @@ void delay_us(unsigned long __us)
 
             told = tnow;
 
-            // Èç¹û´ïµ½ÁËÐèÒªµÄÊ±ÖÓÊý£¬¾ÍÍË³öÑ­»·
+            // ï¿½ï¿½ï¿½ï¿½ïµ½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½Ñ­ï¿½ï¿½
             if (tcnt >= ticks)
                 break;
         }
     }
 }
-//´îÅäµÎ´ð¶¨Ê±Æ÷ÊµÏÖµÄ¾«È·msÑÓÊ±
-void delay_ms(unsigned long ms) 
+// ï¿½ï¿½ï¿½ï¿½Î´ï¿½Ê±ï¿½ï¿½Êµï¿½ÖµÄ¾ï¿½È·msï¿½ï¿½Ê±
+void delay_ms(unsigned long ms)
 {
-	delay_us( ms * 1000 );
+    delay_us(ms * 1000);
 }
 
-void delay_1us(unsigned long __us){ delay_us(__us); }
-void delay_1ms(unsigned long ms){ delay_ms(ms); }
+void delay_1us(unsigned long __us) { delay_us(__us); }
+void delay_1ms(unsigned long ms) { delay_ms(ms); }
 
-//´®¿Ú·¢ËÍµ¥¸ö×Ö·û
+// ï¿½ï¿½ï¿½Ú·ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½Ö·ï¿½
 void uart0_send_char(char ch)
 {
-	//µ±´®¿Ú0Ã¦µÄÊ±ºòµÈ´ý£¬²»Ã¦µÄÊ±ºòÔÙ·¢ËÍ´«½øÀ´µÄ×Ö·û
-	while( DL_UART_isBusy(UART_2_INST) == true );
-	//·¢ËÍµ¥¸ö×Ö·û
-	DL_UART_Main_transmitData(UART_2_INST, ch);
-
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0Ã¦ï¿½ï¿½Ê±ï¿½ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½Ã¦ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ù·ï¿½ï¿½Í´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+    while (DL_UART_isBusy(UART_2_INST) == true)
+        ;
+    // ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+    DL_UART_Main_transmitData(UART_2_INST, ch);
 }
-//´®¿Ú·¢ËÍ×Ö·û´®
-void uart0_send_string(char* str)
+// ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+void uart0_send_string(char *str)
 {
-	//µ±Ç°×Ö·û´®µØÖ·²»ÔÚ½áÎ² ²¢ÇÒ ×Ö·û´®Ê×µØÖ·²»Îª¿Õ
-	while(*str!=0&&str!=0)
-	{
-		//·¢ËÍ×Ö·û´®Ê×µØÖ·ÖÐµÄ×Ö·û£¬²¢ÇÒÔÚ·¢ËÍÍê³ÉÖ®ºóÊ×µØÖ·×ÔÔö
-		uart0_send_char(*str++);
-	}
+    // ï¿½ï¿½Ç°ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Ú½ï¿½Î² ï¿½ï¿½ï¿½ï¿½ ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½Îªï¿½ï¿½
+    while (*str != 0 && str != 0)
+    {
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½Ðµï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½ï¿½ï¿½
+        uart0_send_char(*str++);
+    }
 }
-
 
 #if !defined(__MICROLIB)
-//²»Ê¹ÓÃÎ¢¿âµÄ»°¾ÍÐèÒªÌí¼ÓÏÂÃæµÄº¯Êý
+// ï¿½ï¿½Ê¹ï¿½ï¿½Î¢ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½
 #if (__ARMCLIB_VERSION <= 6000000)
-//Èç¹û±àÒëÆ÷ÊÇAC5  ¾Í¶¨ÒåÏÂÃæÕâ¸ö½á¹¹Ìå
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½AC5  ï¿½Í¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹¹ï¿½ï¿½
 struct __FILE
 {
-	int handle;
+    int handle;
 };
 #endif
 
 FILE __stdout;
 
-//¶¨Òå_sys_exit()ÒÔ±ÜÃâÊ¹ÓÃ°ëÖ÷»úÄ£Ê½
+// ï¿½ï¿½ï¿½ï¿½_sys_exit()ï¿½Ô±ï¿½ï¿½ï¿½Ê¹ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½
 void _sys_exit(int x)
 {
-	x = x;
+    x = x;
 }
 #endif
 
-
-//printfº¯ÊýÖØ¶¨Òå
+// printfï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½
 int fputc(int ch, FILE *stream)
 {
-	//µ±´®¿Ú0Ã¦µÄÊ±ºòµÈ´ý£¬²»Ã¦µÄÊ±ºòÔÙ·¢ËÍ´«½øÀ´µÄ×Ö·û
-	while( DL_UART_isBusy(UART_2_INST) == true );
-	
-	DL_UART_Main_transmitData(UART_2_INST, ch);
-	
-	return ch;
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0Ã¦ï¿½ï¿½Ê±ï¿½ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½Ã¦ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ù·ï¿½ï¿½Í´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+    while (DL_UART_isBusy(UART_2_INST) == true)
+        ;
+
+    DL_UART_Main_transmitData(UART_2_INST, ch);
+
+    return ch;
 }
 
-
-
-//´®¿ÚµÄÖÐ¶Ï·þÎñº¯Êý
+// ï¿½ï¿½ï¿½Úµï¿½ï¿½Ð¶Ï·ï¿½ï¿½ï¿½ï¿½ï¿½
 void UART_2_INST_IRQHandler(void)
 {
-	uint8_t uart_data = 0;
-    
-    switch( DL_UART_getPendingInterrupt(UART_2_INST) )
-    {
-        case DL_UART_IIDX_RX:
-            
-				    uart_data = DL_UART_Main_receiveData(UART_2_INST);
-						jy901s_ReceiveData(uart_data);
-				    recv0_flag = 1;
-            break;
+    uint8_t uart_data = 0;
 
-        default:
-            break;
+    switch (DL_UART_getPendingInterrupt(UART_2_INST))
+    {
+    case DL_UART_IIDX_RX:
+
+        uart_data = DL_UART_Main_receiveData(UART_2_INST);
+        jy901s_ReceiveData(uart_data);
+        recv0_flag = 1;
+        break;
+
+    default:
+        break;
     }
 }
 
-
-//void UART_0_INST_IRQHandler(void)
+// void UART_0_INST_IRQHandler(void)
 //{
 //	uint8_t uart_data = 0;
-//    
-//    switch( DL_UART_getPendingInterrupt(UART_0_INST) )
-//    {
-//        case DL_UART_IIDX_RX:
-//            
-//            
-//            uart_data = DL_UART_Main_receiveData(UART_0_INST);
-//            
-//            uart0_send_char(uart_data);
-//            break;
+//
+//     switch( DL_UART_getPendingInterrupt(UART_0_INST) )
+//     {
+//         case DL_UART_IIDX_RX:
+//
+//
+//             uart_data = DL_UART_Main_receiveData(UART_0_INST);
+//
+//             uart0_send_char(uart_data);
+//             break;
 
 //        default:
 //            break;
 //    }
 //}
-
-
-
-
-
-
-

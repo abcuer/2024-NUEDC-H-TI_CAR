@@ -37,8 +37,7 @@ uint8_t Task = 0;
 uint8_t start_flag = 0;
 uint8_t first_flag = 0;
 float basespeed = 0;
-//float track_kp = 48;
-//float track_kd = 0.28;
+
 int main(void)
 {
 	board_init(); // 延迟 串口

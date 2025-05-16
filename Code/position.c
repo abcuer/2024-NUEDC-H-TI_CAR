@@ -39,12 +39,12 @@ void UpdateSoundLight(void)
     {
         SoundLight_time++;
 
-		if(SoundLight_time >= 12) // ???�g?????? 10 ??????
+		if(SoundLight_time >= 12) 
 		{
 			Buzzer_OFF();
 			LED_Blue_OFF();
 			SoundLight_time = 0;
-			SoundLight_flag = 0; // ?��????????
+			SoundLight_flag = 0; 
 		}
         
     }

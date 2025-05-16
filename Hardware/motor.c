@@ -78,6 +78,4 @@ void motor_stop(void)
 	BIN1_OUT(1);
     BIN2_OUT(1);
 	
-	//Motor_left_duty(0,10);
-	//Motor_right_duty(0,10);
 }
