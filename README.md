@@ -5,7 +5,7 @@
 ![55c712735c4f2a0491421d0f4ae0dd6](./src/55c712735c4f2a0491421d0f4ae0dd6.jpg)
 ![PCB正面](./src/image.jpg)
 ## [PCB开源地址](https://u.lceda.cn/account/user/projects/index/members?project=a21ed0727ad447719ecbd93959d565b7&folder=all)
-## [B站测评视频](https://www.bilibili.com/video/BV1bTVPz3E2n/?share_source=copy_web&vd_source=7fe9629c8866b638fabb43851d093cad )
+## [B站测评视频](https://www.bilibili.com/video/BV1xQNzzUEWS/?spm_id_from=333.1387.homepage.video_card.click)
 ## <span style="background-color:#FF5733; color:white; padding:2px 6px; border-radius:3px;">电子模块（总价370块）</span>
 
 - [立创地猛星MSPM0G3507主控板（电赛优惠价30块)](https://item.szlcsc.com/24478333.html?lcsc_vid=T1FaUVcAFQVXUVJUFAAPBFxTFVUKVAJQRgdXVwBRQVQxVlNSTlJXU1xSTldYUjsOAxUeFF5JWBYZEEoEHg8JSQcJGk4%3D)
