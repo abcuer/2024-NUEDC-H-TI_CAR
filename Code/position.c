@@ -28,7 +28,7 @@ void SoundLight(void)
 	if(SoundLight_flag == 0)
 	{
 		Buzzer_ON();
-		LED_Blue_ON();
+		LED_Green_ON();
 		SoundLight_flag = 1;
 	}
 }
@@ -42,7 +42,7 @@ void UpdateSoundLight(void)
 		if(SoundLight_time >= 12) 
 		{
 			Buzzer_OFF();
-			LED_Blue_OFF();
+			LED_Green_OFF();
 			SoundLight_time = 0;
 			SoundLight_flag = 0; 
 		}
