@@ -7,7 +7,7 @@ uint8_t turn_flag = 0;
 uint8_t Task4_CNT = 0;
 
 float angle3 = -44;  /* 39、40: 直接贴死，但会有bug*/ //Task4
-float angle4 = 50;                                    //Task4
+float angle4 = 52;                                    //Task4
 
 void Task_1(void)
 {
@@ -202,7 +202,7 @@ void Task_3(void)
 			while(Line_flag == 0)
 			{
 				Get_Light_TTL();
-				angle_pid_control(-2.5);
+				angle_pid_control(-1);
 			}
 			workstep++;
 			break;
@@ -325,7 +325,7 @@ void Task_4(void)
 			while(Line_flag == 0)
 			{
 				Get_Light_TTL();
-				angle_pid_control(-4);
+				angle_pid_control(-1);
 			}
 			workstep++;
 			break;
@@ -347,7 +347,7 @@ void Task_4(void)
 			Task4_CNT++;
 			Line_flag = 0;
 			angle3 = -44;
-			angle4 = 50;
+			angle4 = 51;
 			dis3 = 995;
 			dis4 = 998;
 			if(Task4_CNT == 1)

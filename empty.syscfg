@@ -204,8 +204,8 @@ TIMER1.timerClkPrescale   = 100;
 TIMER1.timerMode          = "PERIODIC";
 TIMER1.interrupts         = ["ZERO"];
 TIMER1.timerStartTimer    = true;
-TIMER1.interruptPriority  = "0";
 TIMER1.timerPeriod        = "7ms";
+TIMER1.interruptPriority  = "1";
 TIMER1.peripheral.$assign = "TIMA0";
 
 TIMER2.$name              = "TIMER_1";

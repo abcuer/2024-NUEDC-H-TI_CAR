@@ -328,7 +328,7 @@ SYSCONFIG_WEAK void SYSCFG_DL_TIMER_0_init(void) {
     DL_TimerA_initTimerMode(TIMER_0_INST,
         (DL_TimerA_TimerConfig *) &gTIMER_0TimerConfig);
     DL_TimerA_enableInterrupt(TIMER_0_INST , DL_TIMERA_INTERRUPT_ZERO_EVENT);
-	NVIC_SetPriority(TIMER_0_INST_INT_IRQN, 0);
+	NVIC_SetPriority(TIMER_0_INST_INT_IRQN, 1);
     DL_TimerA_enableClock(TIMER_0_INST);
 
 
