@@ -4,8 +4,8 @@
 #include "headfile.h"
 
 void encoder_Init(void);
+void speed_cal(float filter_alpha);
 
-extern float Get_Encoder_countA;
-extern float Get_Encoder_countB;
+extern int One_Wheel_Mai;
 
 #endif

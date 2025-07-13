@@ -38,16 +38,37 @@ uint8_t start_flag = 0;
 uint8_t first_flag = 0;
 float basespeed = 0;
 
+uint8_t update_flag = 0;
+uint8_t dist_finished = 0;
+float speed_tar = 33.0;
+
 int main(void)
 {
 	board_init(); // 延迟 串口
 	encoder_Init();
 	timerA_init();
 	timerG_init();
-
-	// 寻迹环
+	pid_Init(&angle, POSITION_PID, -0.35, -0, -0);
+	pid_Init(&trackLine, POSITION_PID, 0.45, 0, 0);
+	pid_Init(&dist, POSITION_PID, 0.2, 0, 0);
+	
 	while(1) 
 	{   
+//		Key1 = Key_GetNum1();
+//		Key2 = Key_GetNum2();
+//		if(Key1) speed_tar -= 10;
+//		if(Key2) speed_tar += 10;
+		if(update_flag) 
+        {
+            update_flag = 0;
+			//speed2_pid_control(speed_tar);  //重调p和i
+			distloop_pid_control(20, 0);
+			printf("%.2f, %.2f\n",dist.now, dist.target);
+			//angleloop_pid_control(0, 300);
+			//trackloop_pid_control(0, 300);
+			
+        }
+			
 		Key1 = Key_GetNum1();
 		Key2 = Key_GetNum2();
 		
@@ -85,7 +106,6 @@ int main(void)
 	}
 }
 
-
 // pid控制
 void TIMER_0_INST_IRQHandler(void)
 {
@@ -94,7 +114,8 @@ void TIMER_0_INST_IRQHandler(void)
 		if(DL_TIMER_IIDX_ZERO) 
 		{	
 			Gray_Init();
-			speed_pid_control();
+			update_flag = 1;
+			
 		}
 	}
 }

@@ -77,5 +77,4 @@ void motor_stop(void)
 	
 	BIN1_OUT(1);
     BIN2_OUT(1);
-	
 }

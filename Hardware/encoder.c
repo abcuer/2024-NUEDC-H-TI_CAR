@@ -2,6 +2,8 @@
 
 float Get_Encoder_countA = 0;
 float Get_Encoder_countB = 0;
+float speedA = 0;
+float speedB = 0;
 
 /*
 		E1A E1B: Get_Encoder_countA
@@ -83,5 +85,25 @@ void GROUP1_IRQHandler(void)
 	}
 }
 
-
+void speed_cal(float filter_alpha)
+{
+    static int32_t last_countA = 0;
+    static int32_t last_countB = 0;
+    int32_t nowA = Get_Encoder_countA;
+    int32_t nowB = Get_Encoder_countB;
+    int32_t deltaA = nowA - last_countA;
+    int32_t deltaB = nowB - last_countB;
+    last_countA = nowA;
+    last_countB = nowB;
+    float raw_speedA = ((float)deltaA / One_Wheel_Mai) * (PI * 0.065f) / 0.008f;
+    float raw_speedB = ((float)deltaB / One_Wheel_Mai) * (PI * 0.065f) / 0.008f;
+    // 静态变量保存上一次的速度
+    static float last_speedA = 0;
+    static float last_speedB = 0;
+    speedA = filter_alpha * raw_speedA + (1 - filter_alpha) * last_speedA;
+    speedB = filter_alpha * raw_speedB + (1 - filter_alpha) * last_speedB;
+    // 更新旧值
+    last_speedA = speedA;
+    last_speedB = speedB;
+}
 

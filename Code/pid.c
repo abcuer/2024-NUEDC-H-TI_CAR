@@ -3,24 +3,6 @@
 uint8_t motor_left_dir = 1;
 uint8_t motor_right_dir = 1;
 
-// 速度环
-pid_t motorA;
-pid_t motorB;
-float last_encoderA_cnt = 0;
-float last_encoderB_cnt = 0;
-float encoderA_cnt = 0;
-float encoderB_cnt = 0;
-
-// 寻迹环
-pid_t trackLine;
-int16_t targetValue = 0; // 目标值设为中线位置
-int8_t currentValue = 0; // 当前值初始化
-
-// 角度环
-pid_t angle;
-int ang = 0;
-
-
 void pid_Init(pid_t *pid, uint32_t mode, float p, float i, float d)
 {
                  // Device header
@@ -29,6 +11,20 @@ void pid_Init(pid_t *pid, uint32_t mode, float p, float i, float d)
 	pid->i = i;
 	pid->d = d;
 }
+
+void pid_clear(pid_t *pid)
+{
+    pid->error[0] = 0;
+    pid->error[1] = 0;
+    pid->error[2] = 0;
+    pid->pout = 0;
+    pid->iout = 0;
+    pid->dout = 0;
+    pid->out = 0;
+    pid->now = 0;
+    pid->target = 0;
+}
+
 
 void pid_cal(pid_t *pid)
 {
@@ -62,31 +58,92 @@ void pidout_limit(pid_t *pid, float duty)
 	if(pid->out <= -duty) pid->out = -duty;
 }
 
-void track2_pid_control(void)
+
+float PID_Increase(pid_t *pid, float Now, float Tar)
 {
-	// 计算误差
-	currentValue = (L4 * 24 + L3 * 22 + L2 * 21 + L1 * 20 + R1 * (-20) + R2 * (-21) + R3 * (-22) + R4 * (-24)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
-	trackLine.now = currentValue;
-	trackLine.target = targetValue;
-	pid_cal(&trackLine);
-	// 电机输出限幅
-	pidout_limit(&trackLine, 800);
-	Motor_left_Control(basespeed - trackLine.out);
-	Motor_right_Control(basespeed + trackLine.out);
+    uint32_t Increase = 0;
+
+    // 计算当前误差
+    pid->error[0] = Tar - Now;
+
+    // 增量式 PID 计算公式：
+    // Δu = P * (e(k) - e(k-1)) + I * e(k) + D * (e(k) - 2e(k-1) + e(k-2))
+    Increase = (pid->p * (pid->error[0] - pid->error[1])
+                        + pid->i * pid->error[0]
+                        + pid->d * (pid->error[0] - 2 * pid->error[1] + pid->error[2]));
+
+    // 更新误差历史，为下一次计算做准备
+    pid->error[2] = pid->error[1];
+    pid->error[1] = pid->error[0];
+
+    return Increase;
 }
 
-void angle_pid_control(float tar)
-{
+float VelcityA_Ki = 10.2, VelcityA_Kp = 0.02;
+float VelcityB_Ki = 9.6 , VelcityB_Kp = 0.03;
+/***************************************************************************
+函数功能：电机的PID闭环控制
+入口参数：左右电机的编码器值
+返回值  ：电机的PWM
+***************************************************************************/
+
+int Velocity_A(int TargetVelocity, int CurrentVelocity)
+{  
+    int Bias;  //定义相关变量
+	static int ControlVelocityA, Last_biasA; //静态变量，函数调用结束后其值依然存在
 	
-	angle.target = tar;
-	ang = Yaw;
-	angle_correction();
-	angle.now = ang; 
-	pid_cal(&angle);
-	pidout_limit(&angle, 500);
-	Motor_left_Control(basespeed - angle.out);
-	Motor_right_Control(basespeed + angle.out);
+	Bias=TargetVelocity-CurrentVelocity; 
+	ControlVelocityA+=VelcityA_Ki*(Bias-Last_biasA)+VelcityA_Kp*Bias;  //增量式PI控制器														
+	Last_biasA=Bias;	
+	if(ControlVelocityA>340) ControlVelocityA=340;
+	else if(ControlVelocityA<-340) ControlVelocityA=-340;
+	return ControlVelocityA; //返回速度控制值
 }
+
+/***************************************************************************
+函数功能：电机的PID闭环控制
+入口参数：左右电机的编码器值
+返回值  ：电机的PWM
+***************************************************************************/
+int Velocity_B(int TargetVelocity, int CurrentVelocity)
+{  
+    int Bias;  //定义相关变量
+	static int ControlVelocityB, Last_biasB; //静态变量，函数调用结束后其值依然存在
+	
+	Bias=TargetVelocity-CurrentVelocity; 
+	ControlVelocityB += VelcityB_Ki*(Bias-Last_biasB) + VelcityB_Kp*Bias;  //增量式PI控制器														
+	Last_biasB=Bias;	
+	if(ControlVelocityB>340) ControlVelocityB=340;
+	else if(ControlVelocityB<-340) ControlVelocityB=-340;
+	return ControlVelocityB; //返回速度控制值
+}
+
+void speed2_pid_control(int speed_tar)
+{
+	speed_cal(0.5);
+	float PWMA = Velocity_A(speed_tar, speedA);
+	float PWMB = Velocity_B(speed_tar, speedB);
+	if(PWMA > 0) motor_left_dir = 1; 	else motor_left_dir = 0;
+	if(PWMB > 0) motor_right_dir = 1;	else motor_right_dir = 0;
+	Motor_left_Control(fabs(PWMA));
+	Motor_right_Control(fabs(PWMB));
+}
+
+void speed_pid_control(int speed_tar, int base)
+{
+	speed_cal(0.5);
+	if (abs(speed_tar) < 5) speed_tar = 0;
+	float PWMA = base - Velocity_A(speed_tar, speedA);
+	float PWMB = base + Velocity_B(speed_tar, speedB);
+//	if(PWMA >= 0) motor_left_dir = 1; 	else motor_left_dir = 0;
+//	if(PWMB >= 0) motor_right_dir = 1;	else motor_right_dir = 0;
+	Motor_left_Control(fabs(PWMA));
+	Motor_right_Control(fabs(PWMB));
+}
+
+// 角度环
+pid_t angle;
+int ang = 0;
 
 void angle_correction(void)
 {
@@ -110,77 +167,142 @@ void angle_correction(void)
 	}
 }
 
-void speed_pid_control(void)
+int angle_pid_control(float tar)
 {
-//	encoderA_cnt = Get_Encoder_countA;//origin--2.955 28 jiansubi
-//	encoderB_cnt = Get_Encoder_countB;//origin--2.955 28 jiansubi
-//	encoderA_cnt = encoderA_cnt * 0.5 + last_encoderA_cnt * 0.5;
-//	encoderB_cnt = encoderB_cnt * 0.5 + last_encoderB_cnt * 0.5;
-//	last_encoderA_cnt = encoderA_cnt;
-//	last_encoderB_cnt = encoderB_cnt;
-//	Get_Encoder_countA = 0;
-//	Get_Encoder_countB = 0;
-//	if(motor_left_dir) motorA.now = encoderA_cnt;				else motorA.now = -encoderA_cnt;
-//	if(motor_right_dir) motorB.now = encoderB_cnt;				else motorB.now = -encoderB_cnt;
-//	// 3.??PID???????
-//	pid_cal(&motorA);
-//	pid_cal(&motorB);
-//	// ??????
-//	pidout_limit(&motorA, 2000);
-//	pidout_limit(&motorB, 2000);	
-	Motor_left_Control(motorA.out);
-	Motor_right_Control(motorB.out);
+	angle.target = tar;
+	ang = Yaw;
+	angle_correction();
+	angle.now = ang; 
+	pid_cal(&angle);
+	pidout_limit(&angle, 500);
+	return angle.out;
 }
 
-//void motor_target_set(int tarA, int tarB)
-//{
-//	if(tarA >= 0) 
-//	{
-//		motor_left_dir = 0;
-//		motorA.target = tarA;
-//	}
-//	else
-//	{
-//		motor_left_dir = 1;
-//		motorA.target = -tarA;
-//	}
-//	if(tarB >= 0) 
-//	{
-//		motor_right_dir = 0;
-//		motorB.target = tarB;
-//	}
-//	else
-//	{
-//		motor_right_dir = 1;
-//		motorB.target = -tarB;
-//	}
-//}
+//*  串级角度环  */
+void angleloop_pid_control(float angle_tar, int base)
+{
+	int speed_tar = angle_pid_control(angle_tar);  // 74°实际90°160°实际 180°
+	speed_pid_control(speed_tar, base);
+}
 
-//void track2_pid_control(void)
+// 寻迹环
+pid_t trackLine;
+
+void track_pid_control(float targetValue, float basespeed)
+{
+	float currentValue = (L4 * 24 + L3 * 22 + L2 * 21 + L1 * 20 + R1 * (-20) + R2 * (-21) + R3 * (-22) + R4 * (-24)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
+	trackLine.now = currentValue;
+	trackLine.target = targetValue;
+	pid_cal(&trackLine);
+	// 电机输出限幅
+	pidout_limit(&trackLine, 800);
+	Motor_left_Control(basespeed - trackLine.out);
+	Motor_right_Control(basespeed + trackLine.out);
+}
+
+int track2_pid_control(float targetValue)
+{
+	// 计算误差
+	float currentValue = (L4 * 23 + L3 * 22 + L2 * 21 + L1 * 20 + R1 * (-20) + R2 * (-21) + R3 * (-22) + R4 * (-23)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
+	trackLine.now = currentValue;
+	trackLine.target = targetValue;
+	pid_cal(&trackLine);
+	// 电机输出限幅
+	pidout_limit(&trackLine, 800);
+	return trackLine.out;
+}
+
+/*  串级寻迹环  */
+/* track_tar一般为0 */
+void trackloop_pid_control(float track_tar, int base)
+{
+	int speed_tar = track2_pid_control(track_tar);
+	speed_pid_control(speed_tar, base);
+}
+
+
+//float dist_pid_control(float dist_tar)
 //{
-//	float err = 0,leftSpeed = 0, rightSpeed = 0;
-//	static float trackout,lastErr;
-//	
-//	if(R4 == 1) err -= 4.1;
-//	else if(R3 == 1) err -= 3.2;
-//	else if(R2 == 1) err -= 2.3;
-//	else if(R1 == 1) err -= 1;
-//	else if(L1 == 1) err += 1;
-//	else if(L2 == 1) err += 2.3;
-//	else if(L3 == 1) err += 3.2;
-//	else if(L4 == 1) err += 4.1;
-//	
-//	trackout = track_kp * err + track_kd * (err - lastErr);
-//    lastErr = err;
-//	
-//	leftSpeed = basespeed - trackout;
-//	rightSpeed = basespeed + trackout;
-//	
-//	if (leftSpeed < 0) leftSpeed = 0;
-//    if (leftSpeed > 1000) leftSpeed = 1000;
-//    if (rightSpeed < 0) rightSpeed = 0;
-//    if (rightSpeed > 1000) rightSpeed = 1000;
-//	
-//	Motor_left_Control(leftSpeed);
-//	Motor_right_Control(rightSpeed);
-//}
+//	float pulse_tar = dist_tar / Wheel_dist;
+//	float puise = (fabs(Get_Encoder_countB) + fabs(Get_Encoder_countA)) / 2.0;
+//	dist.now = puise;
+//	dist.target = pulse_tar;
+//	pid_cal(&dist);
+//	return dist.out;
+////	if(Increase<2)
+////	{
+////		motor_stop();
+////	} 
+//}	
+pid_t dist;
+
+// 直径65mm  //一圈脉冲数 730 
+// 定义减速比，表示电机轴转 28 圈，轮子转 1 圈
+#define MOTOR_REDUCTION_RATIO 10.0f
+
+// 编码器每转输出的脉冲数（通常是电机轴上的编码器）
+#define ENCODER_RESOLUTION 740.0f
+
+// 轮子直径（单位：米）
+#define WHEEL_DIAMETER 0.065f
+
+// 轮子周长 = π × 直径
+#define WHEEL_CIRCUMFERENCE (PI * WHEEL_DIAMETER)
+
+// 单个编码器脉冲对应轮子在地面上的位移（单位：米）
+// 注意：这里是**轮子轴**对应的脉冲距离，还没乘减速比
+#define WHEEL_DIST (WHEEL_CIRCUMFERENCE / ENCODER_RESOLUTION) // 0.0002760
+
+void dist2_pid_control(float dist_tar_cm)  // 以“厘米”为单位
+{
+    float pulse_tar = (dist_tar_cm / 100.0f) / WHEEL_DIST * MOTOR_REDUCTION_RATIO;  // cm -> m，再求目标脉冲
+    float puise = (fabs(Get_Encoder_countB) + fabs(Get_Encoder_countA)) / 2.0;
+
+    dist.now = puise;
+    dist.target = pulse_tar;
+
+    pid_cal(&dist);
+
+    // 使用 PID 输出驱动电机
+    Motor_left_Control(dist.out);
+    Motor_right_Control(dist.out);
+
+    // 误差很小就停车
+    if(fabs(dist.target - dist.now) < 2.0f)  // 脉冲误差阈值
+    {
+        motor_stop();
+    }
+}
+
+/**
+ * @brief 位移PID控制函数，让小车移动指定距离
+ * @param dist_tar_cm 目标位移（单位：厘米）
+ * @return PID输出值（通常用于控制电机PWM）
+ */
+ static uint8_t stop_flag = 0;
+ 
+float dist_pid_control(float dist_tar_cm)
+{
+    // 将目标距离从 cm 转换为 m，并计算目标对应的脉冲数（考虑减速比）
+    float pulse_tar = (dist_tar_cm / 100.0f) / WHEEL_DIST;
+    // 获取当前小车两轮的平均编码器值（即当前位移对应的脉冲数）
+    float puise = (Get_Encoder_countB - Get_Encoder_countA) / 2.0f;
+    dist.now = puise;
+    dist.target = pulse_tar;
+    pid_cal(&dist);
+	if(fabs(dist.out) < 5.0f) dist.out = 0;  // 避免微抖动
+    return dist.out;
+}
+
+void distloop_pid_control(float dist_tar, int base)
+{
+	int speed_tar = dist_pid_control(dist_tar);
+	speed_pid_control(speed_tar, base);
+    if(fabs(dist.target - dist.now) < 50.0f)  // 脉冲误差阈值
+    {
+       motor_stop(); // 连续5次满足条件才停
+    }
+}
+
+
+
