@@ -1,7 +1,7 @@
 #include "encoder.h"
 
-float Get_Encoder_countA = 0;
-float Get_Encoder_countB = 0;
+int Get_Encoder_countA = 0;
+int Get_Encoder_countB = 0;
 float speedA = 0;
 float speedB = 0;
 
@@ -32,31 +32,32 @@ void GROUP1_IRQHandler(void)
 	uint32_t gpioB = DL_GPIO_getEnabledInterruptStatus(GPIOB, Encoder_right_E2A_PIN | Encoder_right_E2B_PIN);
 
 	// A编码器
-	if ((gpioA & Encoder_left_E1A_PIN) == Encoder_left_E1A_PIN)
+
+	if ((gpioA & Encoder_left_E1B_PIN) == Encoder_left_E1B_PIN)
 	{
-		if (!DL_GPIO_readPins(Encoder_left_PORT, Encoder_left_E1B_PIN))
+		if (!DL_GPIO_readPins(Encoder_left_PORT, Encoder_left_E1A_PIN))
 		{
 				Get_Encoder_countA--;
 		}
 		else
 		{
 				Get_Encoder_countA++;
+		}
+		DL_GPIO_clearInterruptStatus(Encoder_left_PORT,Encoder_left_E1B_PIN);
+	}
+	else if ((gpioA & Encoder_left_E1A_PIN) == Encoder_left_E1A_PIN)
+	{
+		if (!DL_GPIO_readPins(Encoder_left_PORT, Encoder_left_E1B_PIN))
+		{
+				Get_Encoder_countA++;
+		}
+		else
+		{
+				Get_Encoder_countA--;
 		}
 		DL_GPIO_clearInterruptStatus(Encoder_left_PORT, Encoder_left_E1A_PIN);
 	}
 	
-	else if ((gpioA & Encoder_left_E1B_PIN) == Encoder_left_E1B_PIN)
-	{
-		if (!DL_GPIO_readPins(Encoder_left_PORT, Encoder_left_E1A_PIN))
-		{
-				Get_Encoder_countA++;
-		}
-		else
-		{
-				Get_Encoder_countA--;
-		}
-		DL_GPIO_clearInterruptStatus(Encoder_left_PORT,Encoder_left_E1B_PIN);
-	}
 	
 	// B编码器
 	if ((gpioB & Encoder_right_E2A_PIN) == Encoder_right_E2A_PIN)

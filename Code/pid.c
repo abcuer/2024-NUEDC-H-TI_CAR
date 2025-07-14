@@ -135,8 +135,8 @@ void speed_pid_control(int speed_tar, int base)
 	if (abs(speed_tar) < 5) speed_tar = 0;
 	float PWMA = base - Velocity_A(speed_tar, speedA);
 	float PWMB = base + Velocity_B(speed_tar, speedB);
-//	if(PWMA >= 0) motor_left_dir = 1; 	else motor_left_dir = 0;
-//	if(PWMB >= 0) motor_right_dir = 1;	else motor_right_dir = 0;
+	if(PWMA >= 0) motor_left_dir = 1; 	else motor_left_dir = 0;
+	if(PWMB >= 0) motor_right_dir = 1;	else motor_right_dir = 0;
 	Motor_left_Control(fabs(PWMA));
 	Motor_right_Control(fabs(PWMB));
 }
@@ -190,7 +190,7 @@ pid_t trackLine;
 
 void track_pid_control(float targetValue, float basespeed)
 {
-	float currentValue = (L4 * 24 + L3 * 22 + L2 * 21 + L1 * 20 + R1 * (-20) + R2 * (-21) + R3 * (-22) + R4 * (-24)) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
+	float currentValue = (L4 * (-4) + L3 * (-3) + L2 * (-2) + L1 * (-1) + R1 * 1 + R2 * 2 + R3 * 3 + R4 * 4) / (R1 + R2 + R3 + R4 + L1 + L2 + L3 + L4);
 	trackLine.now = currentValue;
 	trackLine.target = targetValue;
 	pid_cal(&trackLine);
@@ -241,7 +241,7 @@ pid_t dist;
 #define MOTOR_REDUCTION_RATIO 10.0f
 
 // 编码器每转输出的脉冲数（通常是电机轴上的编码器）
-#define ENCODER_RESOLUTION 740.0f
+#define ENCODER_RESOLUTION 730.0f
 
 // 轮子直径（单位：米）
 #define WHEEL_DIAMETER 0.065f
@@ -251,12 +251,12 @@ pid_t dist;
 
 // 单个编码器脉冲对应轮子在地面上的位移（单位：米）
 // 注意：这里是**轮子轴**对应的脉冲距离，还没乘减速比
-#define WHEEL_DIST (WHEEL_CIRCUMFERENCE / ENCODER_RESOLUTION) // 0.0002760
+#define WHEEL_DIST (WHEEL_CIRCUMFERENCE / ENCODER_RESOLUTION) // 0.0002797
 
 void dist2_pid_control(float dist_tar_cm)  // 以“厘米”为单位
 {
     float pulse_tar = (dist_tar_cm / 100.0f) / WHEEL_DIST * MOTOR_REDUCTION_RATIO;  // cm -> m，再求目标脉冲
-    float puise = (fabs(Get_Encoder_countB) + fabs(Get_Encoder_countA)) / 2.0;
+    float puise = (abs(Get_Encoder_countB) + abs(Get_Encoder_countA)) / 2.0;
 
     dist.now = puise;
     dist.target = pulse_tar;
@@ -279,7 +279,6 @@ void dist2_pid_control(float dist_tar_cm)  // 以“厘米”为单位
  * @param dist_tar_cm 目标位移（单位：厘米）
  * @return PID输出值（通常用于控制电机PWM）
  */
- static uint8_t stop_flag = 0;
  
 float dist_pid_control(float dist_tar_cm)
 {
@@ -303,6 +302,33 @@ void distloop_pid_control(float dist_tar, int base)
        motor_stop(); // 连续5次满足条件才停
     }
 }
+/*轮子一圈脉冲：编码器线序*倍频*减速比
+	13*2*28 = 728
+	每脉冲度数 = 360 ➗ 电机旋转一圈的编码器脉冲数
+*/
+/** 使用编码器进行pid转向 **/
+pid_t encoder_to_ang;
+float One_Wheel_angle = 360.0f / 728.0f;
 
+void encoder_to_angle(float angle_tar)
+{
+    encoder_to_ang.target = angle_tar / One_Wheel_angle;
+    encoder_to_ang.now = (Get_Encoder_countB - Get_Encoder_countA) / 2.0f;
+    
+    float error = encoder_to_ang.target - encoder_to_ang.now;
+
+    // 判断是否到达目标角度
+    if (fabsf(error) < 2.0f) // 允许误差小于 2 脉冲（视精度而定）
+    {
+        Motor_left_Control(0);   // 停止电机
+        Motor_right_Control(0);
+        return; // 不再执行 PID 控制
+    }
+
+    pid_cal(&encoder_to_ang);
+    pidout_limit(&encoder_to_ang, 3000);
+    Motor_left_Control( - encoder_to_ang.out);
+    Motor_right_Control( + encoder_to_ang.out);
+}
 
 

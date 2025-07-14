@@ -20,6 +20,8 @@
 #include "timer.h"
 #include "gray.h"
 #include "jy901s.h"
+#include "sr04.h"
+
 #include "pid.h"
 #include "position.h"
 #include "task.h"
@@ -29,8 +31,8 @@
 extern uint8_t motor_left_dir;
 extern uint8_t motor_right_dir;
 
-extern float Get_Encoder_countA;
-extern float Get_Encoder_countB;
+extern int Get_Encoder_countA;
+extern int Get_Encoder_countB;
 extern float carL_dis;
 extern float carR_dis;
 
@@ -48,5 +50,8 @@ extern float dis4;
 
 extern float speedA;
 extern float speedB;
+
+extern uint8_t stop_line;
+extern uint8_t stop_flag;
 
 #endif

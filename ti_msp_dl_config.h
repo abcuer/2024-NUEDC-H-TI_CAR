@@ -108,6 +108,11 @@ extern "C" {
 #define TIMER_1_INST_IRQHandler                                 TIMG0_IRQHandler
 #define TIMER_1_INST_INT_IRQN                                   (TIMG0_INT_IRQn)
 #define TIMER_1_INST_LOAD_VALUE                                           (279U)
+/* Defines for TIMER_2 */
+#define TIMER_2_INST                                                     (TIMA1)
+#define TIMER_2_INST_IRQHandler                                 TIMA1_IRQHandler
+#define TIMER_2_INST_INT_IRQN                                   (TIMA1_INT_IRQn)
+#define TIMER_2_INST_LOAD_VALUE                                           (799U)
 
 
 
@@ -232,6 +237,15 @@ extern "C" {
 /* Defines for R4: GPIOA.14 with pinCMx 36 on package pin 7 */
 #define Gray_IOA_R4_PIN                                         (DL_GPIO_PIN_14)
 #define Gray_IOA_R4_IOMUX                                        (IOMUX_PINCM36)
+/* Port definition for Pin Group SR04 */
+#define SR04_PORT                                                        (GPIOA)
+
+/* Defines for Trig: GPIOA.7 with pinCMx 14 on package pin 49 */
+#define SR04_Trig_PIN                                            (DL_GPIO_PIN_7)
+#define SR04_Trig_IOMUX                                          (IOMUX_PINCM14)
+/* Defines for Echo: GPIOA.28 with pinCMx 3 on package pin 35 */
+#define SR04_Echo_PIN                                           (DL_GPIO_PIN_28)
+#define SR04_Echo_IOMUX                                           (IOMUX_PINCM3)
 
 
 
@@ -244,6 +258,7 @@ void SYSCFG_DL_SYSCTL_init(void);
 void SYSCFG_DL_PWM_init(void);
 void SYSCFG_DL_TIMER_0_init(void);
 void SYSCFG_DL_TIMER_1_init(void);
+void SYSCFG_DL_TIMER_2_init(void);
 void SYSCFG_DL_UART_2_init(void);
 
 void SYSCFG_DL_SYSTICK_init(void);

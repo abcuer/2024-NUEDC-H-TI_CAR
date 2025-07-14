@@ -41,6 +41,8 @@ float basespeed = 0;
 uint8_t update_flag = 0;
 uint8_t dist_finished = 0;
 float speed_tar = 33.0;
+uint32_t Value = 0;
+int angle_tar = -50;
 
 int main(void)
 {
@@ -48,27 +50,34 @@ int main(void)
 	encoder_Init();
 	timerA_init();
 	timerG_init();
-	pid_Init(&angle, POSITION_PID, -0.35, -0, -0);
+//	Ultrasonic_Init();
+	
+	pid_Init(&angle, POSITION_PID, -0.16, -0, -0);
 	pid_Init(&trackLine, POSITION_PID, 0.45, 0, 0);
 	pid_Init(&dist, POSITION_PID, 0.2, 0, 0);
+	pid_Init(&encoder_to_ang, POSITION_PID, 1.5, 0, 0);
 	
 	while(1) 
 	{   
+//		encoder_to_angle(150);
 //		Key1 = Key_GetNum1();
 //		Key2 = Key_GetNum2();
-//		if(Key1) speed_tar -= 10;
-//		if(Key2) speed_tar += 10;
-		if(update_flag) 
-        {
-            update_flag = 0;
-			//speed2_pid_control(speed_tar);  //重调p和i
-			distloop_pid_control(20, 0);
-			printf("%.2f, %.2f\n",dist.now, dist.target);
-			//angleloop_pid_control(0, 300);
+//		if(Key1) angle_tar -= 45;
+//		if(Key2) angle_tar += 45;
+//		Value = (int)Hcsr04GetLength();
+//		if(update_flag) 
+//        {
+//            update_flag = 0;
+			//printf("Distance = %dCM\r\n", Value);
+//			speed2_pid_control(speed_tar);  
+			//distloop_pid_control(20, 0);
+			//printf("%.2f, %.2f, %d\n", speedA, speedB, Value);
+			//angleloop_pid_control(angle_tar, 0);
 			//trackloop_pid_control(0, 300);
-			
-        }
-			
+//        }
+		
+		
+
 		Key1 = Key_GetNum1();
 		Key2 = Key_GetNum2();
 		

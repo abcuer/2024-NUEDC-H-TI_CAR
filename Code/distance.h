@@ -4,5 +4,6 @@
 
 #define PI 3.14159265
 void distance(void);
+float get_distance(void);
 
 #endif

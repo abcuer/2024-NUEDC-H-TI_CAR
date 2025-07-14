@@ -24,6 +24,7 @@ typedef struct
 extern pid_t trackLine;
 extern pid_t angle;
 extern pid_t dist;
+extern pid_t encoder_to_ang;
 
 float PID_Increase(pid_t *pid, float Now, float Tar);
 void pid_Init(pid_t *pid, uint32_t mode, float p, float i, float d);
@@ -48,4 +49,5 @@ void dist2_pid_control(float dist_tar_cm);
 float dist_pid_control(float dist_tar_cm);
 void distloop_pid_control(float dist_tar, int base);
 
+void encoder_to_angle(float angle_tar);
 #endif
