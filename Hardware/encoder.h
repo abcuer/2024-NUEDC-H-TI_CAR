@@ -4,8 +4,6 @@
 #include "headfile.h"
 
 void encoder_Init(void);
-
-extern float Get_Encoder_countA;
-extern float Get_Encoder_countB;
+void distance(void);
 
 #endif

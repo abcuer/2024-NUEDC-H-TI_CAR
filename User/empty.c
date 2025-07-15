@@ -45,7 +45,6 @@ int main(void)
 	timerA_init();
 	timerG_init();
 
-	// 寻迹环
 	while(1) 
 	{   
 		Key1 = Key_GetNum1();
@@ -81,7 +80,6 @@ int main(void)
 				}
 			}
 		}
-		
 	}
 }
 
@@ -106,7 +104,7 @@ void TIMER_1_INST_IRQHandler(void)
 		if(DL_TIMER_IIDX_LOAD)
 		{	
 			// 初始化
-			if (start_flag == 1 && first_flag == 0)   initialize();
+			if (start_flag == 1 && first_flag == 0)   capture_initial_yaw();
 			UpdateSoundLight();
 		}
 	}

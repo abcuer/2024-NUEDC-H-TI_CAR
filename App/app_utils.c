@@ -6,7 +6,7 @@ uint8_t SoundLight_state = 0;
 uint8_t SoundLight_Cnt = 0;
 float angle_initial = 0;
 
-void initialize(void) 
+void capture_initial_yaw(void) 
 {
 		LED_Blue_ON();
 		delay_ms(50);

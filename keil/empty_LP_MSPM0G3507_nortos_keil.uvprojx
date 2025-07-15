@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>__MSPM0G3507__</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\source\third_party\CMSIS\Core\Include;..\..\source;..\Hardware;..\..\2024H_TI_CAR;..\User;..\Code</IncludePath>
+              <IncludePath>..\..\source\third_party\CMSIS\Core\Include;..\..\source;..\..\2024H_TI_CAR;..\App;..\Bsp;..\Control;..\Hardware;..\User</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -382,6 +382,31 @@
       </TargetOption>
       <Groups>
         <Group>
+          <GroupName>Bsp</GroupName>
+          <Files>
+            <File>
+              <FileName>board.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\board.c</FilePath>
+            </File>
+            <File>
+              <FileName>board.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Bsp\board.h</FilePath>
+            </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Bsp\timer.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Hardware</GroupName>
           <Files>
             <File>
@@ -403,16 +428,6 @@
               <FileName>led.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\led.h</FilePath>
-            </File>
-            <File>
-              <FileName>board.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\board.c</FilePath>
-            </File>
-            <File>
-              <FileName>board.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\board.h</FilePath>
             </File>
             <File>
               <FileName>buzzer.c</FileName>
@@ -445,16 +460,6 @@
               <FilePath>..\Hardware\encoder.h</FilePath>
             </File>
             <File>
-              <FileName>timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\timer.c</FilePath>
-            </File>
-            <File>
-              <FileName>timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\timer.h</FilePath>
-            </File>
-            <File>
               <FileName>gray.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\gray.c</FilePath>
@@ -477,47 +482,42 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Code</GroupName>
+          <GroupName>Control</GroupName>
           <Files>
             <File>
               <FileName>pid.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Code\pid.c</FilePath>
+              <FilePath>..\Control\pid.c</FilePath>
             </File>
             <File>
               <FileName>pid.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Code\pid.h</FilePath>
+              <FilePath>..\Control\pid.h</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>App</GroupName>
+          <Files>
             <File>
-              <FileName>position.c</FileName>
+              <FileName>app_task.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Code\position.c</FilePath>
+              <FilePath>..\App\app_task.c</FilePath>
             </File>
             <File>
-              <FileName>position.h</FileName>
+              <FileName>app_task.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Code\position.h</FilePath>
+              <FilePath>..\App\app_task.h</FilePath>
             </File>
             <File>
-              <FileName>task.c</FileName>
+              <FileName>app_utils.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Code\task.c</FilePath>
+              <FilePath>..\App\app_utils.c</FilePath>
             </File>
             <File>
-              <FileName>task.h</FileName>
+              <FileName>app_utils.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Code\task.h</FilePath>
-            </File>
-            <File>
-              <FileName>distance.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Code\distance.c</FilePath>
-            </File>
-            <File>
-              <FileName>distance.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Code\distance.h</FilePath>
+              <FilePath>..\App\app_utils.h</FilePath>
             </File>
           </Files>
         </Group>
