@@ -4,6 +4,5 @@
 #include "headfile.h"
 
 void encoder_Init(void);
-void distance(void);
 
 #endif

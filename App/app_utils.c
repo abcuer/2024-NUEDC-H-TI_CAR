@@ -2,9 +2,47 @@
 
 uint8_t SoundLight_flag = 0;
 uint16_t SoundLight_time = 0;
-uint8_t SoundLight_state = 0; 
-uint8_t SoundLight_Cnt = 0;
+extern uint8_t lap_count;
+
 float angle_initial = 0;
+
+void Task_select(void)
+{
+	
+	uint8_t Key = Key_GetNum();
+		
+	// 切换任务
+	if(start_flag == 0)
+	{
+		if (Key == 1) 
+		{
+			LED_Green_ON();
+			Task++;
+		}
+		if (Task > 4) Task = 0; 
+	}
+	if(Key == 2)
+	{
+		LED_Blue_ON();
+		start_flag = 1;
+	}
+
+	// 执行任务
+	if(start_flag == 1)
+	{
+		if(first_flag == 1)
+		{
+			switch(Task)
+			{
+				case 1: Task_1(); break;
+				case 2: Task_2(); break;
+				case 3: Task_3(); break;
+				case 4: Task_4(); break;
+			}
+		}
+	}
+}
+
 
 void capture_initial_yaw(void) 
 {
@@ -50,3 +88,23 @@ void UpdateSoundLight(void)
     }
 }
 
+extern int16_t turn_time;
+extern uint8_t turn_flag;
+
+void params_clear(void)
+{
+	Task = 0; 
+	lap_count = 0;
+	carL_dis = 0;
+	carR_dis = 0;
+	Get_Encoder_countA = 0;
+	Get_Encoder_countB = 0;
+	baisetime = 0;
+	turn_time = 0;
+	turn_flag = 0;
+	first_flag = 0;
+	start_flag = 0;
+	Line_flag = 0;
+	basespeed = 0;
+	workstep = 0;
+}

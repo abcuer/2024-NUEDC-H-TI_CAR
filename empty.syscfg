@@ -19,6 +19,7 @@ const GPIO6   = GPIO.addInstance();
 const GPIO7   = GPIO.addInstance();
 const GPIO8   = GPIO.addInstance();
 const GPIO9   = GPIO.addInstance();
+const GPIO10  = GPIO.addInstance();
 const PWM     = scripting.addModule("/ti/driverlib/PWM", {}, false);
 const PWM1    = PWM.addInstance();
 const SYSCTL  = scripting.addModule("/ti/driverlib/SYSCTL");
@@ -26,6 +27,7 @@ const SYSTICK = scripting.addModule("/ti/driverlib/SYSTICK");
 const TIMER   = scripting.addModule("/ti/driverlib/TIMER", {}, false);
 const TIMER1  = TIMER.addInstance();
 const TIMER2  = TIMER.addInstance();
+const TIMER3  = TIMER.addInstance();
 const UART    = scripting.addModule("/ti/driverlib/UART", {}, false);
 const UART1   = UART.addInstance();
 
@@ -169,6 +171,18 @@ GPIO9.associatedPins[0].direction   = "INPUT";
 GPIO9.associatedPins[0].assignedPin = "08";
 GPIO9.associatedPins[0].$name       = "R3";
 
+GPIO10.$name                          = "SR04";
+GPIO10.port                           = "PORTA";
+GPIO10.associatedPins.create(2);
+GPIO10.associatedPins[0].$name        = "Trig";
+GPIO10.associatedPins[0].initialValue = "SET";
+GPIO10.associatedPins[0].assignedPin  = "7";
+GPIO10.associatedPins[0].pin.$assign  = "PA7";
+GPIO10.associatedPins[1].$name        = "Echo";
+GPIO10.associatedPins[1].direction    = "INPUT";
+GPIO10.associatedPins[1].assignedPin  = "28";
+GPIO10.associatedPins[1].pin.$assign  = "PA28";
+
 PWM1.$name                              = "PWM";
 PWM1.clockDivider                       = 8;
 PWM1.pwmMode                            = "EDGE_ALIGN_UP";
@@ -218,6 +232,11 @@ TIMER2.interruptPriority  = "1";
 TIMER2.timerPeriod        = "7ms";
 TIMER2.peripheral.$assign = "TIMG0";
 
+TIMER3.$name            = "TIMER_2";
+TIMER3.timerClkDiv      = 4;
+TIMER3.timerPeriod      = "1 ms";
+TIMER3.timerClkPrescale = 10;
+
 UART1.$name                            = "UART_2";
 UART1.targetBaudRate                   = 115200;
 UART1.enabledInterrupts                = ["RX"];
@@ -244,3 +263,4 @@ Board.peripheral.swclkPin.$suggestSolution   = "PA20";
 Board.peripheral.swdioPin.$suggestSolution   = "PA19";
 GPIO6.associatedPins[1].pin.$suggestSolution = "PA8";
 GPIO9.associatedPins[0].pin.$suggestSolution = "PB8";
+TIMER3.peripheral.$suggestSolution           = "TIMA1";

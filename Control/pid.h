@@ -4,8 +4,8 @@
 
 enum
 {
-  POSITION_PID = 0,  // λ��ʽ
-  DELTA_PID,         // ����ʽ
+  POSITION_PID = 0, 
+  DELTA_PID,         
 };
 
 typedef struct
@@ -21,20 +21,14 @@ typedef struct
 
 }pid_t;
 
-extern pid_t motorA;
-extern pid_t motorB;
 extern pid_t trackLine;
 extern pid_t angle;
-
-void speed_pid_control(void);
-//void motor_target_set(int tarA, int tarB);
-void track2_pid_control(void);
-void angle_pid_control(float tar);
-void angle_correction(void);
+extern pid_t dist;
+extern pid_t encoder_to_ang;
 
 void pid_Init(pid_t *pid, uint32_t mode, float p, float i, float d);
+void pid_clear(pid_t *pid);
 void pid_cal(pid_t *pid);
 void pidout_limit(pid_t *pid, float duty);
-//void track2_pid_control(void);
 
 #endif

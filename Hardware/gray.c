@@ -8,7 +8,7 @@ int16_t LineFlagCNT = 0;
 
 uint8_t L4,L3,L2,L1,R1,R2,R3,R4;
 
-void Gray_Init(void) 
+void Gray_Read(void) 
 {
     R4 = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_R4_PIN) ? 0 : 1;
     R3 = DL_GPIO_readPins(Gray_IOB_PORT, Gray_IOB_R3_PIN) ? 0 : 1;

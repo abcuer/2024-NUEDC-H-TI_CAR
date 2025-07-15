@@ -42,6 +42,7 @@
 
 DL_TimerG_backupConfig gPWMBackup;
 DL_TimerA_backupConfig gTIMER_0Backup;
+DL_TimerA_backupConfig gTIMER_2Backup;
 
 /*
  *  ======== SYSCFG_DL_init ========
@@ -56,11 +57,13 @@ SYSCONFIG_WEAK void SYSCFG_DL_init(void)
     SYSCFG_DL_PWM_init();
     SYSCFG_DL_TIMER_0_init();
     SYSCFG_DL_TIMER_1_init();
+    SYSCFG_DL_TIMER_2_init();
     SYSCFG_DL_UART_2_init();
     SYSCFG_DL_SYSTICK_init();
     /* Ensure backup structures have no valid state */
 	gPWMBackup.backupRdy 	= false;
 	gTIMER_0Backup.backupRdy 	= false;
+	gTIMER_2Backup.backupRdy 	= false;
 
 
 }
@@ -74,6 +77,7 @@ SYSCONFIG_WEAK bool SYSCFG_DL_saveConfiguration(void)
 
 	retStatus &= DL_TimerG_saveConfiguration(PWM_INST, &gPWMBackup);
 	retStatus &= DL_TimerA_saveConfiguration(TIMER_0_INST, &gTIMER_0Backup);
+	retStatus &= DL_TimerA_saveConfiguration(TIMER_2_INST, &gTIMER_2Backup);
 
     return retStatus;
 }
@@ -85,6 +89,7 @@ SYSCONFIG_WEAK bool SYSCFG_DL_restoreConfiguration(void)
 
 	retStatus &= DL_TimerG_restoreConfiguration(PWM_INST, &gPWMBackup, false);
 	retStatus &= DL_TimerA_restoreConfiguration(TIMER_0_INST, &gTIMER_0Backup, false);
+	retStatus &= DL_TimerA_restoreConfiguration(TIMER_2_INST, &gTIMER_2Backup, false);
 
     return retStatus;
 }
@@ -96,6 +101,7 @@ SYSCONFIG_WEAK void SYSCFG_DL_initPower(void)
     DL_TimerG_reset(PWM_INST);
     DL_TimerA_reset(TIMER_0_INST);
     DL_TimerG_reset(TIMER_1_INST);
+    DL_TimerA_reset(TIMER_2_INST);
     DL_UART_Main_reset(UART_2_INST);
 
 
@@ -104,6 +110,7 @@ SYSCONFIG_WEAK void SYSCFG_DL_initPower(void)
     DL_TimerG_enablePower(PWM_INST);
     DL_TimerA_enablePower(TIMER_0_INST);
     DL_TimerG_enablePower(TIMER_1_INST);
+    DL_TimerA_enablePower(TIMER_2_INST);
     DL_UART_Main_enablePower(UART_2_INST);
 
     delay_cycles(POWER_STARTUP_DELAY);
@@ -194,12 +201,20 @@ SYSCONFIG_WEAK void SYSCFG_DL_GPIO_init(void)
 		 DL_GPIO_INVERSION_DISABLE, DL_GPIO_RESISTOR_NONE,
 		 DL_GPIO_HYSTERESIS_DISABLE, DL_GPIO_WAKEUP_DISABLE);
 
+    DL_GPIO_initDigitalOutput(SR04_Trig_IOMUX);
+
+    DL_GPIO_initDigitalInputFeatures(SR04_Echo_IOMUX,
+		 DL_GPIO_INVERSION_DISABLE, DL_GPIO_RESISTOR_NONE,
+		 DL_GPIO_HYSTERESIS_DISABLE, DL_GPIO_WAKEUP_DISABLE);
+
     DL_GPIO_clearPins(GPIOA, LED_Blue_PIN |
 		LED_Green_PIN);
-    DL_GPIO_setPins(GPIOA, BUZZER_Buzzer_PIN);
+    DL_GPIO_setPins(GPIOA, BUZZER_Buzzer_PIN |
+		SR04_Trig_PIN);
     DL_GPIO_enableOutput(GPIOA, BUZZER_Buzzer_PIN |
 		LED_Blue_PIN |
-		LED_Green_PIN);
+		LED_Green_PIN |
+		SR04_Trig_PIN);
     DL_GPIO_setLowerPinsPolarity(GPIOA, DL_GPIO_PIN_9_EDGE_RISE |
 		DL_GPIO_PIN_8_EDGE_RISE);
     DL_GPIO_setLowerPinsInputFilter(GPIOA, DL_GPIO_PIN_2_INPUT_FILTER_8_CYCLES);
@@ -368,6 +383,42 @@ SYSCONFIG_WEAK void SYSCFG_DL_TIMER_1_init(void) {
     DL_TimerG_enableInterrupt(TIMER_1_INST , DL_TIMERG_INTERRUPT_LOAD_EVENT);
 	NVIC_SetPriority(TIMER_1_INST_INT_IRQN, 1);
     DL_TimerG_enableClock(TIMER_1_INST);
+
+
+
+
+
+}
+
+/*
+ * Timer clock configuration to be sourced by BUSCLK /  (8000000 Hz)
+ * timerClkFreq = (timerClkSrc / (timerClkDivRatio * (timerClkPrescale + 1)))
+ *   800000 Hz = 8000000 Hz / (4 * (9 + 1))
+ */
+static const DL_TimerA_ClockConfig gTIMER_2ClockConfig = {
+    .clockSel    = DL_TIMER_CLOCK_BUSCLK,
+    .divideRatio = DL_TIMER_CLOCK_DIVIDE_4,
+    .prescale    = 9U,
+};
+
+/*
+ * Timer load value (where the counter starts from) is calculated as (timerPeriod * timerClockFreq) - 1
+ * TIMER_2_INST_LOAD_VALUE = (1 ms * 800000 Hz) - 1
+ */
+static const DL_TimerA_TimerConfig gTIMER_2TimerConfig = {
+    .period     = TIMER_2_INST_LOAD_VALUE,
+    .timerMode  = DL_TIMER_TIMER_MODE_ONE_SHOT,
+    .startTimer = DL_TIMER_STOP,
+};
+
+SYSCONFIG_WEAK void SYSCFG_DL_TIMER_2_init(void) {
+
+    DL_TimerA_setClockConfig(TIMER_2_INST,
+        (DL_TimerA_ClockConfig *) &gTIMER_2ClockConfig);
+
+    DL_TimerA_initTimerMode(TIMER_2_INST,
+        (DL_TimerA_TimerConfig *) &gTIMER_2TimerConfig);
+    DL_TimerA_enableClock(TIMER_2_INST);
 
 
 

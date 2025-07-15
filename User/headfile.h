@@ -9,6 +9,7 @@
 #include "stdio.h"
 #include "string.h"
 #include "stdint.h"
+#include "stdlib.h"
 /******************* BSP **********************/
 #include "board.h"
 #include "timer.h"
@@ -20,18 +21,22 @@
 #include "encoder.h"
 #include "gray.h"
 #include "jy901s.h"
+#include "sr04.h"
 /***************** Control *******************/
 #include "pid.h"
+#include "speed.h"
+#include "angle.h"
+#include "gray_track.h"
+#include "distance.h"
 /***************** App ***********************/
 #include "app_utils.h"
 #include "app_task.h"
 
-
 extern uint8_t motor_left_dir;
 extern uint8_t motor_right_dir;
 
-extern float Get_Encoder_countA;
-extern float Get_Encoder_countB;
+extern int Get_Encoder_countA;
+extern int Get_Encoder_countB;
 extern float carL_dis;
 extern float carR_dis;
 
@@ -44,7 +49,7 @@ extern float angle_initial;
 extern int16_t baisetime;
 extern uint8_t workstep;
 
-extern float dis3;
-extern float dis4;
+extern float speedA;
+extern float speedB;
 
 #endif

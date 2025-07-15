@@ -479,6 +479,16 @@
               <FileType>5</FileType>
               <FilePath>..\Hardware\jy901s.h</FilePath>
             </File>
+            <File>
+              <FileName>sr04.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\sr04.c</FilePath>
+            </File>
+            <File>
+              <FileName>sr04.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\sr04.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -493,6 +503,46 @@
               <FileName>pid.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Control\pid.h</FilePath>
+            </File>
+            <File>
+              <FileName>speed.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control\speed.c</FilePath>
+            </File>
+            <File>
+              <FileName>speed.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Control\speed.h</FilePath>
+            </File>
+            <File>
+              <FileName>angle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control\angle.c</FilePath>
+            </File>
+            <File>
+              <FileName>angle.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Control\angle.h</FilePath>
+            </File>
+            <File>
+              <FileName>gray_track.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control\gray_track.c</FilePath>
+            </File>
+            <File>
+              <FileName>gray_track.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Control\gray_track.h</FilePath>
+            </File>
+            <File>
+              <FileName>distance.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control\distance.c</FilePath>
+            </File>
+            <File>
+              <FileName>distance.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Control\distance.h</FilePath>
             </File>
           </Files>
         </Group>

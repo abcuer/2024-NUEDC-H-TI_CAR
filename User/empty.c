@@ -31,8 +31,8 @@
  */
 #include "headfile.h"
 
-uint8_t Key1 = 0;
-uint8_t Key2 = 0;
+
+
 uint8_t Task = 0;
 uint8_t start_flag = 0;
 uint8_t first_flag = 0;
@@ -47,39 +47,7 @@ int main(void)
 
 	while(1) 
 	{   
-		Key1 = Key_GetNum1();
-		Key2 = Key_GetNum2();
-		
-		// 切换任务
-		if(start_flag == 0)
-		{
-			if (Key1 == 1) 
-			{
-				LED_Green_ON();
-				Task++;
-			}
-			if (Task > 4) Task = 0; 
-		}
-		if(Key2 == 1)
-		{
-			LED_Blue_ON();
-			start_flag = 1;
-		}
-    
-		// 执行任务
-		if(start_flag == 1)
-		{
-			if(first_flag == 1)
-			{
-				switch(Task)
-				{
-					case 1: Task_1(); break;
-					case 2: Task_2(); break;
-					case 3: Task_3(); break;
-					case 4: Task_4(); break;
-				}
-			}
-		}
+		Task_select();
 	}
 }
 
@@ -91,8 +59,8 @@ void TIMER_0_INST_IRQHandler(void)
 	{
 		if(DL_TIMER_IIDX_ZERO) 
 		{	
-			Gray_Init();
-			speed_pid_control();
+			Gray_Read();
+			Key_Tick();
 		}
 	}
 }

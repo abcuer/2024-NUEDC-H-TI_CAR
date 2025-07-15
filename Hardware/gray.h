@@ -2,7 +2,7 @@
 #define _gray_h
 #include "headfile.h"
 
-void Gray_Init(void);
+void Gray_Read(void);
 void Get_Light_TTL(void);
 
 extern uint8_t L4;
