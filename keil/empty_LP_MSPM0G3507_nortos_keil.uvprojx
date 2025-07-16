@@ -569,6 +569,16 @@
               <FileType>5</FileType>
               <FilePath>..\App\app_utils.h</FilePath>
             </File>
+            <File>
+              <FileName>test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\test.c</FilePath>
+            </File>
+            <File>
+              <FileName>test.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\App\test.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

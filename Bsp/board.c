@@ -16,8 +16,6 @@
 #define RE_0_BUFF_LEN_MAX 128
 
 volatile uint8_t recv0_buff[RE_0_BUFF_LEN_MAX] = {0};
-volatile uint16_t recv0_length = 0;
-volatile uint8_t recv0_flag = 0;
 
 void board_init(void)
 {
@@ -36,21 +34,18 @@ void board_init(void)
     // printf("Board Init Success\r\n");
 }
 
-// ����δ�ʱ��ʵ�ֵľ�ȷus��ʱ
 void delay_us(unsigned long __us)
 {
     uint32_t ticks;
     uint32_t told, tnow, tcnt = 38;
-
-    // ������Ҫ��ʱ���� = �ӳ�΢���� * ÿ΢���ʱ����
+	
     ticks = __us * (32000000 / 1000000);
 
-    // ��ȡ��ǰ��SysTickֵ
+
     told = SysTick->VAL;
 
     while (1)
     {
-        // �ظ�ˢ�»�ȡ��ǰ��SysTickֵ
         tnow = SysTick->VAL;
 
         if (tnow != told)
@@ -62,13 +57,12 @@ void delay_us(unsigned long __us)
 
             told = tnow;
 
-            // ����ﵽ����Ҫ��ʱ���������˳�ѭ��
             if (tcnt >= ticks)
                 break;
         }
     }
 }
-// ����δ�ʱ��ʵ�ֵľ�ȷms��ʱ
+
 void delay_ms(unsigned long ms)
 {
     delay_us(ms * 1000);
@@ -77,19 +71,18 @@ void delay_ms(unsigned long ms)
 void delay_1us(unsigned long __us) { delay_us(__us); }
 void delay_1ms(unsigned long ms) { delay_ms(ms); }
 
-// ���ڷ��͵����ַ�
+
 void uart0_send_char(char ch)
 {
-    // ������0æ��ʱ��ȴ�����æ��ʱ���ٷ��ʹ��������ַ�
-    while (DL_UART_isBusy(UART_2_INST) == true)
-        ;
-    // ���͵����ַ�
+
+    while (DL_UART_isBusy(UART_2_INST) == true);
+
     DL_UART_Main_transmitData(UART_2_INST, ch);
 }
-// ���ڷ����ַ���
+
 void uart0_send_string(char *str)
 {
-    // ��ǰ�ַ�����ַ���ڽ�β ���� �ַ����׵�ַ��Ϊ��
+
     while (*str != 0 && str != 0)
     {
         // �����ַ����׵�ַ�е��ַ��������ڷ������֮���׵�ַ����
@@ -139,7 +132,6 @@ void UART_2_INST_IRQHandler(void)
 
         uart_data = DL_UART_Main_receiveData(UART_2_INST);
         jy901s_ReceiveData(uart_data);
-        recv0_flag = 1;
         break;
 
     default:

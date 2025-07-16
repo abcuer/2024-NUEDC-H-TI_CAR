@@ -4,6 +4,7 @@ static uint8_t RxBuffer[11];
 static volatile uint8_t RxState = 0;
 static uint8_t RxIndex = 0;
 float Roll,Pitch,Yaw;
+extern uint8_t Yaw_update; 
 
 void jy901s_ReceiveData(uint8_t RxData)
 {
@@ -40,6 +41,7 @@ void jy901s_ReceiveData(uint8_t RxData)
 //				Roll = ((int16_t) ((int16_t) RxBuffer[3] << 8 | (int16_t) RxBuffer[2])) / 32768.0f * 180.0f;
 //				Pitch = ((int16_t) ((int16_t) RxBuffer[5] << 8 | (int16_t) RxBuffer[4])) / 32768.0f * 180.0f;
 				Yaw = ((int16_t) ((int16_t) RxBuffer[7] << 8 | (int16_t) RxBuffer[6])) / 32768.0f * 180.0f ;
+				Yaw_update = 1;
  			}
 			RxState = 0;
 			RxIndex = 0;	

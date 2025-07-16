@@ -47,6 +47,7 @@ int main(void)
 
 	while(1) 
 	{   
+		test();
 		Task_select();
 	}
 }
@@ -60,6 +61,7 @@ void TIMER_0_INST_IRQHandler(void)
 		if(DL_TIMER_IIDX_ZERO) 
 		{	
 			Gray_Read();
+			PID_select();
 			Key_Tick();
 		}
 	}
@@ -71,7 +73,6 @@ void TIMER_1_INST_IRQHandler(void)
 	{
 		if(DL_TIMER_IIDX_LOAD)
 		{	
-			// 初始化
 			if (start_flag == 1 && first_flag == 0)   capture_initial_yaw();
 			UpdateSoundLight();
 		}

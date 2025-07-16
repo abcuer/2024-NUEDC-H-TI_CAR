@@ -1,8 +1,5 @@
 #include "pid.h"
 
-uint8_t motor_left_dir = 1;
-uint8_t motor_right_dir = 1;
-
 void pid_Init(pid_t *pid, uint32_t mode, float p, float i, float d)
 {
 	pid->pid_mode = mode;
@@ -23,7 +20,6 @@ void pid_clear(pid_t *pid)
     pid->now = 0;
     pid->target = 0;
 }
-
 
 void pid_cal(pid_t *pid)
 {
@@ -53,4 +49,32 @@ void pidout_limit(pid_t *pid, float duty)
 	if(pid->out >= duty)	pid->out = duty;
 	if(pid->out <= -duty) pid->out = -duty;
 }
+
+uint8_t pid_flag = 0;
+float speed_tar = 0;
+float angle_tar = 0;
+uint8_t Yaw_update = 0;
+
+void PID_select(void)
+{
+	switch(pid_flag)
+	{
+		case SPEED_PID:
+			speed2_pid_control(speed_tar);
+			break;
+		case ANGLE_PID:
+			if(Yaw_update)
+			{
+				angleloop_pid_control(angle_tar, basespeed);
+				Yaw_update = 0;
+			}
+			break;
+		case TRACK_PID:
+			trackloop_pid_control(0, basespeed);
+			break;
+		default:
+			break;
+	}
+}
+
 

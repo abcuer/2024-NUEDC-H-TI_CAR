@@ -14,7 +14,7 @@ void Task_1(void)
 	switch(workstep)
 	{
 		case 0: 
-			//参数初始化
+			SoundLight();
 			
 			workstep++;
 			break;

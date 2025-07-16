@@ -21,6 +21,7 @@ typedef struct
 
 }pid_t;
 
+
 extern pid_t trackLine;
 extern pid_t angle;
 extern pid_t dist;
@@ -30,5 +31,6 @@ void pid_Init(pid_t *pid, uint32_t mode, float p, float i, float d);
 void pid_clear(pid_t *pid);
 void pid_cal(pid_t *pid);
 void pidout_limit(pid_t *pid, float duty);
+void PID_select(void);
 
 #endif

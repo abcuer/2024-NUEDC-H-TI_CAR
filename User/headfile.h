@@ -31,12 +31,19 @@
 /***************** App ***********************/
 #include "app_utils.h"
 #include "app_task.h"
+#include "test.h"
+
+#define SPEED_PID 	1
+#define ANGLE_PID 	2
+#define TRACK_PID 	3
+
 
 extern uint8_t motor_left_dir;
 extern uint8_t motor_right_dir;
-
 extern int Get_Encoder_countA;
 extern int Get_Encoder_countB;
+extern float speedA;
+extern float speedB;
 extern float carL_dis;
 extern float carR_dis;
 
@@ -49,7 +56,8 @@ extern float angle_initial;
 extern int16_t baisetime;
 extern uint8_t workstep;
 
-extern float speedA;
-extern float speedB;
+extern uint8_t pid_flag;
+extern float speed_tar;
+extern float angle_tar;
 
 #endif
