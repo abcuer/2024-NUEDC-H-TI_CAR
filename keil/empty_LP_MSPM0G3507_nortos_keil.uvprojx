@@ -410,16 +410,6 @@
           <GroupName>Hardware</GroupName>
           <Files>
             <File>
-              <FileName>key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\key.c</FilePath>
-            </File>
-            <File>
-              <FileName>key.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\key.h</FilePath>
-            </File>
-            <File>
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\led.c</FilePath>
@@ -430,6 +420,16 @@
               <FilePath>..\Hardware\led.h</FilePath>
             </File>
             <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\key.c</FilePath>
+            </File>
+            <File>
+              <FileName>key.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\key.h</FilePath>
+            </File>
+            <File>
               <FileName>buzzer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\buzzer.c</FilePath>
@@ -438,6 +438,21 @@
               <FileName>buzzer.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\buzzer.h</FilePath>
+            </File>
+            <File>
+              <FileName>oled.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\oled.c</FilePath>
+            </File>
+            <File>
+              <FileName>oled.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\oled.h</FilePath>
+            </File>
+            <File>
+              <FileName>oledfont.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\oledfont.h</FilePath>
             </File>
             <File>
               <FileName>motor.c</FileName>
@@ -488,6 +503,16 @@
               <FileName>sr04.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\sr04.h</FilePath>
+            </File>
+            <File>
+              <FileName>hc05.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\hc05.c</FilePath>
+            </File>
+            <File>
+              <FileName>hc05.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\hc05.h</FilePath>
             </File>
           </Files>
         </Group>

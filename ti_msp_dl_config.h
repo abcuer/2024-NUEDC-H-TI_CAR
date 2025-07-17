@@ -132,6 +132,22 @@ extern "C" {
 #define UART_2_BAUD_RATE                                                (115200)
 #define UART_2_IBRD_32_MHZ_115200_BAUD                                      (17)
 #define UART_2_FBRD_32_MHZ_115200_BAUD                                      (23)
+/* Defines for UART_0 */
+#define UART_0_INST                                                        UART0
+#define UART_0_INST_FREQUENCY                                           32000000
+#define UART_0_INST_IRQHandler                                  UART0_IRQHandler
+#define UART_0_INST_INT_IRQN                                      UART0_INT_IRQn
+#define GPIO_UART_0_RX_PORT                                                GPIOA
+#define GPIO_UART_0_TX_PORT                                                GPIOA
+#define GPIO_UART_0_RX_PIN                                         DL_GPIO_PIN_1
+#define GPIO_UART_0_TX_PIN                                         DL_GPIO_PIN_0
+#define GPIO_UART_0_IOMUX_RX                                      (IOMUX_PINCM2)
+#define GPIO_UART_0_IOMUX_TX                                      (IOMUX_PINCM1)
+#define GPIO_UART_0_IOMUX_RX_FUNC                       IOMUX_PINCM2_PF_UART0_RX
+#define GPIO_UART_0_IOMUX_TX_FUNC                       IOMUX_PINCM1_PF_UART0_TX
+#define UART_0_BAUD_RATE                                                (115200)
+#define UART_0_IBRD_32_MHZ_115200_BAUD                                      (17)
+#define UART_0_FBRD_32_MHZ_115200_BAUD                                      (23)
 
 
 
@@ -246,6 +262,15 @@ extern "C" {
 /* Defines for Echo: GPIOA.28 with pinCMx 3 on package pin 35 */
 #define SR04_Echo_PIN                                           (DL_GPIO_PIN_28)
 #define SR04_Echo_IOMUX                                           (IOMUX_PINCM3)
+/* Port definition for Pin Group OLED */
+#define OLED_PORT                                                        (GPIOA)
+
+/* Defines for SCL: GPIOA.24 with pinCMx 54 on package pin 25 */
+#define OLED_SCL_PIN                                            (DL_GPIO_PIN_24)
+#define OLED_SCL_IOMUX                                           (IOMUX_PINCM54)
+/* Defines for SDA: GPIOA.25 with pinCMx 55 on package pin 26 */
+#define OLED_SDA_PIN                                            (DL_GPIO_PIN_25)
+#define OLED_SDA_IOMUX                                           (IOMUX_PINCM55)
 
 
 
@@ -260,6 +285,7 @@ void SYSCFG_DL_TIMER_0_init(void);
 void SYSCFG_DL_TIMER_1_init(void);
 void SYSCFG_DL_TIMER_2_init(void);
 void SYSCFG_DL_UART_2_init(void);
+void SYSCFG_DL_UART_0_init(void);
 
 void SYSCFG_DL_SYSTICK_init(void);
 

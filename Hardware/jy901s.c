@@ -1,10 +1,16 @@
-#include "jy901s.h"
+#include "headfile.h"
 
 static uint8_t RxBuffer[11];
 static volatile uint8_t RxState = 0;
 static uint8_t RxIndex = 0;
 float Roll,Pitch,Yaw;
 extern uint8_t Yaw_update; 
+
+void jy901s_Init(void)
+{
+	NVIC_ClearPendingIRQ(UART_2_INST_INT_IRQN);
+    NVIC_EnableIRQ(UART_2_INST_INT_IRQN);
+}
 
 void jy901s_ReceiveData(uint8_t RxData)
 {
@@ -48,4 +54,22 @@ void jy901s_ReceiveData(uint8_t RxData)
 		}
 	}
 }
+
+void UART_2_INST_IRQHandler(void)
+{
+    switch( DL_UART_getPendingInterrupt(UART_2_INST) )
+    {
+		uint8_t jy901s_data =0;
+        case DL_UART_IIDX_RX:
+
+            jy901s_data = DL_UART_Main_receiveData(UART_2_INST);
+			jy901s_ReceiveData(jy901s_data);
+			//uart0_send_char(jy901s_data);
+            break;
+
+		default:
+            break;
+    }
+}
+
 

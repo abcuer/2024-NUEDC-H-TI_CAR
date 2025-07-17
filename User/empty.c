@@ -31,8 +31,6 @@
  */
 #include "headfile.h"
 
-
-
 uint8_t Task = 0;
 uint8_t start_flag = 0;
 uint8_t first_flag = 0;
@@ -41,10 +39,11 @@ float basespeed = 0;
 int main(void)
 {
 	board_init(); // 延迟 串口
+	OLED_Init();
 	encoder_Init();
 	timerA_init();
 	timerG_init();
-
+	
 	while(1) 
 	{   
 		test();

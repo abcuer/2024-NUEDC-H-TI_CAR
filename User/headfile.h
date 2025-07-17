@@ -22,6 +22,8 @@
 #include "gray.h"
 #include "jy901s.h"
 #include "sr04.h"
+#include "hc05.h"
+#include "oled.h"
 /***************** Control *******************/
 #include "pid.h"
 #include "speed.h"
@@ -59,5 +61,8 @@ extern uint8_t workstep;
 extern uint8_t pid_flag;
 extern float speed_tar;
 extern float angle_tar;
+
+extern uint8_t hc05_data;
+extern uint8_t hc05_flag;
 
 #endif

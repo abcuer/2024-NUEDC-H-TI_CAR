@@ -10,8 +10,7 @@
  * 2024-06-26     LCKFB     first version
  */
 #include "board.h"
-#include "stdio.h"
-#include "jy901s.h"
+#include "headfile.h"
 
 #define RE_0_BUFF_LEN_MAX 128
 
@@ -19,19 +18,9 @@ volatile uint8_t recv0_buff[RE_0_BUFF_LEN_MAX] = {0};
 
 void board_init(void)
 {
-    // SYSCFG��ʼ��
     SYSCFG_DL_init();
-    // ��������жϱ�־
-    NVIC_ClearPendingIRQ(UART_2_INST_INT_IRQN);
-    // ʹ�ܴ����ж�
-    NVIC_EnableIRQ(UART_2_INST_INT_IRQN);
-
-    //	//UART0->printf
-    //	NVIC_ClearPendingIRQ(UART_0_INST_INT_IRQN);
-    //	//ʹ�ܴ����ж�
-    //	NVIC_EnableIRQ(UART_0_INST_INT_IRQN);
-
-    // printf("Board Init Success\r\n");
+	HC05_Init();
+	jy901s_Init();
 }
 
 void delay_us(unsigned long __us)
@@ -75,9 +64,9 @@ void delay_1ms(unsigned long ms) { delay_ms(ms); }
 void uart0_send_char(char ch)
 {
 
-    while (DL_UART_isBusy(UART_2_INST) == true);
+    while (DL_UART_isBusy(UART_0_INST) == true);
 
-    DL_UART_Main_transmitData(UART_2_INST, ch);
+    DL_UART_Main_transmitData(UART_0_INST, ch);
 }
 
 void uart0_send_string(char *str)
@@ -121,39 +110,6 @@ int fputc(int ch, FILE *stream)
     return ch;
 }
 
-// ���ڵ��жϷ�����
-void UART_2_INST_IRQHandler(void)
-{
-    uint8_t uart_data = 0;
 
-    switch (DL_UART_getPendingInterrupt(UART_2_INST))
-    {
-    case DL_UART_IIDX_RX:
 
-        uart_data = DL_UART_Main_receiveData(UART_2_INST);
-        jy901s_ReceiveData(uart_data);
-        break;
 
-    default:
-        break;
-    }
-}
-
-// void UART_0_INST_IRQHandler(void)
-//{
-//	uint8_t uart_data = 0;
-//
-//     switch( DL_UART_getPendingInterrupt(UART_0_INST) )
-//     {
-//         case DL_UART_IIDX_RX:
-//
-//
-//             uart_data = DL_UART_Main_receiveData(UART_0_INST);
-//
-//             uart0_send_char(uart_data);
-//             break;
-
-//        default:
-//            break;
-//    }
-//}
