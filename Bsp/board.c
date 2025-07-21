@@ -12,54 +12,57 @@
 #include "board.h"
 #include "headfile.h"
 
-#define RE_0_BUFF_LEN_MAX 128
+//#define RE_0_BUFF_LEN_MAX 128
 
-volatile uint8_t recv0_buff[RE_0_BUFF_LEN_MAX] = {0};
+//volatile uint8_t recv0_buff[RE_0_BUFF_LEN_MAX] = {0};
 
 void board_init(void)
 {
     SYSCFG_DL_init();
-	HC05_Init();
-	jy901s_Init();
 }
 
-void delay_us(unsigned long __us)
-{
-    uint32_t ticks;
-    uint32_t told, tnow, tcnt = 38;
-	
-    ticks = __us * (32000000 / 1000000);
+//void delay_us(unsigned long __us)
+//{
+//    uint32_t ticks;
+//    uint32_t told, tnow, tcnt = 38;
+//	
+//    ticks = __us * (32000000 / 1000000);
 
 
-    told = SysTick->VAL;
+//    told = SysTick->VAL;
 
-    while (1)
-    {
-        tnow = SysTick->VAL;
+//    while (1)
+//    {
+//        tnow = SysTick->VAL;
 
-        if (tnow != told)
-        {
-            if (tnow < told)
-                tcnt += told - tnow;
-            else
-                tcnt += SysTick->LOAD - tnow + told;
+//        if (tnow != told)
+//        {
+//            if (tnow < told)
+//                tcnt += told - tnow;
+//            else
+//                tcnt += SysTick->LOAD - tnow + told;
 
-            told = tnow;
+//            told = tnow;
 
-            if (tcnt >= ticks)
-                break;
-        }
-    }
-}
+//            if (tcnt >= ticks)
+//                break;
+//        }
+//    }
+//}
 
-void delay_ms(unsigned long ms)
-{
-    delay_us(ms * 1000);
-}
+//void delay_ms(unsigned long ms)
+//{
+//    delay_us(ms * 1000);
+//}
 
-void delay_1us(unsigned long __us) { delay_us(__us); }
-void delay_1ms(unsigned long ms) { delay_ms(ms); }
+//void delay_1us(unsigned long __us) { delay_us(__us); }
+//void delay_1ms(unsigned long ms) { delay_ms(ms); }
 
+void delay_us(uint32_t __us) { delay_cycles( (CPUCLK_FREQ / 1000 / 1000)*__us); }
+void delay_ms(uint32_t __ms) { delay_cycles( (CPUCLK_FREQ / 1000)*__ms); }
+
+void delay_1us(uint32_t __us) { delay_cycles( (CPUCLK_FREQ / 1000 / 1000)*__us); }
+void delay_1ms(uint32_t __ms) { delay_cycles( (CPUCLK_FREQ / 1000)*__ms); }
 
 void uart0_send_char(char ch)
 {

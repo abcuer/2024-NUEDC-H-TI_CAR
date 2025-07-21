@@ -1,5 +1,10 @@
 #include "headfile.h"
 
+#define PWM_Limit 1220
+
+float VelcityA_Ki = 7, VelcityA_Kp = 0.0;
+float VelcityB_Ki = 7.5, VelcityB_Kp = 0.0;
+
 float speedA = 0;
 float speedB = 0;
 
@@ -13,8 +18,8 @@ void speed_cal(float filter_alpha)
     int32_t deltaB = nowB - last_countB;
     last_countA = nowA;
     last_countB = nowB;
-    float raw_speedA = ((float)deltaA / ENCODER_RESOLUTION) * (PI * 0.065f) / 0.008f;
-    float raw_speedB = ((float)deltaB / ENCODER_RESOLUTION) * (PI * 0.065f) / 0.008f;
+    float raw_speedA = ((float)deltaA / ENCODER_RESOLUTION) * (PI * 0.065f) / 0.01f;
+    float raw_speedB = ((float)deltaB / ENCODER_RESOLUTION) * (PI * 0.065f) / 0.01f;
     // 静态变量保存上一次的速度
     static float last_speedA = 0;
     static float last_speedB = 0;
@@ -25,8 +30,6 @@ void speed_cal(float filter_alpha)
     last_speedB = speedB;
 }
 
-float VelcityA_Ki = 10.2, VelcityA_Kp = 0.02;
-float VelcityB_Ki = 9.6 , VelcityB_Kp = 0.03;
 /***************************************************************************
 函数功能：电机的PID闭环控制
 入口参数：左右电机的编码器值
@@ -35,14 +38,14 @@ float VelcityB_Ki = 9.6 , VelcityB_Kp = 0.03;
 
 int Velocity_A(int TargetVelocity, int CurrentVelocity)
 {  
-    int Bias;  //定义相关变量
-	static int ControlVelocityA, Last_biasA; //静态变量，函数调用结束后其值依然存在
-	Bias=TargetVelocity-CurrentVelocity; 
-	ControlVelocityA+=VelcityA_Ki*(Bias-Last_biasA)+VelcityA_Kp*Bias;  //增量式PI控制器														
-	Last_biasA=Bias;	
-	if(ControlVelocityA>340) ControlVelocityA=340;
-	else if(ControlVelocityA<-340) ControlVelocityA=-340;
-	return ControlVelocityA; //返回速度控制值
+    float Bias;
+    static float ControlVelocityA = 0.0f, Last_biasA = 0.0f;
+    Bias = (float)(TargetVelocity - CurrentVelocity); 
+    ControlVelocityA += VelcityA_Ki * (Bias - Last_biasA) + VelcityA_Kp * Bias;
+    Last_biasA = Bias;
+    if(ControlVelocityA >= PWM_Limit) ControlVelocityA = PWM_Limit;
+    else if(ControlVelocityA <= -PWM_Limit) ControlVelocityA = -PWM_Limit;
+    return (int)ControlVelocityA;
 }
 
 /***************************************************************************
@@ -50,21 +53,23 @@ int Velocity_A(int TargetVelocity, int CurrentVelocity)
 入口参数：左右电机的编码器值
 返回值  ：电机的PWM
 ***************************************************************************/
+
 int Velocity_B(int TargetVelocity, int CurrentVelocity)
 {  
-    int Bias;  //定义相关变量
-	static int ControlVelocityB, Last_biasB; //静态变量，函数调用结束后其值依然存在
-	Bias=TargetVelocity-CurrentVelocity; 
-	ControlVelocityB += VelcityB_Ki*(Bias-Last_biasB) + VelcityB_Kp*Bias;  //增量式PI控制器														
-	Last_biasB=Bias;	
-	if(ControlVelocityB>340) ControlVelocityB=340;
-	else if(ControlVelocityB<-340) ControlVelocityB=-340;
-	return ControlVelocityB; //返回速度控制值
+    float Bias;
+    static float ControlVelocityB = 0.0f, Last_biasB = 0.0f;
+    Bias = (float)(TargetVelocity - CurrentVelocity); 
+    ControlVelocityB += VelcityB_Ki * (Bias - Last_biasB) + VelcityB_Kp * Bias;
+    Last_biasB = Bias;
+    // 限幅
+    if(ControlVelocityB >= PWM_Limit) ControlVelocityB = PWM_Limit;
+    else if(ControlVelocityB <= -PWM_Limit) ControlVelocityB = -PWM_Limit;
+    return (int)ControlVelocityB;
 }
 
 void speed2_pid_control(int speed_tar)
 {
-	speed_cal(0.5);
+	speed_cal(0.2);
 	float PWMA = Velocity_A(speed_tar, speedA);
 	float PWMB = Velocity_B(speed_tar, speedB);
 	if(PWMA > 0) motor_left_dir = 1; 	else motor_left_dir = 0;
@@ -75,7 +80,7 @@ void speed2_pid_control(int speed_tar)
 
 void speed_pid_control(int speed_tar, int base)
 {
-	speed_cal(0.5);
+	speed_cal(0.2);
 	if (abs(speed_tar) < 5) speed_tar = 0;
 	float PWMA = base - Velocity_A(speed_tar, speedA);
 	float PWMB = base + Velocity_B(speed_tar, speedB);

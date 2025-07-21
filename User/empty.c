@@ -31,23 +31,50 @@
  */
 #include "headfile.h"
 
+
 uint8_t Task = 0;
 uint8_t start_flag = 0;
 uint8_t first_flag = 0;
 float basespeed = 0;
+uint8_t time_10ms = 0;
+
+float ypr[3];          // 上传yaw pitch roll的值
+ extern uint32_t nowtime;
 
 int main(void)
 {
+	unsigned char buff[10] = {0};
 	board_init(); // 延迟 串口
+	jy901s_Init();
+	delay_ms(100);//等待部署
+	IMU_init();
+	timer3_init();
+	delay_ms(20);
 	OLED_Init();
+	HC05_Init();
+	
 	encoder_Init();
-	timerA_init();
-	timerG_init();
+	timer0_init();
+	timer1_init();
+//	Ultrasonic_Init();
+	//SPI 模式接线
+// PA10------------------------MISO
+// PB17------------------------MOSI
+// PA11------------------------SCLK
+// PA29------------------------CS
 	
 	while(1) 
 	{   
-		test();
-		Task_select();
+		IMU_getYawPitchRoll(ypr);
+        printf("%.2f, %.2f, %.2f\r\n",ypr[0]-20.78,ypr[1],ypr[2]);
+        delay_ms(10);
+//		test();
+//		if(time_10ms)
+//		{
+//			test();
+//			time_10ms = 0;
+//		}
+	//	Task_select();
 	}
 }
 
@@ -59,9 +86,9 @@ void TIMER_0_INST_IRQHandler(void)
 	{
 		if(DL_TIMER_IIDX_ZERO) 
 		{	
-			Gray_Read();
 			PID_select();
 			Key_Tick();
+			time_10ms = 1;
 		}
 	}
 }
@@ -79,4 +106,17 @@ void TIMER_1_INST_IRQHandler(void)
 }
 
 
-
+void TIMER_3_INST_IRQHandler(void)
+{
+	switch(DL_TimerG_getPendingInterrupt(TIMER_3_INST))
+	{
+		case DL_TIMER_IIDX_ZERO:
+			nowtime++;
+			LED_Blue_ON();
+			DL_TimerG_clearInterruptStatus(TIMER_3_INST, DL_TIMER_IIDX_ZERO);
+		break;
+		default:
+			
+		break;
+	}
+}

@@ -15,7 +15,7 @@ void Task_1(void)
 	{
 		case 0: 
 			SoundLight();
-			
+			//test();
 			workstep++;
 			break;
 		

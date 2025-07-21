@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>__MSPM0G3507__</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\source\third_party\CMSIS\Core\Include;..\..\source;..\..\2024H_TI_CAR;..\App;..\Bsp;..\Control;..\Hardware;..\User</IncludePath>
+              <IncludePath>..\..\source\third_party\CMSIS\Core\Include;..\..\source;..\..\TI_CAR;..\App;..\Bsp;..\Control;..\Hardware;..\User;..\Hardware\ICM45686;..\Hardware\ICM45686\IMU</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -403,6 +403,16 @@
               <FileName>timer.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Bsp\timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\bsp_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_spi.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Bsp\bsp_spi.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -513,6 +523,66 @@
               <FileName>hc05.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\hc05.h</FilePath>
+            </File>
+            <File>
+              <FileName>IMU.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\ICM45686\IMU\IMU.c</FilePath>
+            </File>
+            <File>
+              <FileName>IMU.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\ICM45686\IMU\IMU.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ICM45686</GroupName>
+          <Files>
+            <File>
+              <FileName>inv_imu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\ICM45686\inv_imu.h</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_defs.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\ICM45686\inv_imu_defs.h</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\ICM45686\inv_imu_driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_driver.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\ICM45686\inv_imu_driver.h</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_regmap_le.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\ICM45686\inv_imu_regmap_le.h</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_transport.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\ICM45686\inv_imu_transport.c</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_transport.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\ICM45686\inv_imu_transport.h</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_version.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\ICM45686\inv_imu_version.h</FilePath>
+            </File>
+            <File>
+              <FileName>basic_read_reg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\ICM45686\basic_read_reg.c</FilePath>
             </File>
           </Files>
         </Group>

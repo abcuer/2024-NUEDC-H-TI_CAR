@@ -57,16 +57,13 @@ void jy901s_ReceiveData(uint8_t RxData)
 
 void UART_2_INST_IRQHandler(void)
 {
+	uint8_t jy901s_data =0;
     switch( DL_UART_getPendingInterrupt(UART_2_INST) )
     {
-		uint8_t jy901s_data =0;
         case DL_UART_IIDX_RX:
-
             jy901s_data = DL_UART_Main_receiveData(UART_2_INST);
 			jy901s_ReceiveData(jy901s_data);
-			//uart0_send_char(jy901s_data);
-            break;
-
+			break;
 		default:
             break;
     }

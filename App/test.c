@@ -1,5 +1,34 @@
 #include "headfile.h"
 
+/************************ 超声波获取 ***************************/
+void test(void)
+{
+		uint32_t Value = (int)Hcsr04GetLength();
+
+        printf("%d\r\n", Value);
+
+        delay_ms(10);
+}
+
+
+/************************ 速度环调参 ***************************/
+//void test()
+//{
+//	speed_tar = 30;
+//	pid_flag = SPEED_PID;
+//}
+
+/************************ 速度环调参 ***************************/
+//void test()
+//{
+//	basespeed = 250;
+//	pid_flag = TRACK_MIDDLELINE;
+////	printf("%.2f, %.2f\r\n", speedA, -speedB);
+//}
+
+
+
+
 /*   串口通讯测试
 void test(void)
 {
@@ -25,12 +54,13 @@ void test(void)
 	pid_flag = SPEED_PID;
 }
 */
-void test(void)
-{
-	OLED_ShowString(0,0,(uint8_t *)"ABC",8,1);//6*8 “ABC”
-	OLED_ShowString(0,8,(uint8_t *)"ABC",12,1);//6*12 “ABC”
-	OLED_ShowString(0,20,(uint8_t *)"ABC",16,1);//8*16 “ABC”
-	OLED_ShowString(0,36,(uint8_t *)"I LOVE YOU",24,1);//12*24 “ABC”
-	OLED_Refresh();
-	delay_ms(20);
-}
+/************************ LED驱动测试 ***************************/
+//void test(void)
+//{
+//	OLED_ShowString(0,0,(uint8_t *)"ABC",8,1);//6*8 “ABC”
+//	OLED_ShowString(0,8,(uint8_t *)"ABC",12,1);//6*12 “ABC”
+//	OLED_ShowString(0,20,(uint8_t *)"ABC",16,1);//8*16 “ABC”
+//	OLED_ShowString(0,36,(uint8_t *)"I LOVE YOU",24,1);//12*24 “ABC”
+//	OLED_Refresh();
+//	delay_ms(20);
+//}

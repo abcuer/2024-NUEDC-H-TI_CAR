@@ -16,16 +16,24 @@ void Task_select(void)
 	{
 		if (Key == 1) 
 		{
+			speed_tar+=10;
 			LED_Green_ON();
 			Task++;
 		}
+		if(Key == 2)
+		{
+			speed_tar-=10;
+			LED_Blue_ON();
+			start_flag = 1;
+		}
+		if(Key == 3)
+		{
+		
+		}
 		if (Task > 4) Task = 0; 
 	}
-	if(Key == 2)
-	{
-		LED_Blue_ON();
-		start_flag = 1;
-	}
+	
+	
 
 	// Ö´ĞĞÈÎÎñ
 	if(start_flag == 1)

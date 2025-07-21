@@ -51,8 +51,8 @@ void pidout_limit(pid_t *pid, float duty)
 }
 
 uint8_t pid_flag = 0;
-float speed_tar = 0;
-float angle_tar = 0;
+int speed_tar = 0;
+int angle_tar = 0;
 uint8_t Yaw_update = 0;
 
 void PID_select(void)
@@ -71,6 +71,9 @@ void PID_select(void)
 			break;
 		case TRACK_PID:
 			trackloop_pid_control(0, basespeed);
+			break;
+		case TRACK_MIDDLELINE:
+			trackloop2_pid_control(0, basespeed);
 			break;
 		default:
 			break;

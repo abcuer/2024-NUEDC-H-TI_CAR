@@ -23,6 +23,7 @@ typedef struct
 
 
 extern pid_t trackLine;
+extern pid_t trackLine2;
 extern pid_t angle;
 extern pid_t dist;
 extern pid_t encoder_to_ang;

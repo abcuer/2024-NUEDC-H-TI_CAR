@@ -4,7 +4,7 @@
 // 角度环
 pid_t angle;
 
-int ang = 0;
+int16_t ang = 0;
 
 void angle_correction(void)
 {
@@ -28,7 +28,7 @@ void angle_correction(void)
 	}
 }
 
-int angle_pid_control(float tar)
+int angle_pid_control(int tar)
 {
 	angle.target = tar;
 	ang = Yaw;
@@ -40,7 +40,7 @@ int angle_pid_control(float tar)
 }
 
 //*  串级角度环  */
-void angleloop_pid_control(float angle_tar, int base)
+void angleloop_pid_control(int angle_tar, int base)
 {
 	int speed_tar = angle_pid_control(angle_tar);  // 74°实际90°160°实际 180°
 	speed_pid_control(speed_tar, base);

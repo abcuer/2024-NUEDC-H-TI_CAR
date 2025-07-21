@@ -24,6 +24,7 @@
 #include "sr04.h"
 #include "hc05.h"
 #include "oled.h"
+#include "IMU.h"
 /***************** Control *******************/
 #include "pid.h"
 #include "speed.h"
@@ -38,7 +39,7 @@
 #define SPEED_PID 	1
 #define ANGLE_PID 	2
 #define TRACK_PID 	3
-
+#define TRACK_MIDDLELINE 	4
 
 extern uint8_t motor_left_dir;
 extern uint8_t motor_right_dir;
@@ -59,8 +60,8 @@ extern int16_t baisetime;
 extern uint8_t workstep;
 
 extern uint8_t pid_flag;
-extern float speed_tar;
-extern float angle_tar;
+extern int speed_tar;
+extern int angle_tar;
 
 extern uint8_t hc05_data;
 extern uint8_t hc05_flag;
