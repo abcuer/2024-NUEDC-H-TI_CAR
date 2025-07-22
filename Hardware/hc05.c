@@ -1,5 +1,5 @@
 #include "headfile.h"
-uint8_t hc05_data = 0, hc05_flag = 0;
+//uint8_t hc05_data = 0, hc05_flag = 0;
 
 void HC05_Init(void)
 {

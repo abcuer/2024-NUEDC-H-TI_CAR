@@ -63,7 +63,9 @@ extern uint8_t pid_flag;
 extern int speed_tar;
 extern int angle_tar;
 
-extern uint8_t hc05_data;
-extern uint8_t hc05_flag;
+//extern uint8_t hc05_data;
+//extern uint8_t hc05_flag;
+
+extern uint32_t nowtime;
 
 #endif

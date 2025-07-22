@@ -1,15 +1,19 @@
 #include "headfile.h"
+/************************ ICM42688SPI驱动 ***************************/
+//void test(void)
+//{
+//	float ypr[3];          // 上传yaw pitch roll的值
+//	IMU_getYawPitchRoll(ypr);
+//	printf("%.2f\r\n",ypr[0]);
+//	delay_ms(10);
+//}
 
 /************************ 超声波获取 ***************************/
 void test(void)
 {
 		uint32_t Value = (int)Hcsr04GetLength();
-
         printf("%d\r\n", Value);
-
-        delay_ms(10);
 }
-
 
 /************************ 速度环调参 ***************************/
 //void test()

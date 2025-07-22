@@ -101,7 +101,6 @@ void TIMER_2_INST_IRQHandler(void)
 volatile float t = 0;
 float Hcsr04GetLength(void)
 {
-        /*测5次数据计算一次平均值*/
         volatile float length = 0;
 		t = 0;
         volatile float sum = 0;
@@ -112,7 +111,7 @@ float Hcsr04GetLength(void)
 //        while(i != 3)  // 减少测量次数，加快频率
 //		{
 			SR04_TRIG(0);
-			delay_1us(10);
+			delay_1us(15);
 			SR04_TRIG(1);
 			delay_1us(15);
 			SR04_TRIG(0);
