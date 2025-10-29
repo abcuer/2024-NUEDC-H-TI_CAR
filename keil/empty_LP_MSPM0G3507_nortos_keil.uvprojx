@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>__MSPM0G3507__</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\source\third_party\CMSIS\Core\Include;..\..\source;..\..\2024H_TI_CAR;..\App;..\Bsp;..\Control;..\Hardware;..\User</IncludePath>
+              <IncludePath>..\..\source\third_party\CMSIS\Core\Include;..\..\source;..\..\2024-NUEDC-H-TI_CAR;..\App;..\Bsp;..\Control;..\Hardware;..\User</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
