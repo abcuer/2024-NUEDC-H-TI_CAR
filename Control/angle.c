@@ -35,7 +35,7 @@ static float Yaw_Normalize(float yaw)
 void AnglePidCtrl(float tar)
 {
 	angle_pid.target = tar;
-	angle_pid.now = Yaw_Normalize(jy901s.yaw); 
+	angle_pid.now = Yaw_Normalize(jy901s.yaw - ang_offset); 
 	PID_Calculate(&angle_pid);
 	PID_OutPutLimit(&angle_pid, 500);
 	Motor_LeftCtrl(basespeed - angle_pid.out);

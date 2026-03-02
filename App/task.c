@@ -28,7 +28,7 @@ void FirstTask(void)
 			while(line_flag == 0)
 			{				
 				Gray_ProcessLine();
-				AnglePidCtrl(ang_offset);
+				AnglePidCtrl(0);
 			}
 			workstep++;
 			break;
@@ -66,7 +66,7 @@ void SecondTask(void)
 			while(line_flag == 0)
 			{				
 				Gray_ProcessLine();
-				AnglePidCtrl(ang_offset);
+				AnglePidCtrl(0);
 			}
 			workstep++;
 			break;
@@ -88,7 +88,7 @@ void SecondTask(void)
 			while(line_flag == 0)
 			{				
 				Gray_ProcessLine();
-				AnglePidCtrl(ang_offset);
+				AnglePidCtrl(0);
 			}
 			workstep++;
 			break;
