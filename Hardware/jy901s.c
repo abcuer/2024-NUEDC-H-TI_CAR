@@ -42,8 +42,8 @@ void IMU_ParseData(uint8_t data)
 			}
 			if(sum == buffer[10])		
 			{
-				jy901s.roll = ((int16_t) ((int16_t) buffer[3] << 8 | (int16_t) buffer[2])) / 32768.0f * 180.0f;
-				jy901s.pitch = ((int16_t) ((int16_t) buffer[5] << 8 | (int16_t) buffer[4])) / 32768.0f * 180.0f;
+//				jy901s.roll = ((int16_t) ((int16_t) buffer[3] << 8 | (int16_t) buffer[2])) / 32768.0f * 180.0f;
+//				jy901s.pitch = ((int16_t) ((int16_t) buffer[5] << 8 | (int16_t) buffer[4])) / 32768.0f * 180.0f;
 				jy901s.yaw = ((int16_t) ((int16_t) buffer[7] << 8 | (int16_t) buffer[6])) / 32768.0f * 180.0f ;
  			}
 			state = 0;
@@ -60,7 +60,7 @@ float ang_offset = 0.0f;
  */
 void IMU_YawCalibrate(void) 
 {
-    const uint8_t sample_count = 50; 
+    const uint8_t sample_count = 100; 
     float sum = 0.0f;
     // 视觉反馈：开始校准
     SetLedMode(LED_BLUE, LED_ON);

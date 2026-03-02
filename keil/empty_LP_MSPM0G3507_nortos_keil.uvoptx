@@ -622,8 +622,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Control\pid.c</PathWithFileName>
-      <FilenameWithoutPath>pid.c</FilenameWithoutPath>
+      <PathWithFileName>..\Control\dist.c</PathWithFileName>
+      <FilenameWithoutPath>dist.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -634,8 +634,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Control\pid.h</PathWithFileName>
-      <FilenameWithoutPath>pid.h</FilenameWithoutPath>
+      <PathWithFileName>..\Control\dist.h</PathWithFileName>
+      <FilenameWithoutPath>dist.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -646,8 +646,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Control\dist.c</PathWithFileName>
-      <FilenameWithoutPath>dist.c</FilenameWithoutPath>
+      <PathWithFileName>..\Control\pid.c</PathWithFileName>
+      <FilenameWithoutPath>pid.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -658,8 +658,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Control\dist.h</PathWithFileName>
-      <FilenameWithoutPath>dist.h</FilenameWithoutPath>
+      <PathWithFileName>..\Control\pid.h</PathWithFileName>
+      <FilenameWithoutPath>pid.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -699,7 +699,7 @@
 
   <Group>
     <GroupName>Source</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

@@ -12,6 +12,6 @@ float carR_dis = 0;
 
 void Car_GetDistance(void)
 {
-	carR_dis = wheel.count * -Get_Encoder_countB;
-	carL_dis = wheel.count * Get_Encoder_countA;
+	carR_dis = wheel.count * -encoder_right_count;
+	carL_dis = wheel.count * encoder_left_count;
 }

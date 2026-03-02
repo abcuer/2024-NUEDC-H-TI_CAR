@@ -1,8 +1,75 @@
-# 2024电子设计大赛H题智能小车
-## 校赛完赛，实测第4问寄录35秒
+# 🚗 惯性导航+巡线自动行驶小车 -24电赛H题
+## 完赛实测：任务四总用时35秒
 
-## [PCB开源地址](https://u.lceda.cn/account/user/projects/index/members?project=a21ed0727ad447719ecbd93959d565b7&folder=all)
-## [B站测评视频](https://www.bilibili.com/video/BV1xQNzzUEWS/?spm_id_from=333.1387.homepage.video_card.click)
+## [bilibili视频演示](https://www.bilibili.com/video/BV1xQNzzUEWS/?spm_id_from=333.1387.homepage.video_card.click)
+## [嘉立创EDA开源](https://u.lceda.cn/account/user/projects/index/members?project=a21ed0727ad447719ecbd93959d565b7&folder=all)
+
+
+## 本项目基于 **TI MSPM0G3507** 微控制器开发，旨在通过 **JY901S 陀螺仪**、**电机编码器**以及 **8 路灰度传感器**的融合控制，实现小车在复杂赛道上的高精度定距、定向及巡线行驶。
+
+---
+
+## 🏎️ 核心算法逻辑 (Development Logic)
+
+为了解决传统单任务代码难以维护（“史山代码”）的问题，本项目采用了**分层模块化**与**有限状态机 (FSM)** 的设计思想。
+
+### 1. 基础动作原子 (Action Primitives)
+我们将复杂的任务拆解为四个可重用的动作模块：
+* **直行模式 (Gyro Straight)**：利用 JY901S 陀螺仪提供偏航角反馈，通过 `AnglePidCtrl` 实现偏航角闭环，确保在无引导区保持航向。
+* **寻迹模式 (Line Tracking)**：采样 8 路灰度传感器数据，通过位置 PID 算法实时修正舵机/差速。
+* **定距行驶 (Encoder Odometer)**：基于霍尔编码器数据进行物理位移积分，用于斜穿任务的里程控制。
+* **节点触发 (Event Trigger)**：通过 `Line_flag` 状态切换和声光反馈（蜂鸣器+LED）确保节点到达的物理确认。
+
+
+
+---
+
+## 📋 任务实现说明 (Task Implementation)
+
+### ■ 任务 1：定向直行与边界识别
+* **控制链**：`记录初始角` -> `陀螺仪闭环直行` -> `灰度边缘检测` -> `刹停反馈`。
+* **要点**：利用陀螺仪补偿机械结构不对称带来的跑偏问题。
+
+### ■ 任务 2：混合模式循环 (S型/环形)
+* **核心逻辑**：采用 **直行-寻迹-直行-寻迹** 的循环状态机。
+* **切换机制**：通过 `Line_flag` 实时捕捉黑线边界。进入黑线区自动切换为寻迹 PID，离开黑线区（检测到全白）立即切回角度闭环，解决弯道衔接处的失控风险。
+
+### ■ 任务 3：非对称对角线穿越
+* **运动模型**：`原地旋转` -> `定距行驶` -> `触线寻迹`。
+* **技术细节**：预设 `angle3/angle4` 目标角，通过编码器记录里程。在到达预设距离后开始“探测”黑线，实现斜向切入巡线轨迹。
+
+### ■ 任务 4：高速动态补偿循环
+* **优化策略**：
+    1.  **速度增益**：显著提升 `basespeed` 基准，并匹配高频响应 PID 参数。
+    2.  **动态补偿表**：针对高速行驶下的物理惯性累积误差，通过查表法（Lookup Table）随圈数动态调整目标角度与里程。
+    3.  **非阻塞执行**：全流程采用步进状态机，确保传感器采样频率不受逻辑延时干扰。
+
+---
+
+## 🛠️ 控制方案 (Control Schemes)
+
+项目中集成了多套闭环控制系统：
+
+| 控制环路 | 输入传感器 | 输出目标 | 核心作用 |
+| :--- | :--- | :--- | :--- |
+| **角度环 (Angle PID)** | JY901S (Yaw) | 左右电机差速 | 保持绝对航向，修正物理偏移 |
+| **寻迹环 (Track PID)** | 8路灰度传感器 | 左右电机差速 | 拟合黑线中心偏差，精准巡线 |
+| **速度环 (Speed PID)** | 霍尔编码器 | PWM 占空比 | 恒定速度控制，消除电池压降影响 |
+
+---
+
+## 🚀 性能优化亮点 (Optimization)
+
+* **状态机解耦**：将 Task 3 与 Task 4 逻辑抽象化，通过同一个执行器管理，降低了维护难度。
+* **查表法补偿**：在 Task 4 中使用数组管理每圈的修正值（角度、距离），调试时无需修改代码逻辑。
+* **防御性编程**：引入 `TimeLimit` 超时保护与 `Reset_Task_System` 统一清理函数，增强系统健壮性。
+
+---
+
+## 💡 使用与调试建议
+1.  **静态校准**：启动任务前请确保小车静止，以校准陀螺仪零位。
+2.  **补偿微调**：若 Task 4 出现漂移，可直接修改 `task.c` 中的 `d_angle` 和 `d_dis` 补偿数组。
+3.  **模式切换**：通过按键切换 `task_num` 后，按下启动键即可进入对应的状态机。
 
 ![d38a10215564251673b585ed0c2ac42](./.doc/photo/d38a10215564251673b585ed0c2ac42.jpg)
 ![cea49113ae89ae7cbaa048b8cb9e474](./.doc/photo/cea49113ae89ae7cbaa048b8cb9e474.jpg)
@@ -22,45 +89,3 @@
 - [JY901S陀螺仪 95](https://item.taobao.com/item.htm?abbucket=6&detail_redpacket_pop=true&id=634627673077&mi_id=4Kb87-z7TCx2-DuZBA56ROhXsyTLYCrWl6l3UglVKY-xE590neXJVL8gisLgBI8V0c3kANH6-0mKgDesihpaM75EdhCf3QxuAOlFRwjFuYA&ns=1&priceTId=213e044b17493956041348474e1ad6&query=jy901s&spm=0.0.hoverItem.2&utparam=%7B%22aplus_abtest%22%3A%226236e30c9cf4fa25a4801a56e6362764%22%7D&xxc=taobaoSearch)
 - [8路灰度传感器 75](https://item.taobao.com/item.htm?priceTId=214781c017493956529718475e1276&utparam=%7B%22aplus_abtest%22%3A%22e86892cadfe917d1c232a5338da27738%22%7D&id=700000730878&ns=1&abbucket=6&xxc=taobaoSearch&detail_redpacket_pop=true&query=%E6%95%A2%E4%B8%BA%E7%A7%91%E6%8A%80%E7%81%B0%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8&mi_id=p3He12ED41BoUwQOr7vR21XaLhReCuepgX4MajEkEOxjyq5xV9Y_moLfE82nuwRw_kPHd1LA84ykjoJCPls3oy6Z6cMh0HvyamA4lBNaC2I&skuId=5768776477755&spm=0.0.hoverItem.3)
 - [12V锂电池 22](https://item.taobao.com/item.htm?id=562015429673)
-
-## <span style="background-color:#FFA500; color:white; padding:2px 6px; border-radius:3px;">任务点实现思路</span>
-
-### ■  任务1
-- 将任务选择按键切换至“任务点1”，按下启动按键。
-- 等待小车记录初始角度 angle_initial，此时标志位 Line_flag = 0。
-- 记录完成后，小车以设定速度前进，并基于 JY901S 陀螺仪数据进行角度闭环控制，保持以初始角度直行。
-- 同时启用灰度传感器检测黑线，一旦检测到黑线，执行刹停操作，并通过蜂鸣器与 LED 灯进行声光反馈。
-
-### ■  任务2
-- 将任务选择按键切换至“任务点2”，按下启动按键。
-
-- 等待小车记录初始角度 angle_initial，此时标志位 Line_flag = 0。
-
-- 记录完成后，小车以设定速度前进，并基于 JY901S 陀螺仪数据进行角度闭环控制，保持以初始角度直行。
-
-- 同时启用灰度传感器检测黑线，一旦检测到黑线，设置标志位 Line_flag = 1，同时触发声光反馈。
-
-- 当 Line_flag = 1 时，小车进入寻迹模式，使用灰度传感器结合 PID 控制实现巡线行驶。
-
-- 寻迹完成后，将 Line_flag 设为 0，再次触发声光反馈，小车重新进入直行模式，继续基于陀螺仪的角度闭环控制。
-
-- 再次检测到黑线后，执行声光反馈操作，将 Line_flag 设为 1，重复步骤 5~6 的寻迹流程。
-
-### ■ 任务3
--  将任务选择按键切换至“任务点3”，按下启动按键。
-
-- 等待小车记录初始角度 angle_initial，此时标志位 Line_flag = 0。
-
-- 记录完成后，小车以 angle3(angle4) 为目标角度，在TimeLimit时限内原地右转，之后打开电机编码器，基于 JY901S 陀螺仪进行角度闭环控制，开始直行。
-
-- 在直行过程中记录行驶里程，达到目标里程后，调整方向，以 8° (-5°) 为目标继续直行。同时启用灰度传感器检测黑线，一旦检测到黑线，设置标志位 Line_flag = 1，触发声光反馈。
-
-- 当 Line_flag = 1 时，小车进入寻迹模式，使用灰度传感器结合 PID 控制实现巡线行驶。
-
-- 寻迹完成后，将 Line_flag 设为 0，并再次触发声光反馈。
-
-- 重复执行上述流程，实现循环运行。
-
-### ■ 任务4
-- 基于任务3的逻辑实现，提高电机给定速度。
-- 执行完整的任务3流程共 4 次，每次均包含角度记录、直行、里程判断、黑线检测、寻迹等完整动作。

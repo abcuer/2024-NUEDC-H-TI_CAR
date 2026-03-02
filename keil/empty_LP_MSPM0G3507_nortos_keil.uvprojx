@@ -560,16 +560,6 @@
               <FilePath>..\Control\speed.h</FilePath>
             </File>
             <File>
-              <FileName>pid.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Control\pid.c</FilePath>
-            </File>
-            <File>
-              <FileName>pid.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Control\pid.h</FilePath>
-            </File>
-            <File>
               <FileName>dist.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Control\dist.c</FilePath>
@@ -578,6 +568,16 @@
               <FileName>dist.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Control\dist.h</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control\pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Control\pid.h</FilePath>
             </File>
           </Files>
         </Group>

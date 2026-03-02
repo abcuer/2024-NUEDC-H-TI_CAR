@@ -5,7 +5,7 @@
 
 void EncoderInit(void);
 
-extern float Get_Encoder_countA;
-extern float Get_Encoder_countB;
+extern float encoder_left_count;
+extern float encoder_right_count;
 
 #endif

@@ -3,7 +3,7 @@
 #include "ti_msp_dl_config.h"
 
 int16_t white_time = 0;
-uint8_t white_line = 0;
+uint8_t black_line = 0;
 uint8_t line_flag = 0;
 
 GRAY_Struct gray = {0};
@@ -27,20 +27,20 @@ void Gray_ProcessLine(void)
     if(gray.right[0] || gray.right[1] || gray.right[2] || gray.right[3] || 
        gray.left[0]  || gray.left[1]  || gray.left[2]  || gray.left[3])
     {
-        white_line++;
-        // 连续识别到多次，确认检测到线
-        if(white_line >= 3)
+        black_line++;
+        // 连续识别到多次，确认检测到黑线
+        if(black_line >= 3)
         {
             line_flag = 1;
             white_time = 0;
-            white_line = 0;
+            black_line = 0;
         }
     }
     else if(white_time >= MAXCNT)
     {
         // 超过一定时间没检测到，判定为丢线
-        line_flag = 0;
         white_time = 0;
-        white_line = 0; 
+        black_line = 0; 
+		line_flag = 0;
     }
 }
