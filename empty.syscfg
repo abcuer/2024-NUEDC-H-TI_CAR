@@ -39,12 +39,10 @@ GPIO1.port                               = "PORTA";
 GPIO1.$name                              = "LED";
 GPIO1.associatedPins.create(2);
 GPIO1.associatedPins[0].internalResistor = "PULL_DOWN";
-GPIO1.associatedPins[0].$name            = "Blue";
 GPIO1.associatedPins[0].assignedPin      = "26";
-GPIO1.associatedPins[0].pin.$assign      = "PA26";
-GPIO1.associatedPins[1].$name            = "Green";
+GPIO1.associatedPins[0].$name            = "BLUE";
 GPIO1.associatedPins[1].assignedPin      = "27";
-GPIO1.associatedPins[1].pin.$assign      = "PA27";
+GPIO1.associatedPins[1].$name            = "GREEN";
 
 const Board = scripting.addModule("/ti/driverlib/Board", {}, false);
 
@@ -52,17 +50,15 @@ GPIO2.port                               = "PORTA";
 GPIO2.$name                              = "KEY";
 GPIO2.associatedPins.create(2);
 GPIO2.associatedPins[0].direction        = "INPUT";
-GPIO2.associatedPins[0].$name            = "task";
 GPIO2.associatedPins[0].internalResistor = "PULL_UP";
 GPIO2.associatedPins[0].inputFilter      = "8_CYCLES";
 GPIO2.associatedPins[0].assignedPin      = "02";
-GPIO2.associatedPins[0].pin.$assign      = "PA2";
+GPIO2.associatedPins[0].$name            = "TASK";
 GPIO2.associatedPins[1].direction        = "INPUT";
-GPIO2.associatedPins[1].$name            = "start";
 GPIO2.associatedPins[1].internalResistor = "PULL_UP";
 GPIO2.associatedPins[1].inputFilter      = "8_CYCLES";
 GPIO2.associatedPins[1].assignedPin      = "31";
-GPIO2.associatedPins[1].pin.$assign      = "PA31";
+GPIO2.associatedPins[1].$name            = "START";
 
 GPIO3.port                           = "PORTA";
 GPIO3.$name                          = "BUZZER";
@@ -239,8 +235,12 @@ UART1.rxPinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric1";
  * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
  * re-solve from scratch.
  */
+GPIO1.associatedPins[0].pin.$suggestSolution = "PA26";
+GPIO1.associatedPins[1].pin.$suggestSolution = "PA27";
 Board.peripheral.$suggestSolution            = "DEBUGSS";
 Board.peripheral.swclkPin.$suggestSolution   = "PA20";
 Board.peripheral.swdioPin.$suggestSolution   = "PA19";
+GPIO2.associatedPins[0].pin.$suggestSolution = "PA2";
+GPIO2.associatedPins[1].pin.$suggestSolution = "PA31";
 GPIO6.associatedPins[1].pin.$suggestSolution = "PA8";
 GPIO9.associatedPins[0].pin.$suggestSolution = "PB8";

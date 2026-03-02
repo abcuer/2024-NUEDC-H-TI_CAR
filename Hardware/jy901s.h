@@ -2,8 +2,15 @@
 #define __JY901S_H
 #include "ti_msp_dl_config.h"
 
-void jy901s_ReceiveData(uint8_t RxData);
+typedef struct {
+	float pitch;
+	float roll;
+	float yaw;
+} EulerAngle_Struct;
 
-extern float Roll,Pitch,Yaw;
+void IMU_ParseData(uint8_t data);
+void IMU_YawCalibrate(void) ;
+
+extern EulerAngle_Struct jy901s;
 
 #endif

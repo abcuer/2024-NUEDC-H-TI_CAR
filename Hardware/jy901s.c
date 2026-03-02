@@ -1,49 +1,84 @@
 #include "jy901s.h"
+#include "delay.h"
+#include "led.h"
+#include "buzzer.h"
+#include "utils.h"
 
-static uint8_t RxBuffer[11];
-static volatile uint8_t RxState = 0;
-static uint8_t RxIndex = 0;
-float Roll,Pitch,Yaw;
+EulerAngle_Struct jy901s = {0.0f};
 
-void jy901s_ReceiveData(uint8_t RxData)
+void IMU_ParseData(uint8_t data)
 {
-	uint8_t i,sum=0;
-	if (RxState == 0)	
+	static uint8_t buffer[11];
+	static volatile uint8_t state = 0;
+	static uint8_t index = 0;
+	uint8_t i = 0, sum=0;
+	
+	if (state == 0)	
 	{
-		if (RxData == 0x55)	
+		if (data == 0x55)	
 		{
-			RxBuffer[RxIndex] = RxData;
-			RxState = 1;
-			RxIndex = 1;	
+			buffer[index] = data;
+			state = 1;
+			index = 1;	
 		}
 	}
-	else if (RxState == 1)
+	else if (state == 1)
 	{
-		if (RxData == 0x53)
+		if (data == 0x53)
 		{
-			RxBuffer[RxIndex] = RxData;
-			RxState = 2;
-			RxIndex = 2;	
+			buffer[index] = data;
+			state = 2;
+			index = 2;	
 		}
 	}
-	else if (RxState == 2)
+	else if (state == 2)
 	{
-		RxBuffer[RxIndex++] = RxData;
-		if(RxIndex == 11)	
+		buffer[index++] = data;
+		if(index == 11)	
 		{
 			for(i=0;i<10;i++)
 			{
-				sum = sum + RxBuffer[i];	
+				sum = sum + buffer[i];	
 			}
-			if(sum == RxBuffer[10])		
+			if(sum == buffer[10])		
 			{
-				Roll = ((int16_t) ((int16_t) RxBuffer[3] << 8 | (int16_t) RxBuffer[2])) / 32768.0f * 180.0f;
-				Pitch = ((int16_t) ((int16_t) RxBuffer[5] << 8 | (int16_t) RxBuffer[4])) / 32768.0f * 180.0f;
-				Yaw = ((int16_t) ((int16_t) RxBuffer[7] << 8 | (int16_t) RxBuffer[6])) / 32768.0f * 180.0f ;
+				jy901s.roll = ((int16_t) ((int16_t) buffer[3] << 8 | (int16_t) buffer[2])) / 32768.0f * 180.0f;
+				jy901s.pitch = ((int16_t) ((int16_t) buffer[5] << 8 | (int16_t) buffer[4])) / 32768.0f * 180.0f;
+				jy901s.yaw = ((int16_t) ((int16_t) buffer[7] << 8 | (int16_t) buffer[6])) / 32768.0f * 180.0f ;
  			}
-			RxState = 0;
-			RxIndex = 0;	
+			state = 0;
+			index = 0;	
 		}
 	}
+}
+
+float ang_offset = 0.0f;
+
+/**
+ * @brief IMU 偏航角校准，计算初始偏移量
+ * @note  增加采样次数以滤除随机噪声，并优化了内存使用
+ */
+void IMU_YawCalibrate(void) 
+{
+    const uint8_t sample_count = 50; 
+    float sum = 0.0f;
+    // 视觉反馈：开始校准
+    LED_Blue_ON();
+    delay_ms(100);
+    LED_Blue_OFF();
+    LED_Green_ON();
+
+    for (uint8_t i = 0; i < sample_count; i++) 
+    {
+        sum += jy901s.yaw;
+        delay_ms(2); 
+    }
+
+    // 计算平均值作为偏移量
+    ang_offset = sum / (float)sample_count;
+    // 设置标志位，表示校准完成
+    first_flag = 1;
+    // 视觉反馈：校准结束
+    LED_Green_OFF();
 }
 

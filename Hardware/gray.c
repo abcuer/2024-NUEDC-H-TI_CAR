@@ -1,42 +1,46 @@
 #include "gray.h"
 
-#define LineFlagTime 3000
+#define MAXCNT 3000
 
 int16_t baisetime = 0;
 int16_t Line_flag = 0;
-int16_t LineFlagCNT = 0;
+int16_t white_line = 0;
 
-uint8_t L4,L3,L2,L1,R1,R2,R3,R4;
+GRAY_Struct gray = {0};
 
-void Gray_Init(void) 
+void Gray_Update(void) 
 {
-    R4 = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_R4_PIN) ? 0 : 1;
-    R3 = DL_GPIO_readPins(Gray_IOB_PORT, Gray_IOB_R3_PIN) ? 0 : 1;
-    R2 = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_R2_PIN) ? 0 : 1;
-    R1 = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_R1_PIN) ? 0 : 1;
-    L1 = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_L1_PIN) ? 0 : 1;
-    L2 = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_L2_PIN) ? 0 : 1;
-    L3 = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_L3_PIN) ? 0 : 1;
-	L4 = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_L4_PIN) ? 0 : 1;
+    gray.right[3] = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_R4_PIN) ? 0 : 1;
+    gray.right[2] = DL_GPIO_readPins(Gray_IOB_PORT, Gray_IOB_R3_PIN) ? 0 : 1;
+    gray.right[1] = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_R2_PIN) ? 0 : 1;
+    gray.right[0] = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_R1_PIN) ? 0 : 1;
+    gray.left[0] = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_L1_PIN) ? 0 : 1;
+    gray.left[1] = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_L2_PIN) ? 0 : 1;
+    gray.left[2] = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_L3_PIN) ? 0 : 1;
+	gray.left[3] = DL_GPIO_readPins(Gray_IOA_PORT, Gray_IOA_L4_PIN) ? 0 : 1;
 }
 
-void Get_Light_TTL(void)
+void Gray_ProcessLine(void)
 {
-	baisetime++;
-	if(R4 == 1 ||R3 == 1 || R2 == 1 || R1 == 1 || L1 == 1 || L2 == 1 || L3 == 1 || L4 == 1)
-	{
-		LineFlagCNT++;
-		// 空白识别
-		if(LineFlagCNT >= 3)
-		{
-			Line_flag = 1;
-			baisetime = 0;
-			LineFlagCNT = 0;
-		}
-	}
-	else if(baisetime >= LineFlagTime)
-	{
-		Line_flag = 0;
-		baisetime = 0;
-	}
+    baisetime++;
+    
+    if(gray.right[0] || gray.right[1] || gray.right[2] || gray.right[3] || 
+       gray.left[0]  || gray.left[1]  || gray.left[2]  || gray.left[3])
+    {
+        white_line++;
+        // 连续识别到多次，确认检测到线
+        if(white_line >= 3)
+        {
+            Line_flag = 1;
+            baisetime = 0;
+            white_line = 0;
+        }
+    }
+    else if(baisetime >= MAXCNT)
+    {
+        // 超过一定时间没检测到，判定为丢线
+        Line_flag = 0;
+        baisetime = 0;
+        white_line = 0; 
+    }
 }

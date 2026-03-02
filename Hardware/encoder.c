@@ -10,19 +10,15 @@ float Get_Encoder_countB = 0;
 		Pin: B07 B08
 */
 
-void encoder_Init(void)
+void EncoderInit(void)
 {
 	NVIC_ClearPendingIRQ(Encoder_left_INT_IRQN);
-	NVIC_ClearPendingIRQ(Encoder_right_INT_IRQN);
 	NVIC_EnableIRQ(Encoder_left_INT_IRQN);
+	
+	NVIC_ClearPendingIRQ(Encoder_right_INT_IRQN);
 	NVIC_EnableIRQ(Encoder_right_INT_IRQN);
 }
 
-/*******************************************************
-函数功能：外部中断模拟编码器信号
-入口函数：无
-返回  值：无
-***********************************************************/
 
 void GROUP1_IRQHandler(void)
 {
@@ -83,20 +79,4 @@ void GROUP1_IRQHandler(void)
 	}
 }
 
-#define PI 3.14159265
-
-int One_Wheel_len = 204;		 //mm  一轮长度
-int One_Wheel_Mai = 730;   	//一圈脉冲数
-float Wheel_count = 0.2794; //mm 一个脉冲数转长度
-float carL_dis = 0;
-float carR_dis = 0;
-
-float dis3 = 1042;  // 1149 - 1151
-float dis4 = 996; 
-
-void distance(void)
-{
-	carR_dis = Wheel_count * -Get_Encoder_countB;
-	carL_dis = Wheel_count * Get_Encoder_countA;
-}
 

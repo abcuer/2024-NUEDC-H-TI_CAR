@@ -31,55 +31,13 @@
  */
 #include "headfile.h"
 
-uint8_t Key1 = 0;
-uint8_t Key2 = 0;
-uint8_t Task = 0;
-uint8_t start_flag = 0;
-uint8_t first_flag = 0;
-float basespeed = 0;
-
 int main(void)
 {
-	board_init(); // 延迟 串口
-	encoder_Init();
-	timerA_init();
-	timerG_init();
-
+	System_Init();
+	
 	while(1) 
-	{   
-		Key1 = Key_GetNum1();
-		Key2 = Key_GetNum2();
-		
-		// 切换任务
-		if(start_flag == 0)
-		{
-			if (Key1 == 1) 
-			{
-				LED_Green_ON();
-				Task++;
-			}
-			if (Task > 4) Task = 0; 
-		}
-		if(Key2 == 1)
-		{
-			LED_Blue_ON();
-			start_flag = 1;
-		}
-    
-		// 执行任务
-		if(start_flag == 1)
-		{
-			if(first_flag == 1)
-			{
-				switch(Task)
-				{
-					case 1: Task_1(); break;
-					case 2: Task_2(); break;
-					case 3: Task_3(); break;
-					case 4: Task_4(); break;
-				}
-			}
-		}
+	{		
+		TaskSelect();
 	}
 }
 
@@ -91,8 +49,8 @@ void TIMER_0_INST_IRQHandler(void)
 	{
 		if(DL_TIMER_IIDX_ZERO) 
 		{	
-			Gray_Init();
-			speed_pid_control();
+			Gray_Update();
+			SpeedPidCtrl();
 		}
 	}
 }
@@ -104,8 +62,8 @@ void TIMER_1_INST_IRQHandler(void)
 		if(DL_TIMER_IIDX_LOAD)
 		{	
 			// 初始化
-			if (start_flag == 1 && first_flag == 0)   capture_initial_yaw();
-			UpdateSoundLight();
+			if (start_flag == 1 && first_flag == 0)   IMU_YawCalibrate();
+			SoundLightUpdate();
 		}
 	}
 }
