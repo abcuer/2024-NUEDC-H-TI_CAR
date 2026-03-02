@@ -1,5 +1,5 @@
-#ifndef _DELAY_H
-#define _DELAY_H
+#ifndef __DELAY_H
+#define __DELAY_H
 #include "stdint.h"
 
 #define MCU_FREQ_MHZ 32

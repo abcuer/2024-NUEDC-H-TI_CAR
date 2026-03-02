@@ -122,7 +122,7 @@ SYSCONFIG_WEAK void SYSCFG_DL_GPIO_init(void)
     DL_GPIO_initPeripheralInputFunction(
         GPIO_UART_2_IOMUX_RX, GPIO_UART_2_IOMUX_RX_FUNC);
 
-    DL_GPIO_initDigitalOutput(BUZZER_Buzzer_IOMUX);
+    DL_GPIO_initDigitalOutput(BEEP_ONE_IOMUX);
 
     DL_GPIO_initDigitalInputFeatures(Gray_IOB_R3_IOMUX,
 		 DL_GPIO_INVERSION_DISABLE, DL_GPIO_RESISTOR_NONE,
@@ -196,8 +196,8 @@ SYSCONFIG_WEAK void SYSCFG_DL_GPIO_init(void)
 
     DL_GPIO_clearPins(GPIOA, LED_BLUE_PIN |
 		LED_GREEN_PIN);
-    DL_GPIO_setPins(GPIOA, BUZZER_Buzzer_PIN);
-    DL_GPIO_enableOutput(GPIOA, BUZZER_Buzzer_PIN |
+    DL_GPIO_setPins(GPIOA, BEEP_ONE_PIN);
+    DL_GPIO_enableOutput(GPIOA, BEEP_ONE_PIN |
 		LED_BLUE_PIN |
 		LED_GREEN_PIN);
     DL_GPIO_setLowerPinsPolarity(GPIOA, DL_GPIO_PIN_9_EDGE_RISE |

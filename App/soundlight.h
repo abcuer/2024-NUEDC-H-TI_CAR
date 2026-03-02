@@ -1,5 +1,5 @@
-#ifndef __soundlight_h
-#define __soundlight_h
+#ifndef __SOUNDLIGHT_H
+#define __SOUNDLIGHT_H
 
 #include "stdint.h"
 

@@ -1,5 +1,5 @@
-#ifndef _DIST_H
-#define _DIST_H
+#ifndef __DIST_H
+#define __DIST_H
 
 #define PI 3.14159265
 
@@ -10,5 +10,8 @@ typedef struct  {
 }Wheel_Config_s;
 
 void Car_GetDistance(void);
+
+extern float carL_dis;
+extern float carR_dis;
 
 #endif

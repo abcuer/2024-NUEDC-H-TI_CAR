@@ -37,6 +37,7 @@ int main(void)
 	
 	while(1) 
 	{		
+		TrackPidCtrl();
 		TaskSelect();
 	}
 }

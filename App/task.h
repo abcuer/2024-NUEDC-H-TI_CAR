@@ -1,10 +1,14 @@
-#ifndef _task_h_
-#define _task_h_
+#ifndef __TASK_H
+#define __TASK_H
 
+#include "stdint.h"
 
-void Task_1(void);
-void Task_2(void);
-void Task_3(void);
-void Task_4(void);
+void FirstTask(void);
+void SecondTask(void);
+void ThirdTask(void);
+void FourthTask(void);
+
+extern uint8_t workstep;
+extern float basespeed;
 
 #endif

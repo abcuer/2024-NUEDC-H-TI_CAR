@@ -132,12 +132,12 @@ extern "C" {
 
 
 
-/* Port definition for Pin Group BUZZER */
-#define BUZZER_PORT                                                      (GPIOA)
+/* Port definition for Pin Group BEEP */
+#define BEEP_PORT                                                        (GPIOA)
 
-/* Defines for Buzzer: GPIOA.23 with pinCMx 53 on package pin 24 */
-#define BUZZER_Buzzer_PIN                                       (DL_GPIO_PIN_23)
-#define BUZZER_Buzzer_IOMUX                                      (IOMUX_PINCM53)
+/* Defines for ONE: GPIOA.23 with pinCMx 53 on package pin 24 */
+#define BEEP_ONE_PIN                                            (DL_GPIO_PIN_23)
+#define BEEP_ONE_IOMUX                                           (IOMUX_PINCM53)
 /* Port definition for Pin Group Gray_IOB */
 #define Gray_IOB_PORT                                                    (GPIOB)
 

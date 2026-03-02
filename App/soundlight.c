@@ -1,6 +1,6 @@
 #include "soundlight.h"
 #include "led.h"
-#include "buzzer.h"
+#include "beep.h"
 
 static SoundLight_t soundlight = {0};
 
@@ -8,8 +8,8 @@ void SoundLightRun(void)
 {
 	if(soundlight.flag == 0)
 	{
-		Buzzer_ON();
-		LED_Blue_ON();
+		SetBeepMode(BEEP, BEEP_ON);
+		SetLedMode(LED_BLUE, LED_ON);
 		soundlight.flag = 1;
 	}
 }
@@ -21,8 +21,8 @@ void SoundLightUpdate(void)
         soundlight.time++;
 		if(soundlight.time >= 12) 
 		{
-			Buzzer_OFF();
-			LED_Blue_OFF();
+			SetBeepMode(BEEP, BEEP_OFF);
+			SetLedMode(LED_BLUE, LED_OFF);
 			soundlight.time = 0;
 			soundlight.flag = 0; 
 		}

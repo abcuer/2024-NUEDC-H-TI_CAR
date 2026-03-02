@@ -1,12 +1,15 @@
 # 2024电子设计大赛H题智能小车
 ## 校赛完赛，实测第4问寄录35秒
-![d38a10215564251673b585ed0c2ac42](./src/d38a10215564251673b585ed0c2ac42.jpg)
-![cea49113ae89ae7cbaa048b8cb9e474](./src/cea49113ae89ae7cbaa048b8cb9e474.jpg)
-![55c712735c4f2a0491421d0f4ae0dd6](./src/55c712735c4f2a0491421d0f4ae0dd6.jpg)
-![PCB正面](./src/image.jpg)
+
 ## [PCB开源地址](https://u.lceda.cn/account/user/projects/index/members?project=a21ed0727ad447719ecbd93959d565b7&folder=all)
 ## [B站测评视频](https://www.bilibili.com/video/BV1xQNzzUEWS/?spm_id_from=333.1387.homepage.video_card.click)
-## <span style="background-color:#FF5733; color:white; padding:2px 6px; border-radius:3px;">电子模块（总价370块）</span>
+
+![d38a10215564251673b585ed0c2ac42](./.doc/photo/d38a10215564251673b585ed0c2ac42.jpg)
+![cea49113ae89ae7cbaa048b8cb9e474](./.doc/photo/cea49113ae89ae7cbaa048b8cb9e474.jpg)
+![55c712735c4f2a0491421d0f4ae0dd6](./.doc/photo/55c712735c4f2a0491421d0f4ae0dd6.jpg)
+![PCB正面](./.doc/photo/image.jpg)
+
+## <span style="background-color:#FF5733; color:white; padding:2px 6px; border-radius:3px;">电子模块</span>
 
 - [立创地猛星MSPM0G3507主控板（电赛优惠价30块)](https://item.szlcsc.com/24478333.html?lcsc_vid=T1FaUVcAFQVXUVJUFAAPBFxTFVUKVAJQRgdXVwBRQVQxVlNSTlJXU1xSTldYUjsOAxUeFF5JWBYZEEoEHg8JSQcJGk4%3D)
 - [R3X系列三轮小车车模 106](https://item.taobao.com/item.htm?abbucket=6&detail_redpacket_pop=true&id=594481149003&mi_id=pjm_3wdTOvIPm7CIgRB8acNJtRmhUg0QKlvNVEXEoqaUKQQcYXTunwaisg57dwZ8TJxVVdM_qmXcacvM4wDxoBFK3fBJSjP0Tssh-nWKQx4&ns=1&priceTId=213e072c17493950995278926e10a3&query=R3X%E7%B3%BB%E5%88%97&skuId=5067668637755&spm=0.0.hoverItem.1&utparam=%7B%22aplus_abtest%22%3A%22ec5ee9e66e9d947a27c2d559ba93f412%22%7D&xxc=taobaoSearch)

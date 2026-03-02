@@ -1,5 +1,5 @@
-#ifndef _motor_h
-#define _motor_h
+#ifndef __MOTOR_H
+#define __MOTOR_H
 
 #include "stdint.h"
 

@@ -1,28 +1,31 @@
 #include "headfile.h"
 #define TimeLimit 11900
 
-uint8_t workstep = 0;
-int16_t turn_time = 0;
-uint8_t turn_flag = 0;
-uint8_t Task4_CNT = 0;
+uint8_t workstep = 0; // 工作步骤
+float basespeed = 0;	// 小车行驶速度
+int16_t turn_time = 0;	// 拐角转弯的时间
+uint8_t turn_flag = 0;	// 是否启动拐角转弯
 
 // Task4
 float angle3 = -44;  
 float angle4 = 52;  
+float dis3 = 1042;  // 1149 - 1151
+float dis4 = 996; 
+uint8_t lap_cnt = 0;	// 任务4记录圈数
 
-void Task_1(void)
+void FirstTask(void)
 {
 	switch(workstep)
 	{
 		case 0:
-			Line_flag = 0;
+			line_flag = 0;
 			workstep++;
 			break;
 		
 		case 1:  // 直行
-			PID_Init(&angle_pid, POSITION_PID, -8, 0, -0);
+			PID_Update(&angle_pid, POSITION_PID, -8, 0, -0);
 			basespeed = 400;
-			while(Line_flag == 0)
+			while(line_flag == 0)
 			{				
 				Gray_ProcessLine();
 				AnglePidCtrl(ang_offset);
@@ -34,12 +37,12 @@ void Task_1(void)
 			SoundLightRun();
 			basespeed = 0;
 			Motor_Stop();
-			if(Line_flag)
+			if(line_flag)
 			{	
 				task_num = 0; 
 				first_flag = 0;
 				start_flag = 0;
-				Line_flag = 0;
+				line_flag = 0;
 				
 				workstep = 0;
 			}
@@ -47,20 +50,20 @@ void Task_1(void)
 	}
 }
 
-void Task_2(void)
+void SecondTask(void)
 {
 	switch(workstep)
 	{
 		case 0: 
-			PID_Init(&track_pid, POSITION_PID, 4.8, 0, 0);
-			PID_Init(&angle_pid, POSITION_PID, -8, 0, -0);
-			Line_flag = 0;
+			PID_Update(&track_pid, POSITION_PID, 4.8, 0, 0);
+			PID_Update(&angle_pid, POSITION_PID, -8, 0, 0);
+			line_flag = 0;
 			basespeed = 400;
 			workstep++;
 			break;
 		
 		case 1:  // 直行
-			while(Line_flag == 0)
+			while(line_flag == 0)
 			{				
 				Gray_ProcessLine();
 				AnglePidCtrl(ang_offset);
@@ -71,7 +74,7 @@ void Task_2(void)
 		case 2: // 寻迹
 			SoundLightRun();
 			basespeed = 390;
-			while(Line_flag)
+			while(line_flag)
 			{
 				Gray_ProcessLine();
 				TrackPidCtrl();
@@ -82,7 +85,7 @@ void Task_2(void)
 		case 3: // 直行
 			SoundLightRun();
 			basespeed = 400;
-			while(Line_flag == 0)
+			while(line_flag == 0)
 			{				
 				Gray_ProcessLine();
 				AnglePidCtrl(ang_offset);
@@ -93,7 +96,7 @@ void Task_2(void)
 		case 4: // 寻迹
 			SoundLightRun();
 			basespeed = 390;
-			while(Line_flag)
+			while(line_flag)
 			{
 				Gray_ProcessLine();
 				TrackPidCtrl();
@@ -106,24 +109,24 @@ void Task_2(void)
 			basespeed = 0;
 			Motor_Stop();
 			delay_ms(100);
-			baisetime = 0;
+			white_time = 0;
 			turn_time = 0;
 			turn_flag = 0;
 			task_num = 0; 
 			first_flag = 0;
 			start_flag = 0;
-			Line_flag = 0;
+			line_flag = 0;
 			workstep = 0;
 			break;	
 	}
 }
 
-void Task_3(void)
+void ThirdTask(void)
 {
 		switch(workstep)
 	{
 		case 0: 
-			Line_flag = 0;
+			line_flag = 0;
 			workstep++;
 			break;
 		
@@ -131,14 +134,14 @@ void Task_3(void)
 			// 转弯
 			basespeed = 0;
 			turn_flag = 1;
-			PID_Init(&angle_pid, POSITION_PID, -7, 0, -0.1);
+			PID_Update(&angle_pid, POSITION_PID, -7, 0, -0.1);
 			while(turn_flag)
 			{
 				AnglePidCtrl(angle3);
 				turn_time++;
 				if(turn_time > TimeLimit)
 				{	
-					baisetime = 0;
+					white_time = 0;
 					turn_time = 0;
 					turn_flag = 0;
 				}
@@ -153,7 +156,7 @@ void Task_3(void)
 				AnglePidCtrl(angle3);
 				Car_GetDistance();
 			}
-			while(Line_flag == 0)
+			while(line_flag == 0)
 			{
 				Gray_ProcessLine();
 				AnglePidCtrl(7);
@@ -165,8 +168,8 @@ void Task_3(void)
 			SoundLightRun();
 			// 寻迹			
 			basespeed = 390;
-			PID_Init(&track_pid, POSITION_PID, 4.8, 0, 0);
-			while(Line_flag)
+			PID_Update(&track_pid, POSITION_PID, 4.8, 0, 0);
+			while(line_flag)
 			{
 				Gray_ProcessLine();
 				TrackPidCtrl();
@@ -184,7 +187,7 @@ void Task_3(void)
 				turn_time++;
 				if(turn_time > TimeLimit)
 				{	
-					baisetime = 0;
+					white_time = 0;
 					turn_time = 0;
 					turn_flag = 0;
 				}
@@ -199,8 +202,8 @@ void Task_3(void)
 				AnglePidCtrl(angle4);
 				Car_GetDistance();
 			}
-			PID_Init(&angle_pid, POSITION_PID, -7, 0, -0);
-			while(Line_flag == 0)
+			PID_Update(&angle_pid, POSITION_PID, -7, 0, -0);
+			while(line_flag == 0)
 			{
 				Gray_ProcessLine();
 				AnglePidCtrl(-1);
@@ -211,8 +214,8 @@ void Task_3(void)
 		case 4:  // 先回正再寻迹
 			SoundLightRun();
 			basespeed = 390;
-			PID_Init(&track_pid, POSITION_PID, 4.7, 0, 0);
-			while(Line_flag)
+			PID_Update(&track_pid, POSITION_PID, 4.7, 0, 0);
+			while(line_flag)
 			{
 				Gray_ProcessLine();
 				TrackPidCtrl();
@@ -228,25 +231,25 @@ void Task_3(void)
 			carR_dis = 0;
 			Get_Encoder_countA = 0;
 			Get_Encoder_countB = 0;
-			baisetime = 0;
+			white_time = 0;
 			turn_time = 0;
 			turn_flag = 0;
 			task_num = 0; 
 			first_flag = 0;
 			start_flag = 0;
-			Line_flag = 0;
+			line_flag = 0;
 			basespeed = 0;
 			workstep = 0;
 			break;	
 	}
 }
 
-void Task_4(void)
+void FourthTask(void)
 {
 	switch(workstep)
 	{
 		case 0: 
-			Line_flag = 0;
+			line_flag = 0;
 			workstep++;
 			break;
 		
@@ -254,14 +257,14 @@ void Task_4(void)
 			// 转弯
 			basespeed = 0;
 			turn_flag = 1;
-			PID_Init(&angle_pid, POSITION_PID, -7, 0, -0.1);
+			PID_Update(&angle_pid, POSITION_PID, -7, 0, -0.1);
 			while(turn_flag)
 			{
 				AnglePidCtrl(angle3);
 				turn_time++;
 				if(turn_time > TimeLimit)
 				{	
-					baisetime = 0;
+					white_time = 0;
 					turn_time = 0;
 					turn_flag = 0;
 				}
@@ -276,7 +279,7 @@ void Task_4(void)
 				AnglePidCtrl(angle3);
 				Car_GetDistance();
 			}
-			while(Line_flag == 0)
+			while(line_flag == 0)
 			{
 				Gray_ProcessLine();
 				AnglePidCtrl(7);
@@ -288,8 +291,8 @@ void Task_4(void)
 			SoundLightRun();
 			// 寻迹		
 			basespeed = 390;
-			PID_Init(&track_pid, POSITION_PID, 4.8, 0, 0);
-			while(Line_flag)
+			PID_Update(&track_pid, POSITION_PID, 4.8, 0, 0);
+			while(line_flag)
 			{
 				Gray_ProcessLine();
 				TrackPidCtrl();
@@ -307,7 +310,7 @@ void Task_4(void)
 				turn_time++;
 				if(turn_time > TimeLimit)
 				{	
-					baisetime = 0;
+					white_time = 0;
 					turn_time = 0;
 					turn_flag = 0;
 				}
@@ -322,8 +325,8 @@ void Task_4(void)
 				AnglePidCtrl(angle4);
 				Car_GetDistance();
 			}
-			PID_Init(&angle_pid, POSITION_PID, -7, 0, -0);
-			while(Line_flag == 0)
+			PID_Update(&angle_pid, POSITION_PID, -7, 0, -0);
+			while(line_flag == 0)
 			{
 				Gray_ProcessLine();
 				AnglePidCtrl(-1);
@@ -334,8 +337,8 @@ void Task_4(void)
 		case 4:  // 先回正再寻迹
 			SoundLightRun();
 			basespeed = 390;
-			PID_Init(&track_pid, POSITION_PID, 4.7, 0, 0);
-			while(Line_flag)
+			PID_Update(&track_pid, POSITION_PID, 4.7, 0, 0);
+			while(line_flag)
 			{
 				Gray_ProcessLine();
 				TrackPidCtrl();
@@ -345,41 +348,41 @@ void Task_4(void)
 			
 		case 5:  // 停车
 			SoundLightRun();
-			Task4_CNT++;
-			Line_flag = 0;
+			lap_cnt++;
+			line_flag = 0;
 			angle3 = -44;
 			angle4 = 51;
 			dis3 = 995;
 			dis4 = 998;
-			if(Task4_CNT == 1)
+			if(lap_cnt == 1)
 			{
 				dis3 = 992;
 //				angle3++;
 			}
-			if(Task4_CNT == 2)
+			if(lap_cnt == 2)
 			{
 				angle3--;
 //				angle4--;
 				dis3 = 994;
 				dis4--;
 			}
-			if(Task4_CNT == 3)
+			if(lap_cnt == 3)
 			{
 				angle3--;
 				angle4--;
 				dis3-=2;
 //				dis4--;
 			}
-			if(Task4_CNT < 4) 
+			if(lap_cnt < 4) 
 			{   // 标志位判断
-				baisetime = 0;
+				white_time = 0;
 				workstep = 0; // 重置工作步骤到case0
 			} 
-			else if(Task4_CNT >= 4)
+			else if(lap_cnt >= 4)
 			{
 				// 停车操作
 				Motor_Stop();
-				Task4_CNT = 0;
+				lap_cnt = 0;
 				basespeed = 0;
 				workstep = 0;
 				task_num = 0; 

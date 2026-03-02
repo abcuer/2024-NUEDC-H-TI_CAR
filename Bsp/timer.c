@@ -1,5 +1,7 @@
 #include "timer.h"
 
+#include "ti_msp_dl_config.h"
+
 void TimerDeviceInit(void)
 {
 	// TIM0

@@ -1,10 +1,10 @@
 #include "gray.h"
 
-#define MAXCNT 3000
+#include "ti_msp_dl_config.h"
 
-int16_t baisetime = 0;
-int16_t Line_flag = 0;
-int16_t white_line = 0;
+int16_t white_time = 0;
+uint8_t white_line = 0;
+uint8_t line_flag = 0;
 
 GRAY_Struct gray = {0};
 
@@ -22,7 +22,7 @@ void Gray_Update(void)
 
 void Gray_ProcessLine(void)
 {
-    baisetime++;
+    white_time++;
     
     if(gray.right[0] || gray.right[1] || gray.right[2] || gray.right[3] || 
        gray.left[0]  || gray.left[1]  || gray.left[2]  || gray.left[3])
@@ -31,16 +31,16 @@ void Gray_ProcessLine(void)
         // 连续识别到多次，确认检测到线
         if(white_line >= 3)
         {
-            Line_flag = 1;
-            baisetime = 0;
+            line_flag = 1;
+            white_time = 0;
             white_line = 0;
         }
     }
-    else if(baisetime >= MAXCNT)
+    else if(white_time >= MAXCNT)
     {
         // 超过一定时间没检测到，判定为丢线
-        Line_flag = 0;
-        baisetime = 0;
+        line_flag = 0;
+        white_time = 0;
         white_line = 0; 
     }
 }

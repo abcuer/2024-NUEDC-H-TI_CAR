@@ -1,6 +1,6 @@
 #include "pid.h"
 
-void PID_Init(PID_Struct *pid, uint8_t mode, float p, float i, float d)
+void PID_Update(PID_Struct *pid, uint8_t mode, float p, float i, float d)
 {
     // Device header
 	pid->mode = mode;

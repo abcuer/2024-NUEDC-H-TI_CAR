@@ -1,8 +1,8 @@
 #include "jy901s.h"
 #include "delay.h"
 #include "led.h"
-#include "buzzer.h"
 #include "utils.h"
+#include "task.h"
 
 EulerAngle_Struct jy901s = {0.0f};
 
@@ -63,10 +63,10 @@ void IMU_YawCalibrate(void)
     const uint8_t sample_count = 50; 
     float sum = 0.0f;
     // 视觉反馈：开始校准
-    LED_Blue_ON();
+    SetLedMode(LED_BLUE, LED_ON);
     delay_ms(100);
-    LED_Blue_OFF();
-    LED_Green_ON();
+    SetLedMode(LED_BLUE, LED_OFF);
+    SetLedMode(LED_GREEN, LED_ON);
 
     for (uint8_t i = 0; i < sample_count; i++) 
     {
@@ -76,9 +76,8 @@ void IMU_YawCalibrate(void)
 
     // 计算平均值作为偏移量
     ang_offset = sum / (float)sample_count;
-    // 设置标志位，表示校准完成
     first_flag = 1;
     // 视觉反馈：校准结束
-    LED_Green_OFF();
+    SetLedMode(LED_GREEN, LED_OFF);
 }
 

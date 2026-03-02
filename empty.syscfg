@@ -61,11 +61,10 @@ GPIO2.associatedPins[1].assignedPin      = "31";
 GPIO2.associatedPins[1].$name            = "START";
 
 GPIO3.port                           = "PORTA";
-GPIO3.$name                          = "BUZZER";
-GPIO3.associatedPins[0].$name        = "Buzzer";
+GPIO3.$name                          = "BEEP";
 GPIO3.associatedPins[0].assignedPin  = "23";
 GPIO3.associatedPins[0].initialValue = "SET";
-GPIO3.associatedPins[0].pin.$assign  = "PA23";
+GPIO3.associatedPins[0].$name        = "ONE";
 
 GPIO4.$name                          = "Motor_left";
 GPIO4.port                           = "PORTB";
@@ -242,5 +241,6 @@ Board.peripheral.swclkPin.$suggestSolution   = "PA20";
 Board.peripheral.swdioPin.$suggestSolution   = "PA19";
 GPIO2.associatedPins[0].pin.$suggestSolution = "PA2";
 GPIO2.associatedPins[1].pin.$suggestSolution = "PA31";
+GPIO3.associatedPins[0].pin.$suggestSolution = "PA23";
 GPIO6.associatedPins[1].pin.$suggestSolution = "PA8";
 GPIO9.associatedPins[0].pin.$suggestSolution = "PB8";

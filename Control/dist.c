@@ -7,11 +7,6 @@ Wheel_Config_s wheel ={
 	.count = 0.2794
 };
 
-
-
-float dis3 = 1042;  // 1149 - 1151
-float dis4 = 996; 
-
 float carL_dis = 0;
 float carR_dis = 0;
 

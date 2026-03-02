@@ -420,16 +420,6 @@
           <GroupName>Bsp</GroupName>
           <Files>
             <File>
-              <FileName>board.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Bsp\board.c</FilePath>
-            </File>
-            <File>
-              <FileName>board.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Bsp\board.h</FilePath>
-            </File>
-            <File>
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Bsp\timer.c</FilePath>
@@ -438,16 +428,6 @@
               <FileName>timer.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Bsp\timer.h</FilePath>
-            </File>
-            <File>
-              <FileName>gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Bsp\gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>gpio.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Bsp\gpio.h</FilePath>
             </File>
             <File>
               <FileName>uart.c</FileName>
@@ -495,14 +475,14 @@
               <FilePath>..\Hardware\key.h</FilePath>
             </File>
             <File>
-              <FileName>buzzer.c</FileName>
+              <FileName>beep.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Hardware\buzzer.c</FilePath>
+              <FilePath>..\Hardware\beep.c</FilePath>
             </File>
             <File>
-              <FileName>buzzer.h</FileName>
+              <FileName>beep.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Hardware\buzzer.h</FilePath>
+              <FilePath>..\Hardware\beep.h</FilePath>
             </File>
             <File>
               <FileName>motor.c</FileName>
