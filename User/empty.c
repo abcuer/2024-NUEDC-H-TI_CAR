@@ -34,40 +34,30 @@
 int main(void)
 {
 	System_Init();
-	
+            
 	while(1) 
 	{		
-		TrackPidCtrl();
 		TaskSelect();
 	}
 }
 
 
-// pid控制
+// 寻迹更新 / 声光提示
 void TIMER_0_INST_IRQHandler(void)
 {
 	if(DL_TimerA_getPendingInterrupt(TIMER_0_INST))
 	{
 		if(DL_TIMER_IIDX_ZERO) 
 		{	
-			Gray_Update();
-			SpeedPidCtrl();
-		}
-	}
-}
-
-void TIMER_1_INST_IRQHandler(void)
-{
-	if(DL_TimerG_getPendingInterrupt(TIMER_1_INST))
-	{
-		if(DL_TIMER_IIDX_LOAD)
-		{	
-			// 初始化
+			// 初始化零漂校准
 			if (start_flag == 1 && first_flag == 0)   IMU_YawCalibrate();
+			
+			Gray_Update();
 			SoundLightUpdate();
 		}
 	}
 }
+
 
 
 

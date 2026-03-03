@@ -78,7 +78,7 @@ static void Action_Turn_And_Distance(float angle, float distance)
     basespeed = 0;
     turn_flag = 1;
     turn_time = 0;
-    PID_Update(&angle_pid, POSITION_PID, -7, 0, -0.1);
+    PID_Update(&angle_pid, POSITION_PID, 7, 0, -0.1);
     while(turn_flag)
 	{
         AnglePidCtrl(angle);
@@ -102,7 +102,7 @@ void FirstTask(void)
 	{
         case 0: line_flag = 0; workstep++; break;
         case 1: 
-            PID_Update(&angle_pid, POSITION_PID, -8, 0, 0);
+            PID_Update(&angle_pid, POSITION_PID, 8, 0, 0);
             Action_Drive_To_Line(400, 0); // 直行到B
             workstep++;
             break;
@@ -116,7 +116,7 @@ void SecondTask(void)
 	{
         case 0: line_flag = 0; workstep++; break;
         case 1: // A -> B 直行
-            PID_Update(&angle_pid, POSITION_PID, -8, 0, 0);
+            PID_Update(&angle_pid, POSITION_PID, 8, 0, 0);
             Action_Drive_To_Line(400, 0); 
             workstep++; break;
         case 2: // B -> C 寻迹

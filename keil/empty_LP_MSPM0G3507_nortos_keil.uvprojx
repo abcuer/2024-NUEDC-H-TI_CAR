@@ -430,14 +430,14 @@
               <FilePath>..\Bsp\timer.h</FilePath>
             </File>
             <File>
-              <FileName>uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Bsp\uart.c</FilePath>
-            </File>
-            <File>
               <FileName>uart.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Bsp\uart.h</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\uart.c</FilePath>
             </File>
             <File>
               <FileName>delay.c</FileName>
