@@ -24,7 +24,6 @@
 /***************** Control *******************/
 #include "angle.h"
 #include "track.h"
-#include "speed.h"
 #include "dist.h"
 #include "pid.h"
 /***************** App ***********************/

@@ -20,7 +20,7 @@ float dis4 = 996;       //
 /**
  * @brief 统一重置任务状态，清理所有标志位
  */
-static void Reset_Task_System(void)
+static void Task_Reset(void)
 {
     Motor_Stop();
     basespeed = 0;
@@ -106,7 +106,7 @@ void FirstTask(void)
             Action_Drive_To_Line(400, 0); // 直行到B
             workstep++;
             break;
-        case 2: Reset_Task_System(); break;
+        case 2: Task_Reset(); break;
     }
 }
 
@@ -128,7 +128,7 @@ void SecondTask(void)
         case 4: // D -> A 寻迹
             Action_Track_To_White(390, 4.8); 
             workstep++; break;
-        case 5: Reset_Task_System(); break;
+        case 5: Task_Reset(); break;
     }
 }
 
@@ -165,11 +165,11 @@ static void Execute_Diagonal_Logic(uint8_t is_multi_lap)
                 if(lap_cnt == 3) { angle3--; angle4--; dis3 -= 2; }
 
                 if(lap_cnt < 4) { workstep = 0; white_time = 0; } 
-                else { lap_cnt = 0; Reset_Task_System(); }
+                else { lap_cnt = 0; Task_Reset(); }
             } 
 			else 
 			{
-                Reset_Task_System();
+                Task_Reset();
             }
             break;
     }

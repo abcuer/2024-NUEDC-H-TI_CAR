@@ -1,5 +1,5 @@
-#ifndef _BEEP_H
-#define _BEEP_H
+#ifndef __BEEP_H
+#define __BEEP_H
 
 #include "ti_msp_dl_config.h" 
 
