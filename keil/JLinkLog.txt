@@ -1,0 +1,93 @@
+T0180 005:206.526   SEGGER J-Link V7.98c Log File
+T0180 005:206.681   DLL Compiled: Aug  7 2024 15:37:06
+T0180 005:206.692   Logging started @ 2025-03-01 07:45
+T0180 005:206.701   Process: D:\Application\Work\Keil5\UV4\UV4.exe
+T0180 005:206.717 - 5206.711ms
+T0180 005:206.737 JLINK_SetWarnOutHandler(...)
+T0180 005:206.747 - 0.012ms
+T0180 005:206.763 JLINK_OpenEx(...)
+T0180 005:208.724   
+  ***** Error: 
+T0180 005:208.755   Cannot connect to J-Link.
+T0180 005:208.937 - 2.173ms returns "Cannot connect to J-Link."
+T0180 005:209.155 
+  ***** Warning: 
+T0180 005:209.179 API Error: API JLINK_GetHardwareVersion function called before JLINKARM_Open()
+T0180 005:209.196 JLINK_GetHardwareVersion()
+T0180 005:210.880   
+  ***** Error: 
+T0180 005:221.804   Cannot connect to J-Link.
+T0180 005:222.107 - 12.910ms
+T0180 009:016.206 JLINK_IsOpen()
+T0180 009:016.246 - 0.024ms returns 0x00
+T0180 009:016.254 JLINK_EMU_SelectByUSBSN(SerialNo = 0)
+T0180 009:017.046 - 0.793ms returns 0xFFFFFFFF
+T0180 009:017.058 JLINK_EnableLog(...)
+T0180 009:017.061 - 0.003ms
+T0180 009:017.072 JLINK_SetLogFile(...)
+T0180 009:017.075 - 0.010ms
+T0180 009:017.079 JLINK_SetWarnOutHandler(...)
+T0180 009:017.082 - 0.003ms
+T0180 009:017.086 JLINK_OpenEx(...)
+T0180 009:019.120   
+  ***** Error: 
+T0180 009:019.142   Cannot connect to J-Link.
+T0180 009:019.370 - 2.282ms returns "Cannot connect to J-Link."
+T0180 009:019.708 
+  ***** Warning: 
+T0180 009:019.724 API Error: API JLINK_GetHardwareVersion function called before JLINKARM_Open()
+T0180 009:019.734 JLINK_GetHardwareVersion()
+T0180 009:021.856   
+  ***** Error: 
+T0180 009:021.876   Cannot connect to J-Link.
+T0180 009:022.070 - 2.336ms
+T0180 016:869.720 JLINK_IsOpen()
+T0180 016:869.772 - 0.052ms returns 0x00
+T0180 016:869.780 JLINK_EMU_SelectByUSBSN(SerialNo = 0)
+T0180 016:871.016 - 1.234ms returns 0xFFFFFFFF
+T0180 016:871.044 JLINK_EnableLog(...)
+T0180 016:871.048 - 0.004ms
+T0180 016:871.052 JLINK_SetLogFile(...)
+T0180 016:871.058 - 0.004ms
+T0180 016:871.062 JLINK_SetWarnOutHandler(...)
+T0180 016:871.068 - 0.007ms
+T0180 016:871.074 JLINK_OpenEx(...)
+T0180 016:873.380   
+  ***** Error: 
+T0180 016:873.404   Cannot connect to J-Link.
+T0180 016:873.660 - 2.587ms returns "Cannot connect to J-Link."
+T0180 016:873.992 
+  ***** Warning: 
+T0180 016:874.004 API Error: API JLINK_GetHardwareVersion function called before JLINKARM_Open()
+T0180 016:874.012 JLINK_GetHardwareVersion()
+T0180 016:876.264   
+  ***** Error: 
+T0180 016:876.284   Cannot connect to J-Link.
+T0180 016:876.516 - 2.503ms
+T0180 019:645.306 JLINK_IsOpen()
+T0180 019:645.332 - 0.024ms returns 0x00
+T0180 019:645.336 JLINK_EMU_SelectByUSBSN(SerialNo = 0)
+T0180 019:646.104 - 0.767ms returns 0xFFFFFFFF
+T0180 019:646.116 JLINK_EnableLog(...)
+T0180 019:646.122 - 0.003ms
+T0180 019:646.124 JLINK_SetLogFile(...)
+T0180 019:646.128 - 0.003ms
+T0180 019:646.132 JLINK_SetWarnOutHandler(...)
+T0180 019:646.134 - 0.003ms
+T0180 019:646.138 JLINK_OpenEx(...)
+T0180 019:648.018   
+  ***** Error: 
+T0180 019:648.032   Cannot connect to J-Link.
+T0180 019:648.362 - 2.221ms returns "Cannot connect to J-Link."
+T0180 019:648.758 
+  ***** Warning: 
+T0180 019:648.772 API Error: API JLINK_GetHardwareVersion function called before JLINKARM_Open()
+T0180 019:648.788 JLINK_GetHardwareVersion()
+T0180 019:650.528   
+  ***** Error: 
+T0180 019:650.540   Cannot connect to J-Link.
+T0180 019:650.674 - 1.887ms
+T0180 020:316.046 JLINK_Close()
+T0180 020:316.116 - 0.071ms
+T0180 020:316.120   
+T0180 020:316.124   Closed

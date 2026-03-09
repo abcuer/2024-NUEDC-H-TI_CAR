@@ -1,0 +1,75 @@
+#ifndef _headfile_h
+#define _headfile_h
+
+#pragma once
+
+#include "ti_msp_dl_config.h"
+
+#include "math.h"
+#include "stdio.h"
+#include "string.h"
+#include "stdint.h"
+#include "stdlib.h"
+/******************* BSP **********************/
+#include "board.h"
+#include "timer.h"
+/***************** Hardware *******************/
+#include "key.h"
+#include "led.h"
+#include "buzzer.h"
+#include "motor.h"
+#include "encoder.h"
+#include "gray.h"
+#include "hc05.h"
+/***************** Control *******************/
+#include "pid.h"
+#include "speed.h"
+#include "distance.h" 
+#include "gray_track.h"
+/***************** App ***********************/
+#include "app_utils.h"
+#include "app_task.h"
+#include "test.h"
+
+#define TURN_90_PID 	1
+#define TRACK1_PID 		2
+#define TRACK2_PID 		3
+
+/******** IMU *********/
+extern uint32_t nowtime;
+
+/** Speed **/
+extern float speedA;
+extern float speedB;
+extern uint8_t motor_left_dir;
+extern uint8_t motor_right_dir;
+extern uint16_t bias;
+
+/******** pid ********/
+extern uint8_t pid_flag;
+extern int speed_tar;
+extern int angle_tar;
+
+/******** angle ********/
+
+/******** distance ********/
+extern int Get_Encoder_countA;
+extern int Get_Encoder_countB;
+extern float carL_dis;
+extern float carR_dis;
+
+/******** Task ********/
+extern uint8_t Task;
+extern float basespeed;
+extern uint8_t first_flag;
+extern uint8_t start_flag;
+extern int16_t baisetime;
+extern uint8_t workstep;
+
+extern uint8_t turn_angle_flag;
+extern uint8_t lap_flag;
+extern uint8_t target_lap;
+extern int16_t Line_flag;
+extern uint8_t lap_count;
+
+#endif
