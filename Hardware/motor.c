@@ -26,13 +26,13 @@ void Motor_right_duty(uint8_t dir, uint32_t speed)
 {
     if( dir == 1 )
     {
-        BIN1_OUT(0);
-        BIN2_OUT(1);
+        BIN1_OUT(1);
+        BIN2_OUT(0);
     }
     else
     {
-        BIN1_OUT(1);
-        BIN2_OUT(0);
+        BIN1_OUT(0);
+        BIN2_OUT(1);
     }   
         
     DL_TimerG_setCaptureCompareValue(PWM_INST,speed + offset,GPIO_PWM_C1_IDX);
@@ -58,13 +58,13 @@ void Motor_right_Control(float speed)
 {
     if( motor_right_dir == 1 )
     {
-        BIN1_OUT(0);
-        BIN2_OUT(1);
+        BIN1_OUT(1);
+        BIN2_OUT(0);
     }
     else
     {
-        BIN1_OUT(1);
-        BIN2_OUT(0);
+        BIN1_OUT(0);
+        BIN2_OUT(1);
     }   
         
     DL_TimerG_setCaptureCompareValue(PWM_INST,(uint32_t)speed + offset,GPIO_PWM_C1_IDX);
