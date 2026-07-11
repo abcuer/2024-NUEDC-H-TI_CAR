@@ -7,13 +7,13 @@ void Motor_LeftDuty(uint8_t dir, uint32_t speed)
 {
     if(dir)
     {
-        AIN1_OUT(1);
-        AIN2_OUT(0);
+        AIN1_OUT(0);
+        AIN2_OUT(1);
     }
     else
     {
-        AIN1_OUT(0);
-        AIN2_OUT(1);
+        AIN1_OUT(1);
+        AIN2_OUT(0);
     }   
         
     DL_TimerG_setCaptureCompareValue(PWM_INST,speed ,GPIO_PWM_C0_IDX);
