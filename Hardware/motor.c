@@ -37,8 +37,8 @@ void Motor_RightDuty(uint8_t dir, uint32_t speed)
 
 void Motor_LeftCtrl(float speed)
 {
-	AIN1_OUT(1);
-	AIN2_OUT(0);
+	AIN1_OUT(0);
+	AIN2_OUT(1);
 	
     DL_TimerG_setCaptureCompareValue(PWM_INST,(uint32_t)speed + offset, GPIO_PWM_C0_IDX);
 }
