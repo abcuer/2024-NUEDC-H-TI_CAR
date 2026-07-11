@@ -87,7 +87,7 @@ static void Action_Turn_And_Distance(float angle, float distance)
     // 2. 定距行驶阶段
     carL_dis = 0; carR_dis = 0;
     encoder_left_count = 0; encoder_right_count = 0;
-    basespeed = 480;
+    basespeed = CAR_STRAIGHT_SPEED;
     while((fabsf(carL_dis) <= distance) && (fabsf(carR_dis) <= distance))
 	{
         AnglePidCtrl(angle);
@@ -103,7 +103,7 @@ void FirstTask(void)
         case 0: line_flag = 0; workstep++; break;
         case 1: 
             PID_Update(&angle_pid, POSITION_PID, 8, 0, 0);
-            Action_Drive_To_Line(400, 0); // 直行到B
+            Action_Drive_To_Line(CAR_STRAIGHT_SPEED, 0); // 直行到B
             workstep++;
             break;
         case 2: Task_Reset(); break;
@@ -117,16 +117,16 @@ void SecondTask(void)
         case 0: line_flag = 0; workstep++; break;
         case 1: // A -> B 直行
             PID_Update(&angle_pid, POSITION_PID, 8, 0, 0);
-            Action_Drive_To_Line(400, 0); 
+            Action_Drive_To_Line(CAR_STRAIGHT_SPEED, 0); 
             workstep++; break;
         case 2: // B -> C 寻迹
-            Action_Track_To_White(390, 4.8); 
+            Action_Track_To_White(CAR_TURN_SPEED, 4.8); 
             workstep++; break;
         case 3: // C -> D 直行
-            Action_Drive_To_Line(400, 0); 
+            Action_Drive_To_Line(CAR_STRAIGHT_SPEED, 0); 
             workstep++; break;
         case 4: // D -> A 寻迹
-            Action_Track_To_White(390, 4.8); 
+            Action_Track_To_White(CAR_TURN_SPEED, 4.8); 
             workstep++; break;
         case 5: Task_Reset(); break;
     }
@@ -142,17 +142,17 @@ static void Execute_Diagonal_Logic(uint8_t is_multi_lap)
         case 0: line_flag = 0; workstep++; break;
         case 1: // A -> C (转向+定距直行)
             Action_Turn_And_Distance(angle3, dis3);
-            Action_Drive_To_Line(480, 7);
+            Action_Drive_To_Line(CAR_STRAIGHT_SPEED, 7);
             workstep++; break;
         case 2: // C -> B (寻迹)
-            Action_Track_To_White(390, 4.8);
+            Action_Track_To_White(CAR_TURN_SPEED, 4.8);
             workstep++; break;
         case 3: // B -> D (转向+定距直行)
             Action_Turn_And_Distance(angle4, dis4);
-            Action_Drive_To_Line(480, -1);
+            Action_Drive_To_Line(CAR_STRAIGHT_SPEED, -1);
             workstep++; break;
         case 4: // D -> A (寻迹)
-            Action_Track_To_White(390, 4.7);
+            Action_Track_To_White(CAR_TURN_SPEED, 4.7);
             workstep++; break;
         case 5:
             if (is_multi_lap) 

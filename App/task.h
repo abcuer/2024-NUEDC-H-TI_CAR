@@ -3,6 +3,9 @@
 
 #include "stdint.h"
 
+#define CAR_STRAIGHT_SPEED 	400
+#define CAR_TURN_SPEED 	385
+
 void FirstTask(void);
 void SecondTask(void);
 void ThirdTask(void);
